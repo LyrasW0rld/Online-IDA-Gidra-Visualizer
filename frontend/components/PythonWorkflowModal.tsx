@@ -87,7 +87,7 @@ export const PythonWorkflowModal: React.FC<PythonWorkflowModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded bg-black text-[#FFCC00] hover:bg-zinc-900 transition-colors"
+            className="p-1.5 rounded bg-black text-[#F5E6CC] hover:text-white hover:bg-zinc-900 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -181,7 +181,7 @@ export const PythonWorkflowModal: React.FC<PythonWorkflowModalProps> = ({
 
           <div className="flex items-center justify-between bg-zinc-900 px-4 py-2.5 rounded-lg border border-zinc-700">
             <div className="flex items-center gap-2 font-mono text-xs text-zinc-300">
-              <FileCode className="w-4 h-4 text-[#FFCC00]" />
+              <FileCode className="w-4 h-4 text-sky-400" />
               {lang === 'de'
                 ? 'Optional: Headless IDAPython Helper (nur falls gewünscht)'
                 : 'Optional: Headless IDAPython Helper (only if needed)'}

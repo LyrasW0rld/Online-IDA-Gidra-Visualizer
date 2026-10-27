@@ -9,14 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "latest",
-    "react-dom": "latest",
-    "lucide-react": "latest",
     "framer-motion": "latest",
-    "mermaid": "latest"
+    "lucide-react": "latest",
+    "mermaid": "latest",
+    "react": "latest",
+    "react-dom": "latest"
   },
   "devDependencies": {
     "@types/node": "latest",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "latest",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",

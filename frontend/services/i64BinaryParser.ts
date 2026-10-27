@@ -416,7 +416,7 @@ async function inflateRawEntry(
 ): Promise<Uint8Array | null> {
   try {
     const ds = new DecompressionStream('deflate-raw');
-    const stream = new Blob([compressedBytes]).stream().pipeThrough(ds);
+    const stream = new Blob([compressedBytes as unknown as BlobPart]).stream().pipeThrough(ds);
     const reader = stream.getReader();
     const chunks: Uint8Array[] = [];
     let total = 0;

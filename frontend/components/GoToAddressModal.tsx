@@ -202,7 +202,7 @@ export const GoToAddressModal: React.FC<GoToAddressModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded bg-black text-[#FFCC00] hover:bg-zinc-900"
+            className="p-1 rounded bg-black text-[#F5E6CC] hover:text-white hover:bg-zinc-900"
           >
             <X className="w-4 h-4" />
           </button>
@@ -259,7 +259,7 @@ export const GoToAddressModal: React.FC<GoToAddressModalProps> = ({
                         ? 'Symbol-Treffer'
                         : 'Symbol Match'}
                     </span>
-                    <span className="font-mono text-xs font-bold text-[#FFCC00]">
+                    <span className="font-mono text-xs font-bold text-[#38BDF8]">
                       {primaryResolution.func.address}
                     </span>
                   </div>
@@ -270,8 +270,8 @@ export const GoToAddressModal: React.FC<GoToAddressModalProps> = ({
 
                   {primaryResolution.matchedNode && (
                     <div className="flex items-center justify-between text-xs font-mono text-zinc-300 bg-black/50 px-2.5 py-1.5 rounded border border-zinc-800">
-                      <span className="inline-flex items-center gap-1.5 text-amber-300">
-                        <GitFork className="w-3.5 h-3.5 text-[#FFCC00]" />
+                      <span className="inline-flex items-center gap-1.5 text-sky-300">
+                        <GitFork className="w-3.5 h-3.5 text-[#38BDF8]" />
                         CFG Block: {primaryResolution.matchedNode.label} (
                         {primaryResolution.matchedNode.address})
                       </span>
@@ -296,7 +296,7 @@ export const GoToAddressModal: React.FC<GoToAddressModalProps> = ({
           {/* Suggestions List */}
           <div className="space-y-1.5">
             <div className="text-[11px] font-mono uppercase text-zinc-400 flex items-center gap-1.5">
-              <Database className="w-3 h-3 text-[#FFCC00]" />
+              <Database className="w-3 h-3 text-[#38BDF8]" />
               {lang === 'de' ? 'Vorschläge (Klick zum Springen):' : 'Suggestions (Click to Jump):'}
             </div>
             <div className="max-h-48 overflow-y-auto divide-y divide-zinc-800/80 border border-zinc-800 rounded bg-[#0B0D13]">
@@ -311,7 +311,7 @@ export const GoToAddressModal: React.FC<GoToAddressModalProps> = ({
                   className="w-full text-left px-3 py-2 hover:bg-[#FFCC00] hover:text-black transition-colors flex items-center justify-between gap-2 group"
                 >
                   <div className="flex items-center gap-2 min-w-0">
-                    <span className="font-mono text-xs font-bold text-[#FFCC00] group-hover:text-black shrink-0">
+                    <span className="font-mono text-xs font-bold text-[#38BDF8] group-hover:text-black shrink-0">
                       {fn.address}
                     </span>
                     <span className="font-mono text-xs text-zinc-100 group-hover:text-black font-medium truncate">

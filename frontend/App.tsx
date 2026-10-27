@@ -1073,7 +1073,7 @@ export function App() {
   const handleExportPatchedI64 = () => {
     if (!database) return;
     const patchedBytes = buildPatchedIdaI64Binary(database, userEdits);
-    const blob = new Blob([patchedBytes], { type: 'application/octet-stream' });
+    const blob = new Blob([patchedBytes as unknown as BlobPart], { type: 'application/octet-stream' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -1256,8 +1256,8 @@ export function App() {
             <span
               className={`font-mono text-[11px] px-1.5 py-0.2 rounded font-semibold shrink-0 ${
                 isSelected
-                  ? 'bg-black text-[#FFCC00]'
-                  : 'bg-zinc-900 text-[#FFCC00] border border-zinc-700'
+                  ? 'bg-black text-[#4ADE80]'
+                  : 'bg-zinc-900 text-[#38BDF8] border border-zinc-700'
               }`}
             >
               {fn.address}
@@ -1299,7 +1299,7 @@ export function App() {
             isSelected
               ? 'text-black font-bold'
               : fn.isRenamed
-              ? 'text-amber-100 font-medium'
+              ? 'text-[#F5E6CC] font-medium'
               : 'text-zinc-300 font-normal'
           }`}
           title={fn.name}
@@ -1336,7 +1336,7 @@ export function App() {
           >
             <PanelLeftOpen className="w-4 h-4" />
           </button>
-          <span className="font-mono text-xs font-bold text-[#FFCC00] md:[writing-mode:vertical-rl] md:rotate-180 tracking-widest uppercase py-2">
+          <span className="font-mono text-xs font-bold text-[#F5E6CC] md:[writing-mode:vertical-rl] md:rotate-180 tracking-widest uppercase py-2">
             CLASSES ({groupedClasses.length}) &amp; FUNCTIONS ({standaloneFunctions.length})
           </span>
           <Database className="w-4 h-4 text-zinc-500 hidden md:block" />
@@ -1352,8 +1352,8 @@ export function App() {
       >
         <div className="p-3 border-b border-zinc-800 space-y-2 bg-[#12151E]">
           <div className="flex items-center justify-between gap-1">
-            <span className="text-sm font-semibold tracking-wide text-[#FFCC00] flex items-center gap-1.5 truncate">
-              <Database className="w-4 h-4 text-[#FFCC00] shrink-0" />
+            <span className="text-sm font-semibold tracking-wide text-[#F5E6CC] flex items-center gap-1.5 truncate">
+              <Database className="w-4 h-4 text-sky-400 shrink-0" />
               {lang === 'de' ? 'Klassen & Funktionen' : 'Classes & Functions'} (
               {filteredFunctions.length.toLocaleString()})
             </span>
@@ -1362,7 +1362,7 @@ export function App() {
               <button
                 type="button"
                 onClick={() => setIsGoToModalOpen(true)}
-                className="px-2 py-0.5 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00]/60 hover:bg-[#FFCC00] hover:text-black text-[11px] font-mono font-bold transition-colors"
+                className="px-2 py-0.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00]/60 hover:bg-[#FFCC00] hover:text-black text-[11px] font-mono font-bold transition-colors"
               >
                 [G]
               </button>
@@ -1427,7 +1427,7 @@ export function App() {
               className={`text-[10px] font-mono py-1 px-1 rounded font-semibold transition-colors flex items-center justify-center gap-1 ${
                 symbolTreeMode === 'FUNCTIONS_ONLY'
                   ? 'bg-[#FFCC00] text-black font-bold'
-                  : 'text-amber-200 hover:text-white'
+                  : 'text-zinc-300 hover:text-white'
               }`}
             >
               <FunctionSquare className="w-3 h-3 shrink-0" />
@@ -1480,7 +1480,7 @@ export function App() {
             </button>
 
             <div className="flex items-center bg-[#090B10] border border-zinc-800 rounded px-1.5 py-1 shrink-0 max-w-[130px]">
-              <ArrowUpDown className="w-3 h-3 text-[#FFCC00] shrink-0 mr-1" />
+              <ArrowUpDown className="w-3 h-3 text-sky-400 shrink-0 mr-1" />
               <select
                 value={sortMode}
                 onChange={(e) => setSortMode(e.target.value as SortMode)}
@@ -1551,7 +1551,7 @@ export function App() {
                 className={`text-[10px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
                   filterMode === 'LARGEST'
                     ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
-                    : 'bg-zinc-900 text-amber-300 border-zinc-800 hover:border-amber-500/50'
+                    : 'bg-zinc-900 text-sky-300 border-zinc-800 hover:border-sky-500/50'
                 }`}
               >
                 ⚡ {lang === 'de' ? 'Größte' : 'Largest'} ({categoryCounts.largest})
@@ -1668,9 +1668,9 @@ export function App() {
                   >
                     <span className="flex items-center gap-2">
                       {classesFolderOpen ? (
-                        <FolderOpen className="w-4 h-4 text-[#FFCC00]" />
+                        <FolderOpen className="w-4 h-4 text-sky-400" />
                       ) : (
-                        <Folder className="w-4 h-4 text-[#FFCC00]" />
+                        <Folder className="w-4 h-4 text-sky-400" />
                       )}
                       <span>
                         {lang === 'de' ? 'CLASSES (Klassen)' : 'CLASSES'} ({groupedClasses.length})
@@ -1702,14 +1702,14 @@ export function App() {
                               }
                               className="w-full px-3.5 py-2 flex items-center justify-between text-left hover:bg-zinc-800/50 transition-colors"
                             >
-                              <span className="flex items-center gap-2 min-w-0 font-mono text-xs font-semibold text-amber-200 truncate">
+                              <span className="flex items-center gap-2 min-w-0 font-mono text-xs font-semibold text-[#F5E6CC] truncate">
                                 <Box className="w-3.5 h-3.5 text-sky-400 shrink-0" />
                                 <span className="truncate">{clsName}</span>
                               </span>
                               <span className="text-[11px] font-mono text-zinc-400 shrink-0 flex items-center gap-1">
                                 <span>{methods.length}</span>
                                 {isExpanded ? (
-                                  <ChevronUp className="w-3.5 h-3.5 text-[#FFCC00]" />
+                                  <ChevronUp className="w-3.5 h-3.5 text-sky-400" />
                                 ) : (
                                   <ChevronDown className="w-3.5 h-3.5 text-zinc-500" />
                                 )}
@@ -1736,13 +1736,13 @@ export function App() {
                   <button
                     type="button"
                     onClick={() => setFunctionsFolderOpen((v) => !v)}
-                    className="w-full px-3 py-2 bg-[#151924] hover:bg-[#1B202E] flex items-center justify-between text-xs font-mono font-bold text-[#FFCC00] border-b border-zinc-800 sticky top-0 z-10"
+                    className="w-full px-3 py-2 bg-[#151924] hover:bg-[#1B202E] flex items-center justify-between text-xs font-mono font-bold text-[#F5E6CC] border-b border-zinc-800 sticky top-0 z-10"
                   >
                     <span className="flex items-center gap-2">
                       {functionsFolderOpen ? (
-                        <FolderOpen className="w-4 h-4 text-[#FFCC00]" />
+                        <FolderOpen className="w-4 h-4 text-sky-400" />
                       ) : (
-                        <Folder className="w-4 h-4 text-[#FFCC00]" />
+                        <Folder className="w-4 h-4 text-sky-400" />
                       )}
                       <span>
                         {lang === 'de' ? 'FUNCTIONS (Globale Funktionen)' : 'FUNCTIONS'} (
@@ -1772,7 +1772,7 @@ export function App() {
             {groupedClasses.length} {lang === 'de' ? 'Klassen' : 'Classes'} •{' '}
             {standaloneFunctions.length} Funcs
           </span>
-          <span className="text-[#FFCC00] font-medium shrink-0 ml-1">
+          <span className="text-emerald-400 font-medium shrink-0 ml-1">
             [G] Jump
           </span>
         </div>
@@ -1795,7 +1795,7 @@ export function App() {
           >
             <Code2 className="w-4 h-4" />
           </button>
-          <span className="font-mono text-xs font-bold text-[#FFCC00] md:[writing-mode:vertical-rl] md:rotate-180 tracking-widest uppercase py-2">
+          <span className="font-mono text-xs font-bold text-[#F5E6CC] md:[writing-mode:vertical-rl] md:rotate-180 tracking-widest uppercase py-2">
             {isCSourceLoaded
               ? `C SOURCE: ${activeFunction.name}`
               : `PSEUDOCODE (${activeFunction.name})`}
@@ -1862,7 +1862,7 @@ export function App() {
           >
             <PanelRightOpen className="w-4 h-4" />
           </button>
-          <span className="font-mono text-xs font-bold text-[#FFCC00] md:[writing-mode:vertical-rl] md:rotate-180 tracking-widest uppercase py-2">
+          <span className="font-mono text-xs font-bold text-[#F5E6CC] md:[writing-mode:vertical-rl] md:rotate-180 tracking-widest uppercase py-2">
             CFG LOGIC TREE ({activeFunction.cfgNodes.length})
           </span>
           <GitFork className="w-4 h-4 text-zinc-500 hidden md:block" />
@@ -1918,7 +1918,7 @@ export function App() {
               <PanelTopOpen className="w-3.5 h-3.5" />
             </button>
             <h1 className="flex items-baseline gap-1.5 shrink-0">
-              <span className="font-extrabold tracking-wider text-xs md:text-sm text-[#FFCC00] uppercase">
+              <span className="font-extrabold tracking-wider text-xs md:text-sm text-[#F5E6CC] uppercase">
                 LPR
               </span>
               <span className="text-[10px] text-zinc-400 font-normal tracking-normal normal-case hidden sm:inline">
@@ -1928,13 +1928,13 @@ export function App() {
             {database && (
               <>
                 <span className="text-zinc-600 hidden sm:inline">•</span>
-                <span className="bg-[#FFCC00]/20 text-[#FFCC00] border border-[#FFCC00]/40 font-bold text-[11px] px-2 py-0.5 rounded uppercase tracking-wider hidden lg:inline-block">
+                <span className="bg-sky-500/20 text-sky-300 border border-sky-500/40 font-bold text-[11px] px-2 py-0.5 rounded uppercase tracking-wider hidden lg:inline-block">
                   {categoryCounts.classCount} CLASSES • {database.functions.length.toLocaleString()}{' '}
                   {lang === 'de' ? 'FUNKTIONEN' : 'FUNCTIONS'}
                 </span>
                 <span className="text-zinc-600 hidden sm:inline">•</span>
                 <span className="text-zinc-300 font-semibold truncate text-xs">
-                  <strong className="text-[#FFCC00]">{lang === 'de' ? 'Datei:' : 'File:'}</strong>{' '}
+                  <strong className="text-[#F5E6CC]">{lang === 'de' ? 'Datei:' : 'File:'}</strong>{' '}
                   {database.metadata.fileName}
                 </span>
                 {activeFunction && (
@@ -1954,7 +1954,7 @@ export function App() {
               <button
                 type="button"
                 onClick={() => setIsGoToModalOpen(true)}
-                className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00] hover:bg-[#FFCC00] hover:text-black transition-colors"
+                className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00] hover:bg-[#FFCC00] hover:text-black transition-colors"
                 title={lang === 'de' ? 'Gehe zu Adresse / Funktion [G]' : 'Go to address / function [G]'}
               >
                 <Compass className="w-3.5 h-3.5" />
@@ -1965,7 +1965,7 @@ export function App() {
             <button
               type="button"
               onClick={() => setIsHotkeysModalOpen(true)}
-              className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00]/70 hover:bg-[#FFCC00] hover:text-black transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00]/70 hover:bg-[#FFCC00] hover:text-black transition-colors"
               title="Keyboard Shortcuts & Hotkeys [?]"
             >
               <Keyboard className="w-3.5 h-3.5" />
@@ -1975,7 +1975,7 @@ export function App() {
             <button
               type="button"
               onClick={() => setFoxSupportModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00] hover:bg-[#FFCC00] hover:text-black transition-all group"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00] hover:bg-[#FFCC00] hover:text-black transition-all group"
               title="Support Wild Foxes — Fuchshilfe Berlin"
               aria-label="Support Wild Foxes — Fuchshilfe Berlin"
             >
@@ -2010,7 +2010,7 @@ export function App() {
             <div>
               <div className="flex items-center gap-2.5 flex-wrap">
                 <h1 className="flex items-baseline gap-1.5">
-                  <span className="font-extrabold tracking-wider text-base md:text-lg text-[#FFCC00] uppercase">
+                  <span className="font-extrabold tracking-wider text-base md:text-lg text-[#F5E6CC] uppercase">
                     LPR
                   </span>
                   <span className="text-[10px] md:text-xs text-zinc-400 font-normal tracking-normal normal-case">
@@ -2047,7 +2047,7 @@ export function App() {
               </div>
               <div className="text-xs font-mono text-zinc-300 flex flex-wrap items-center gap-2 mt-0.5">
                 <span>
-                  <strong className="text-[#FFCC00]">{lang === 'de' ? 'Datei:' : 'File:'}</strong>{' '}
+                  <strong className="text-[#F5E6CC]">{lang === 'de' ? 'Datei:' : 'File:'}</strong>{' '}
                   {database
                     ? database.metadata.fileName
                     : lang === 'de'
@@ -2056,7 +2056,7 @@ export function App() {
                 </span>
                 <span>•</span>
                 <span>
-                  <strong className="text-[#FFCC00]">Range:</strong> {addressRangeText}
+                  <strong className="text-[#F5E6CC]">Range:</strong> {addressRangeText}
                 </span>
                 {database && (
                   <>
@@ -2076,7 +2076,7 @@ export function App() {
                 <button
                   type="button"
                   onClick={() => setIsGoToModalOpen(true)}
-                  className="inline-flex items-center gap-1.5 text-xs font-mono font-bold px-2.5 py-1.5 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00] hover:bg-[#FFCC00] hover:text-black transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono font-bold px-2.5 py-1.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00] hover:bg-[#FFCC00] hover:text-black transition-colors"
                 >
                   <Compass className="w-3.5 h-3.5" />
                   <span>{lang === 'de' ? 'Adresse [G]' : 'Go to [G]'}</span>
@@ -2084,7 +2084,7 @@ export function App() {
 
                 <div className="flex items-center bg-zinc-900 border border-zinc-700 rounded p-0.5">
                   <span className="px-2 text-[11px] font-mono text-zinc-400 hidden 2xl:inline-flex items-center gap-1">
-                    <Layout className="w-3 h-3 text-[#FFCC00]" />
+                    <Layout className="w-3 h-3 text-sky-400" />
                     {lang === 'de' ? 'Anordnung:' : 'Layout:'}
                   </span>
                   <button
@@ -2162,14 +2162,14 @@ export function App() {
               onClick={() => setShowUrlBar((v) => !v)}
               className={`inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded border transition-colors ${
                 showUrlBar
-                  ? 'bg-zinc-800 text-[#FFCC00] border-[#FFCC00]'
+                  ? 'bg-zinc-800 text-[#F5E6CC] border-[#FFCC00]'
                   : 'bg-zinc-900 text-zinc-200 border-zinc-700 hover:border-[#FFCC00]'
               }`}
             >
-              <Link2 className="w-3.5 h-3.5 text-[#FFCC00]" />
+              <Link2 className="w-3.5 h-3.5 text-sky-400" />
               ?{urlParamMode}= URL
               {showUrlBar ? (
-                <ChevronUp className="w-3.5 h-3.5 text-[#FFCC00]" />
+                <ChevronUp className="w-3.5 h-3.5 text-sky-400" />
               ) : (
                 <ChevronDown className="w-3.5 h-3.5 text-zinc-400" />
               )}
@@ -2227,7 +2227,7 @@ export function App() {
                 <button
                   type="button"
                   onClick={handleExportCurrentJson}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-800 text-[#FFCC00] border border-[#FFCC00]/60 hover:bg-[#FFCC00] hover:text-black transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-800 text-[#F5E6CC] border border-[#FFCC00]/60 hover:bg-[#FFCC00] hover:text-black transition-colors"
                 >
                   <Download className="w-3.5 h-3.5" />
                   JSON
@@ -2246,26 +2246,26 @@ export function App() {
             <button
               type="button"
               onClick={() => setIsPythonModalOpen(true)}
-              className="hidden md:inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-900 text-white border border-zinc-700 hover:border-[#FFCC00] hover:text-[#FFCC00] transition-colors"
+              className="hidden md:inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-900 text-white border border-zinc-700 hover:border-[#FFCC00] hover:text-[#F5E6CC] transition-colors"
             >
-              <Terminal className="w-3.5 h-3.5 text-[#FFCC00]" />
+              <Terminal className="w-3.5 h-3.5 text-sky-400" />
               .bat / GitHub Info
             </button>
 
             <button
               type="button"
               onClick={() => setIsHotkeysModalOpen(true)}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00]/70 hover:bg-[#FFCC00] hover:text-black transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00]/70 hover:bg-[#FFCC00] hover:text-black transition-colors shadow-sm"
               title="Keyboard Shortcuts & Hotkeys Reference [?]"
             >
-              <Keyboard className="w-3.5 h-3.5 text-[#FFCC00]" />
+              <Keyboard className="w-3.5 h-3.5 text-sky-400" />
               <span>Hotkeys</span>
             </button>
 
             <button
               type="button"
               onClick={() => setFoxSupportModalOpen(true)}
-              className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00] hover:bg-[#FFD633] hover:text-black transition-all shadow-sm group"
+              className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00] hover:bg-[#FFD633] hover:text-black transition-all shadow-sm group"
               title="Support Wild Foxes — Fuchshilfe Berlin"
               aria-label="Support Wild Foxes — Fuchshilfe Berlin"
             >
@@ -2367,9 +2367,9 @@ export function App() {
               setI64UrlParam(GOOGLE_DRIVE_VIEW_URL);
               analyzeRemoteUrl(GOOGLE_DRIVE_VIEW_URL, 'i64');
             }}
-            className="inline-flex items-center gap-1 font-medium px-2 py-1.5 rounded bg-zinc-800 text-amber-300 border border-zinc-700 hover:border-[#FFCC00] transition-colors"
+            className="inline-flex items-center gap-1 font-medium px-2 py-1.5 rounded bg-zinc-800 text-sky-300 border border-zinc-700 hover:border-[#FFCC00] transition-colors"
           >
-            <FileArchive className="w-3.5 h-3.5 text-[#FFCC00]" />
+            <FileArchive className="w-3.5 h-3.5 text-sky-400" />
             Drive .i64
           </button>
 
@@ -2428,7 +2428,7 @@ export function App() {
               ? 'bg-emerald-950/90 border-emerald-500/60 text-emerald-100'
               : feedback.type === 'error'
               ? 'bg-rose-950/90 border-rose-500/60 text-rose-100'
-              : 'bg-amber-950/90 border-[#FFCC00] text-amber-100'
+              : 'bg-sky-950/90 border-sky-500/60 text-sky-100'
           }`}
         >
           <div className="flex items-center justify-between gap-3">
@@ -2436,7 +2436,7 @@ export function App() {
               {feedback.type === 'success' ? (
                 <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
               ) : (
-                <AlertTriangle className="w-4 h-4 text-[#FFCC00] shrink-0" />
+                <AlertTriangle className="w-4 h-4 text-sky-400 shrink-0" />
               )}
               <div>
                 <span className="font-bold mr-2">{feedback.title}</span>
@@ -2467,10 +2467,10 @@ export function App() {
           <div className="max-w-3xl w-full bg-[#11141C] border-2 border-[#FFCC00] rounded-xl p-7 shadow-2xl space-y-6">
             <div className="flex items-center justify-between gap-3.5 flex-wrap">
               <div className="flex items-center gap-3.5">
-                <WalkingFoxLogo className="w-12 h-8.5 shrink-0 text-[#FFCC00]" />
+                <WalkingFoxLogo className="w-12 h-8.5 shrink-0" />
                 <div>
                   <h2 className="flex items-baseline gap-2 flex-wrap">
-                    <span className="text-xl md:text-2xl font-extrabold text-[#FFCC00] tracking-wide uppercase">
+                    <span className="text-xl md:text-2xl font-extrabold text-[#F5E6CC] tracking-wide uppercase">
                       LPR
                     </span>
                     <span className="text-xs md:text-sm text-zinc-400 font-normal tracking-normal normal-case">
@@ -2487,7 +2487,7 @@ export function App() {
               <button
                 type="button"
                 onClick={() => setIsSeoModalOpen(true)}
-                className="px-3 py-1.5 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00]/60 hover:bg-[#FFCC00] hover:text-black text-xs font-mono font-bold inline-flex items-center gap-1.5 transition-colors"
+                className="px-3 py-1.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00]/60 hover:bg-[#FFCC00] hover:text-black text-xs font-mono font-bold inline-flex items-center gap-1.5 transition-colors"
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 {lang === 'de' ? 'SEO Unterseiten' : 'SEO Subpages'}
@@ -2523,7 +2523,7 @@ export function App() {
                 }}
                 className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-zinc-900 text-white border border-zinc-700 hover:border-[#FFCC00] transition-colors font-semibold text-xs text-center"
               >
-                <Globe className="w-5 h-5 text-[#FFCC00]" />
+                <Globe className="w-5 h-5 text-sky-400" />
                 <span>IDA .i64 (?i64=)</span>
               </button>
 
@@ -2571,7 +2571,7 @@ export function App() {
                     }}
                     className="text-left p-2.5 rounded bg-[#0D1017] border border-zinc-800 hover:border-[#FFCC00]/60 transition-colors"
                   >
-                    <div className="text-xs font-bold text-[#FFCC00] truncate">
+                    <div className="text-xs font-bold text-[#F5E6CC] truncate">
                       {lang === 'de' ? sub.titleDe : sub.titleEn}
                     </div>
                     <div className="text-[11px] text-zinc-400 truncate mt-0.5">
@@ -2679,7 +2679,7 @@ export function App() {
 
       <footer className="h-8 border-t border-zinc-800 bg-[#0B0D13] px-4 flex items-center justify-between text-xs text-zinc-300 shrink-0 z-20">
         <div className="flex items-center gap-3 font-mono">
-          <span className="inline-flex items-center gap-1.5 text-[#FFCC00] font-medium">
+          <span className="inline-flex items-center gap-1.5 text-emerald-400 font-medium">
             <Eye className="w-3.5 h-3.5" />
             {lang === 'de'
               ? 'Eindeutige Besucher (1x pro Person):'
@@ -2700,7 +2700,7 @@ export function App() {
           <button
             type="button"
             onClick={() => setIsSeoModalOpen(true)}
-            className="inline-flex items-center gap-1 text-[#FFCC00] hover:underline font-semibold"
+            className="inline-flex items-center gap-1 text-[#F5E6CC] hover:underline font-semibold"
           >
             <Sparkles className="w-3.5 h-3.5" />
             SEO Subpages
@@ -2709,18 +2709,18 @@ export function App() {
           <button
             type="button"
             onClick={() => setSeoFileModal('robots')}
-            className="inline-flex items-center gap-1 text-zinc-300 hover:text-[#FFCC00] transition-colors"
+            className="inline-flex items-center gap-1 text-zinc-300 hover:text-[#F5E6CC] transition-colors"
           >
-            <Bot className="w-3.5 h-3.5 text-[#FFCC00]" />
+            <Bot className="w-3.5 h-3.5 text-sky-400" />
             bots.txt
           </button>
           <span>•</span>
           <button
             type="button"
             onClick={() => setSeoFileModal('sitemap')}
-            className="inline-flex items-center gap-1 text-zinc-300 hover:text-[#FFCC00] transition-colors"
+            className="inline-flex items-center gap-1 text-zinc-300 hover:text-[#F5E6CC] transition-colors"
           >
-            <FileCode2 className="w-3.5 h-3.5 text-[#FFCC00]" />
+            <FileCode2 className="w-3.5 h-3.5 text-sky-400" />
             sitemap.xml
           </button>
         </div>
@@ -2750,7 +2750,7 @@ export function App() {
           >
             <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
               <div className="flex items-center gap-2.5">
-                <Layers className="w-5 h-5 text-[#FFCC00]" />
+                <Layers className="w-5 h-5 text-sky-400" />
                 <div>
                   <h3 className="text-base font-bold text-white">
                     {lang === 'de'
@@ -2832,7 +2832,7 @@ export function App() {
           <div className="bg-[#11141C] border-2 border-[#FFCC00] rounded-lg max-w-2xl w-full p-5 space-y-4 shadow-2xl">
             <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
               <div className="flex items-center gap-2">
-                <Bot className="w-5 h-5 text-[#FFCC00]" />
+                <Bot className="w-5 h-5 text-sky-400" />
                 <h3 className="text-base font-bold text-white">
                   {seoFileModal === 'robots'
                     ? 'public/bots.txt & public/robots.txt (100% AI & Crawlers Allowed)'
@@ -2924,17 +2924,17 @@ Sitemap: ./sitemap.xml`
         lang={lang}
       />
 
-      {/* Bottom-right Collapsible Fox Support Info Window (10% larger) */}
-      <div className="fixed bottom-3 right-3 z-40 max-w-[420px] w-[94vw] sm:w-[352px] shadow-2xl transition-all duration-200">
+      {/* Bottom-right Collapsible Fox Support Info Window (5% larger, warm beige font, no yellow text) */}
+      <div className="fixed bottom-3 right-3 z-40 max-w-[441px] w-[94vw] sm:w-[370px] shadow-2xl transition-all duration-200">
         {!foxWidgetCollapsed ? (
-          <div className="bg-[#0C0C0E]/95 backdrop-blur border-2 border-[#FFCC00] p-4 rounded-lg space-y-3 text-zinc-100 shadow-2xl">
+          <div className="bg-[#0C0C0E]/95 backdrop-blur border-2 border-[#FFCC00] p-[17px] rounded-lg space-y-3.5 text-zinc-100 shadow-2xl">
             <div className="flex items-center justify-between border-b border-zinc-800 pb-2.5">
               <div
                 className="flex items-center gap-2.5 cursor-pointer hover:opacity-85"
                 onClick={() => setFoxSupportModalOpen(true)}
               >
-                <WalkingFoxLogo className="w-8 h-6 shrink-0" />
-                <span className="font-bold text-sm uppercase tracking-wider text-[#FFCC00]">
+                <WalkingFoxLogo className="w-[34px] h-[26px] shrink-0" />
+                <span className="font-bold text-[14.7px] uppercase tracking-wider text-[#F5E6CC]">
                   Support Wild Foxes
                 </span>
               </div>
@@ -2943,7 +2943,7 @@ Sitemap: ./sitemap.xml`
                   type="button"
                   onClick={() => setFoxSupportModalOpen(true)}
                   title="Expand to Full Modal"
-                  className="p-1 rounded text-zinc-400 hover:text-[#FFCC00] hover:bg-zinc-800 transition"
+                  className="p-1 rounded text-zinc-400 hover:text-[#F5E6CC] hover:bg-zinc-800 transition"
                 >
                   <ExternalLink className="w-4 h-4" />
                 </button>
@@ -2951,17 +2951,17 @@ Sitemap: ./sitemap.xml`
                   type="button"
                   onClick={() => setFoxWidgetCollapsed(true)}
                   title="Collapse window"
-                  className="p-1 rounded text-zinc-400 hover:text-[#FFCC00] hover:bg-zinc-800 transition"
+                  className="p-1 rounded text-zinc-400 hover:text-[#F5E6CC] hover:bg-zinc-800 transition"
                 >
                   <ChevronDown className="w-4 h-4" />
                 </button>
               </div>
             </div>
 
-            <div className="space-y-2.5 text-[13px] leading-relaxed text-zinc-200">
+            <div className="space-y-2.5 text-[13.7px] leading-relaxed text-zinc-200">
               <p>
                 This tool is 100% free! Instead of donating to the developer, please consider supporting{' '}
-                <strong className="text-[#FFCC00]">Fuchshilfe Berlin</strong> to help wild foxes live a safe life and receive medical care.
+                <strong className="text-[#F5E6CC]">Fuchshilfe Berlin</strong> to help wild foxes live a safe life and receive medical care.
               </p>
               <div className="flex items-center gap-2 pt-1">
                 <button
@@ -2975,7 +2975,7 @@ Sitemap: ./sitemap.xml`
                   href="https://fuchshilfe-berlin.de/IHR-WOLLT-UNS-UNTERSTUeTZEN"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="py-2 px-3 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 hover:border-[#FFCC00] text-[#FFCC00] font-mono text-xs font-semibold rounded inline-flex items-center gap-1.5 transition"
+                  className="py-2 px-3 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 hover:border-[#FFCC00] text-[#F5E6CC] hover:text-[#38BDF8] font-mono text-xs font-semibold rounded inline-flex items-center gap-1.5 transition"
                 >
                   <span>Wishlist</span>
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -2987,30 +2987,30 @@ Sitemap: ./sitemap.xml`
           <button
             type="button"
             onClick={() => setFoxWidgetCollapsed(false)}
-            className="flex items-center gap-2.5 px-3.5 py-2 bg-[#0C0C0E] border-2 border-[#FFCC00] text-[#FFCC00] hover:bg-[#FFCC00] hover:text-black font-mono text-[13px] font-bold shadow-2xl transition-all rounded-md float-right"
+            className="flex items-center gap-2.5 px-4 py-2.5 bg-[#0C0C0E] border-2 border-[#FFCC00] text-[#F5E6CC] hover:bg-[#FFCC00] hover:text-black font-mono text-[13.7px] font-bold shadow-2xl transition-all rounded-md float-right"
             title="Expand Fuchshilfe Berlin Support Info"
           >
-            <WalkingFoxLogo className="w-7 h-5" />
+            <WalkingFoxLogo className="w-[30px] h-[22px]" />
             <span>Support Wild Foxes 🦊</span>
             <ChevronUp className="w-4 h-4" />
           </button>
         )}
       </div>
 
-      {/* Fuchshilfe Berlin Support Modal (10% larger) */}
+      {/* Fuchshilfe Berlin Support Modal (5% larger, warm beige font) */}
       {foxSupportModalOpen && (
         <div
           className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4 backdrop-blur-sm"
           onClick={() => setFoxSupportModalOpen(false)}
         >
           <div
-            className="bg-[#0C0C0E] border-2 border-[#FFCC00] max-w-xl w-full p-7 space-y-5 shadow-2xl"
+            className="bg-[#0C0C0E] border-2 border-[#FFCC00] max-w-[605px] w-full p-7.5 space-y-5 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-zinc-800 pb-3.5">
               <div className="flex items-center gap-3">
                 <WalkingFoxLogo className="w-10 h-7" />
-                <h3 className="font-display font-bold text-lg uppercase tracking-wider text-[#FFCC00]">
+                <h3 className="font-display font-bold text-lg uppercase tracking-wider text-[#F5E6CC]">
                   Support Wild Foxes — Fuchshilfe Berlin
                 </h3>
               </div>
@@ -3034,14 +3034,14 @@ Sitemap: ./sitemap.xml`
                 <img
                   src="https://fuchshilfe-berlin.de/.cm4all/uproc.php/0/.qrcode_www.amazon.de.png/picture-1600?_=1993dea75cf"
                   alt="Fuchshilfe Berlin Amazon QR Code"
-                  className="w-40 h-40 object-contain"
+                  className="w-[168px] h-[168px] object-contain"
                 />
               </a>
 
               <div className="space-y-3.5 text-sm text-zinc-200 leading-relaxed">
                 <p>
                   This tool is free. Instead of donating to the developer, please consider supporting{' '}
-                  <strong className="text-[#FFCC00]">Fuchshilfe Berlin</strong>!
+                  <strong className="text-[#F5E6CC]">Fuchshilfe Berlin</strong>!
                 </p>
                 <p className="text-zinc-300">
                   Your support helps ensure that wild foxes can live a safe, good life and that sick or injured foxes receive medical care to recover and get healthy again.

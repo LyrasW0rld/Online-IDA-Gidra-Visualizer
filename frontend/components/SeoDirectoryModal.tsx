@@ -139,7 +139,7 @@ export const SeoDirectoryModal: React.FC<SeoDirectoryModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded bg-black text-[#FFCC00] hover:bg-zinc-900"
+            className="p-1.5 rounded bg-black text-[#F5E6CC] hover:text-white hover:bg-zinc-900"
           >
             <X className="w-5 h-5" />
           </button>
@@ -191,7 +191,7 @@ export const SeoDirectoryModal: React.FC<SeoDirectoryModalProps> = ({
             </p>
 
             <div>
-              <div className="text-xs font-mono uppercase text-[#FFCC00] font-bold mb-2">
+              <div className="text-xs font-mono uppercase text-[#F5E6CC] font-bold mb-2">
                 {lang === 'de' ? 'Fokus SEO-Keywords:' : 'Target SEO Keywords:'}
               </div>
               <div className="flex flex-wrap gap-1.5">

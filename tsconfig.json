@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "frontend/vite-env.d.ts",
+    "frontend/App.tsx",
+    "frontend/index.tsx",
+    "frontend/types.ts",
+    "frontend/constants.ts",
+    "frontend/components/**/*",
+    "frontend/services/**/*"
+  ]
+}

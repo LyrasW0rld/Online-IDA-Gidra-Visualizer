@@ -225,7 +225,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                     ? 'Doppelklick = Wert-Konverter öffnen'
                     : 'Double-click = Open Value Converter'
                 }
-                className="text-amber-300 font-medium cursor-pointer hover:underline"
+                className="text-emerald-400 font-medium cursor-pointer hover:underline"
               >
                 {token}
               </span>
@@ -270,7 +270,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                     ? 'Doppelklick = Typ- & Wert-Rechner öffnen (Float, Int, Hex, Enum, String)'
                     : 'Double-click = Open Type & Value Calculator (Float, Int, Hex, Enum, String)'
                 }
-                className="text-purple-300 font-semibold cursor-pointer px-0.5 rounded hover:bg-purple-500/25 hover:text-[#FFCC00] border-b border-dotted border-purple-400/50 transition-colors"
+                className="text-purple-300 font-semibold cursor-pointer px-0.5 rounded hover:bg-purple-500/25 hover:text-emerald-400 border-b border-dotted border-purple-400/50 transition-colors"
               >
                 {token}
               </span>
@@ -279,7 +279,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
 
           if (C_KEYWORDS.has(token)) {
             return (
-              <span key={idx} className="text-[#FFCC00] font-bold">
+              <span key={idx} className="text-[#F5E6CC] font-bold">
                 {token}
               </span>
             );
@@ -307,7 +307,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                     ? `Springe zu Funktion ${token}`
                     : `Jump to function ${token}`
                 }
-                className="text-[#FFCC00] underline decoration-[#FFCC00]/60 hover:bg-[#FFCC00] hover:text-black px-0.5 rounded transition-colors font-semibold inline-flex items-center gap-0.5"
+                className="text-[#38BDF8] underline decoration-[#38BDF8]/60 hover:bg-[#38BDF8] hover:text-black px-0.5 rounded transition-colors font-semibold inline-flex items-center gap-0.5"
               >
                 {token}
               </button>
@@ -480,7 +480,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                 setFuncNameInput(func.name);
                 setIsRenamingFunc(true);
               }}
-              className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2.5 py-1 rounded bg-zinc-900 text-amber-300 border border-amber-400/60 hover:bg-[#FFCC00] hover:text-black transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2.5 py-1 rounded bg-zinc-900 text-[#F5E6CC] border border-zinc-700 hover:bg-[#FFCC00] hover:text-black transition-colors"
             >
               <Edit3 className="w-3.5 h-3.5" />
               <span>{lang === 'de' ? 'Funktion umbenennen' : 'Rename Func'}</span>
@@ -502,7 +502,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
               <button
                 type="button"
                 onClick={onOpenGoToModal}
-                className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00]/80 hover:bg-[#FFCC00] hover:text-black transition-colors"
+                className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#F5E6CC] border border-zinc-700 hover:bg-[#FFCC00] hover:text-black transition-colors"
               >
                 <Compass className="w-3.5 h-3.5" />
                 <span>[G]</span>
@@ -556,7 +556,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
             onSubmit={handleSaveFunctionRename}
             className="flex items-center gap-2 bg-black/80 p-2 rounded border-2 border-[#FFCC00]"
           >
-            <span className="text-xs font-mono text-[#FFCC00] font-bold shrink-0">
+            <span className="text-xs font-mono text-[#F5E6CC] font-bold shrink-0">
               {lang === 'de' ? 'Neuer Funktionsname:' : 'New Function Name:'}
             </span>
             <input
@@ -689,7 +689,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
         <div className="border-b border-zinc-800/80 bg-[#0F1219] px-4 py-2.5 shrink-0 space-y-2">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
-              <Cpu className="w-3.5 h-3.5 text-[#FFCC00]" />
+              <Cpu className="w-3.5 h-3.5 text-sky-400" />
               {lang === 'de'
                 ? `Variablen (${func.localVariables.length}) — Klick = Auswählen | [E] = Name ändern | Doppelklick auf Zahl/Variable = Typ & Wert berechnen`
                 : `Variables (${func.localVariables.length}) — Click = Select | [E] = Rename | Double-click number/var = Type & Value Calculator`}
@@ -744,7 +744,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
               onSubmit={handleSaveVariableRename}
               className="flex items-center gap-2 bg-black/90 p-2 rounded border-2 border-[#FFCC00]"
             >
-              <span className="text-xs font-mono text-[#FFCC00] font-bold">
+              <span className="text-xs font-mono text-[#F5E6CC] font-bold">
                 {lang === 'de'
                   ? `Variable "${editingVarName}" umbenennen in (Taste E):`
                   : `Rename variable "${editingVarName}" to (Hotkey E):`}
@@ -877,7 +877,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                   className={`mr-2 mt-1 p-0.5 rounded shrink-0 transition-opacity ${
                     inlineComment
                       ? 'opacity-100 text-emerald-400 bg-emerald-950/80'
-                      : 'opacity-0 group-hover:opacity-100 text-zinc-400 hover:text-[#FFCC00]'
+                      : 'opacity-0 group-hover:opacity-100 text-zinc-400 hover:text-emerald-400'
                   }`}
                 >
                   <MessageSquarePlus className="w-3.5 h-3.5" />
@@ -970,7 +970,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                   key={idx}
                   type="button"
                   onClick={() => onJumpToFunction(xref.funcName)}
-                  className="inline-flex items-center gap-1 font-mono text-xs px-2 py-0.5 rounded bg-zinc-800 text-zinc-100 border border-zinc-700 hover:border-[#FFCC00] hover:text-[#FFCC00] transition-colors"
+                  className="inline-flex items-center gap-1 font-mono text-xs px-2 py-0.5 rounded bg-zinc-800 text-zinc-100 border border-zinc-700 hover:border-[#FFCC00] hover:text-[#38BDF8] transition-colors"
                 >
                   {xref.funcName}
                   <ArrowUpRight className="w-3 h-3" />

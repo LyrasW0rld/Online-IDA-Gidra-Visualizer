@@ -257,14 +257,14 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
             )}
             <span
               className={`text-[11px] font-mono px-1.5 py-0.5 rounded uppercase shrink-0 ${
-                isSelected ? 'bg-black text-[#FFCC00] font-semibold' : getBadgeStyle(node.type)
+                isSelected ? 'bg-black text-[#4ADE80] font-semibold' : getBadgeStyle(node.type)
               }`}
             >
               {node.type}
             </span>
             <span
               className={`font-mono text-xs font-semibold truncate ${
-                isSelected ? 'text-black' : 'text-amber-200'
+                isSelected ? 'text-black' : 'text-[#38BDF8]'
               }`}
               title={node.label}
             >
@@ -283,7 +283,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
               className={`text-[11px] font-mono px-2 py-0.5 rounded ${
                 isSelected
                   ? 'bg-black/15 text-black font-bold'
-                  : 'bg-black/60 text-[#FFCC00] border border-zinc-800 font-semibold hover:bg-[#FFCC00] hover:text-black'
+                  : 'bg-black/60 text-[#38BDF8] border border-zinc-800 font-semibold hover:bg-[#FFCC00] hover:text-black'
               }`}
             >
               {node.address}
@@ -306,8 +306,8 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
         >
           <div className="space-y-1.5">
             {node.conditionExpression && (
-              <div className="px-2.5 py-1 rounded bg-amber-500/15 border border-amber-400/40 text-amber-200 text-[11px] font-mono break-words">
-                <strong className="text-[#FFCC00] mr-1">
+              <div className="px-2.5 py-1 rounded bg-sky-950/40 border border-sky-500/40 text-sky-200 text-[11px] font-mono break-words">
+                <strong className="text-[#38BDF8] mr-1">
                   {lang === 'de' ? 'Bedingung:' : 'Condition:'}
                 </strong>
                 <code>{node.conditionExpression}</code>
@@ -361,7 +361,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
                   onSelectNode(nextTargetNode);
                 }}
                 onDoubleClick={(e) => handleDoubleClickBranchTarget(nextTargetNode, e)}
-                className="mb-1.5 pt-1.5 border-t border-zinc-800/80 flex items-center justify-between text-[11px] text-amber-300 hover:text-[#FFCC00]"
+                className="mb-1.5 pt-1.5 border-t border-zinc-800/80 flex items-center justify-between text-[11px] text-sky-300 hover:text-[#38BDF8]"
               >
                 <span>
                   {lang === 'de' ? 'Führt weiter zu:' : 'Continues to:'}{' '}
@@ -377,7 +377,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
                   ? 'Doppelklick = Root Fokus'
                   : 'Double-click = Focus Root'}
               </span>
-              <span className="inline-flex items-center gap-1 text-[#FFCC00] font-medium">
+              <span className="inline-flex items-center gap-1 text-[#4ADE80] font-medium">
                 <Crosshair className="w-3 h-3" /> Sync
               </span>
             </div>
@@ -588,8 +588,8 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
         <div className="flex items-center gap-2 min-w-0">
           <div className="w-1.5 h-6 bg-[#FFCC00] shrink-0" />
           <div className="min-w-0">
-            <h3 className="text-xs sm:text-sm font-semibold tracking-wide text-[#FFCC00] flex items-center gap-1.5 truncate">
-              <GitFork className="w-4 h-4 text-[#FFCC00] shrink-0" />
+            <h3 className="text-xs sm:text-sm font-semibold tracking-wide text-[#F5E6CC] flex items-center gap-1.5 truncate">
+              <GitFork className="w-4 h-4 text-[#38BDF8] shrink-0" />
               {lang === 'de' ? '2D CFG-Graph' : '2D CFG Graph'}
             </h3>
             <p className="text-[10px] sm:text-[11px] text-zinc-300 font-mono truncate">
@@ -605,7 +605,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
         <div className="flex items-center gap-1 shrink-0 flex-wrap">
           {onChangeMaxBranches && (
             <div className="flex items-center gap-1 bg-[#090B10] px-1.5 py-0.5 rounded border border-zinc-800 text-[11px] font-mono text-zinc-300">
-              <span className="text-[#FFCC00] font-semibold hidden sm:inline">
+              <span className="text-[#F5E6CC] font-semibold hidden sm:inline">
                 {lang === 'de' ? 'Tiefe:' : 'Depth:'}
               </span>
               <button
@@ -775,7 +775,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
             Calls / Loop
           </span>
         </div>
-        <span className="text-[10px] font-mono text-[#FFCC00] hidden sm:inline-flex items-center gap-1">
+        <span className="text-[10px] font-mono text-[#F5E6CC] hidden sm:inline-flex items-center gap-1">
           <Move className="w-3 h-3" />
           {compactNodes ? '260px Nodes' : '320px Nodes'}
         </span>
@@ -793,7 +793,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
                 {hoveredNode.node.label}
               </span>
             </div>
-            <span className="font-mono text-[10px] font-bold text-[#FFCC00] shrink-0">
+            <span className="font-mono text-[10px] font-bold text-[#38BDF8] shrink-0">
               {hoveredNode.node.address} (L{hoveredNode.node.LineStart}–{hoveredNode.node.LineEnd})
             </span>
           </div>
