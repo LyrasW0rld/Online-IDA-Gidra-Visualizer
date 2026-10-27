@@ -18,6 +18,7 @@ import {
 } from './components/GoToAddressModal';
 import { SeoDirectoryModal, SEO_SUBPAGES } from './components/SeoDirectoryModal';
 import { HotkeysModal } from './components/HotkeysModal';
+import { WalkingFoxLogo } from './components/WalkingFoxLogo';
 import {
   parseI64OrJsonFile,
   parseBufferToDatabaseAsync,
@@ -171,6 +172,8 @@ export function App() {
   const [isDraggingLeft, setIsDraggingLeft] = useState<boolean>(false);
   const [isDraggingRight, setIsDraggingRight] = useState<boolean>(false);
   const [isHotkeysModalOpen, setIsHotkeysModalOpen] = useState<boolean>(false);
+  const [foxSupportModalOpen, setFoxSupportModalOpen] = useState<boolean>(false);
+  const [foxWidgetCollapsed, setFoxWidgetCollapsed] = useState<boolean>(false);
 
   // URL parameter bar state (?i64=..., ?gar=..., ?c=...) saved & restored from cookies
   const [urlParamMode, setUrlParamMode] = useState<UrlParamMode>(initialSettings.urlParamMode);
@@ -1914,9 +1917,9 @@ export function App() {
             >
               <PanelTopOpen className="w-3.5 h-3.5" />
             </button>
-            <div className="w-1.5 h-6 bg-[#FFCC00] shrink-0 hidden sm:block" />
+            <WalkingFoxLogo className="w-6 h-4 shrink-0 text-[#FFCC00]" />
             <h1 className="font-bold tracking-wider text-xs md:text-sm text-white uppercase shrink-0">
-              <span className="text-[#FFCC00]">LYRAS</span> PSEUDOCODE READER
+              <span className="text-[#FFCC00]">LPR</span> lyras Pseudocode Reader
             </h1>
             {database && (
               <>
@@ -1965,6 +1968,15 @@ export function App() {
               <span>Hotkeys</span>
             </button>
 
+            <button
+              type="button"
+              onClick={() => setFoxSupportModalOpen(true)}
+              className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00]/70 hover:bg-[#FFCC00] hover:text-black transition-colors"
+              title="Support Wild Foxes — Fuchshilfe Berlin"
+            >
+              <WalkingFoxLogo className="w-5 h-3.5" />
+            </button>
+
             <div className="inline-flex rounded border border-[#FFCC00] overflow-hidden bg-zinc-900">
               <button
                 type="button"
@@ -1990,11 +2002,11 @@ export function App() {
       ) : (
         <header className="border-b-2 border-[#FFCC00] bg-[#0E1017] px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 shrink-0 z-20">
           <div className="flex items-center gap-3">
-            <div className="w-3.5 h-9 border-[3.5px] border-[#FFCC00] shrink-0" />
+            <WalkingFoxLogo className="w-9 h-6.5 shrink-0 text-[#FFCC00]" />
             <div>
               <div className="flex items-center gap-2.5 flex-wrap">
                 <h1 className="font-bold tracking-wider text-base md:text-lg text-white uppercase">
-                  <span className="text-[#FFCC00]">LYRAS</span> PSEUDOCODE READER
+                  <span className="text-[#FFCC00]">LPR</span> lyras Pseudocode Reader
                 </h1>
                 <span className="bg-[#FFCC00] text-black font-bold text-xs px-2.5 py-0.5 rounded uppercase tracking-wider">
                   {database
@@ -2241,6 +2253,16 @@ export function App() {
               <span>Hotkeys</span>
             </button>
 
+            <button
+              type="button"
+              onClick={() => setFoxSupportModalOpen(true)}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00]/70 hover:bg-[#FFCC00] hover:text-black transition-colors shadow-sm"
+              title="Support Wild Foxes — Fuchshilfe Berlin"
+            >
+              <WalkingFoxLogo className="w-5 h-3.5" />
+              <span className="hidden lg:inline">Support Foxes</span>
+            </button>
+
             {/* Collapse top menu button matching other panels */}
             <button
               type="button"
@@ -2433,10 +2455,10 @@ export function App() {
           <div className="max-w-3xl w-full bg-[#11141C] border-2 border-[#FFCC00] rounded-xl p-7 shadow-2xl space-y-6">
             <div className="flex items-center justify-between gap-3.5 flex-wrap">
               <div className="flex items-center gap-3.5">
-                <div className="w-4 h-11 border-4 border-[#FFCC00] shrink-0" />
+                <WalkingFoxLogo className="w-12 h-8.5 shrink-0 text-[#FFCC00]" />
                 <div>
                   <h2 className="text-xl md:text-2xl font-bold text-white tracking-wide uppercase">
-                    Lyras Pseudocode Reader
+                    <span className="text-[#FFCC00]">LPR</span> lyras Pseudocode Reader
                   </h2>
                   <p className="text-sm text-zinc-300 mt-0.5">
                     {lang === 'de'
@@ -2884,6 +2906,143 @@ Sitemap: ./sitemap.xml`
         onClose={() => setIsHotkeysModalOpen(false)}
         lang={lang}
       />
+
+      {/* Bottom-right Collapsible Fox Support Info Window */}
+      <div className="fixed bottom-3 right-3 z-40 max-w-sm w-[92vw] sm:w-80 shadow-2xl transition-all duration-200">
+        {!foxWidgetCollapsed ? (
+          <div className="bg-[#0C0C0E]/95 backdrop-blur border-2 border-[#FFCC00] p-3.5 rounded-lg space-y-2.5 text-zinc-100 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+              <div
+                className="flex items-center gap-2 cursor-pointer hover:opacity-85"
+                onClick={() => setFoxSupportModalOpen(true)}
+              >
+                <WalkingFoxLogo className="w-7 h-5 shrink-0" />
+                <span className="font-bold text-xs uppercase tracking-wider text-[#FFCC00]">
+                  Support Wild Foxes
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setFoxSupportModalOpen(true)}
+                  title="Expand to Full Modal"
+                  className="p-1 rounded text-zinc-400 hover:text-[#FFCC00] hover:bg-zinc-800 transition"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFoxWidgetCollapsed(true)}
+                  title="Collapse window"
+                  className="p-1 rounded text-zinc-400 hover:text-[#FFCC00] hover:bg-zinc-800 transition"
+                >
+                  <ChevronDown className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-2 text-xs leading-relaxed text-zinc-300">
+              <p>
+                This tool is 100% free! Instead of donating to the developer, please consider supporting{' '}
+                <strong className="text-[#FFCC00]">Fuchshilfe Berlin</strong> to help wild foxes live a safe life and receive medical care.
+              </p>
+              <div className="flex items-center gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setFoxSupportModalOpen(true)}
+                  className="flex-1 py-1.5 px-2 bg-[#FFCC00] hover:bg-[#FFD633] text-black font-mono text-[11px] font-bold uppercase rounded text-center transition shadow-sm"
+                >
+                  QR Code & Details
+                </button>
+                <a
+                  href="https://fuchshilfe-berlin.de/IHR-WOLLT-UNS-UNTERSTUeTZEN"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-1.5 px-2.5 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 hover:border-[#FFCC00] text-[#FFCC00] font-mono text-[11px] font-semibold rounded inline-flex items-center gap-1 transition"
+                >
+                  <span>Wishlist</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setFoxWidgetCollapsed(false)}
+            className="flex items-center gap-2 px-3 py-1.5 bg-[#0C0C0E] border-2 border-[#FFCC00] text-[#FFCC00] hover:bg-[#FFCC00] hover:text-black font-mono text-xs font-bold shadow-2xl transition-all rounded-md float-right"
+            title="Expand Fuchshilfe Berlin Support Info"
+          >
+            <WalkingFoxLogo className="w-6 h-4" />
+            <span>Support Wild Foxes 🦊</span>
+            <ChevronUp className="w-3.5 h-3.5" />
+          </button>
+        )}
+      </div>
+
+      {/* Fuchshilfe Berlin Support Modal */}
+      {foxSupportModalOpen && (
+        <div
+          className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4 backdrop-blur-sm"
+          onClick={() => setFoxSupportModalOpen(false)}
+        >
+          <div
+            className="bg-[#0C0C0E] border-2 border-[#FFCC00] max-w-lg w-full p-6 space-y-4 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+              <div className="flex items-center gap-2.5">
+                <WalkingFoxLogo className="w-9 h-6" />
+                <h3 className="font-display font-bold text-base uppercase tracking-wider text-[#FFCC00]">
+                  Support Wild Foxes — Fuchshilfe Berlin
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setFoxSupportModalOpen(false)}
+                className="px-2.5 py-1 bg-[#FFCC00] hover:bg-[#FFD633] text-black font-mono text-xs font-bold transition"
+              >
+                CLOSE
+              </button>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center gap-5">
+              <a
+                href="https://fuchshilfe-berlin.de/IHR-WOLLT-UNS-UNTERSTUeTZEN"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white p-2 border-2 border-[#FFCC00] shrink-0"
+                title="Open Fuchshilfe Berlin Amazon Wishlist"
+              >
+                <img
+                  src="https://fuchshilfe-berlin.de/.cm4all/uproc.php/0/.qrcode_www.amazon.de.png/picture-1600?_=1993dea75cf"
+                  alt="Fuchshilfe Berlin Amazon QR Code"
+                  className="w-36 h-36 object-contain"
+                />
+              </a>
+
+              <div className="space-y-3 text-xs text-zinc-200 leading-relaxed">
+                <p>
+                  This tool is free. Instead of donating to the developer, please consider supporting{' '}
+                  <strong className="text-[#FFCC00]">Fuchshilfe Berlin</strong>!
+                </p>
+                <p className="text-zinc-300">
+                  Your support helps ensure that wild foxes can live a safe, good life and that sick or injured foxes receive medical care to recover and get healthy again.
+                </p>
+                <a
+                  href="https://fuchshilfe-berlin.de/IHR-WOLLT-UNS-UNTERSTUeTZEN"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-3.5 py-2 bg-[#FFCC00] hover:bg-[#FFD633] text-black font-mono text-xs font-bold uppercase transition"
+                >
+                  <span>Donate Goods on Amazon Wishlist</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

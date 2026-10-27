@@ -1,8 +1,8 @@
 @echo off
-title Lyras Pseudocode Reader - Local Offline Launcher
+title LPR lyras Pseudocode Reader - Local Offline Launcher
 color 0E
 echo ============================================================================
-echo   LYRAS PSEUDOCODE READER // LOCAL OFFLINE LAUNCHER (.i64 / .gar / .c)
+echo   LPR LYRAS PSEUDOCODE READER // LOCAL OFFLINE LAUNCHER (.i64 / .gar / .c)
 echo   100%% Local In-Browser - No Google Cloud API required!
 echo ============================================================================
 echo.

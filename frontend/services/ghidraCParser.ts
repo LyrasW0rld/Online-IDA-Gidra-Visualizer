@@ -315,7 +315,7 @@ export function buildModifiedCFileExport(
   const headerBanner = [
     `/* ============================================================================`,
     ` * EXPORTED C SOURCE FILE: ${dump.metadata.fileName}`,
-    ` * Modified with Lyras Pseudocode Reader (All Function & Variable Renames Applied)`,
+    ` * Modified with LPR lyras Pseudocode Reader (All Function & Variable Renames Applied)`,
     ` * Exported At: ${new Date().toISOString()}`,
     ` * ============================================================================ */`,
     ``,

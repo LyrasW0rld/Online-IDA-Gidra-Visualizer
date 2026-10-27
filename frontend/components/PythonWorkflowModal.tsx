@@ -20,10 +20,10 @@ interface PythonWorkflowModalProps {
 }
 
 const BAT_FILE_CONTENT = `@echo off
-title Lyras Pseudocode Reader - Local Offline Launcher
+title LPR lyras Pseudocode Reader - Local Offline Launcher
 color 0E
 echo ============================================================================
-echo   LYRAS PSEUDOCODE READER // LOCAL OFFLINE LAUNCHER (.i64 / .gar / .c)
+echo   LPR LYRAS PSEUDOCODE READER // LOCAL OFFLINE LAUNCHER (.i64 / .gar / .c)
 echo ============================================================================
 if not exist "node_modules" (
     echo [*] Installing npm packages...

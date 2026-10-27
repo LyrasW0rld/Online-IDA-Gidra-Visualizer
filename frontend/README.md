@@ -1,4 +1,4 @@
-# 🚖 Lyras Pseudocode Reader — IDA Pro (`.i64`), Ghidra (`.gar` / `.c`) & CFG Explorer
+# 🦊 LPR lyras Pseudocode Reader — IDA Pro (`.i64`), Ghidra (`.gar` / `.c`) & CFG Explorer
 
 A static, 100% browser-powered Reverse Engineering & Decompiler Workspace in the **National Geographic / Lyra's Crazy Taxi Framework** style.
 

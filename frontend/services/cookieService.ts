@@ -583,7 +583,7 @@ function replaceByteSequenceInBuffer(
 export function buildCompleteCppProjectExport(dump: I64DatabaseDump): string {
   const headerLines: string[] = [
     `/* ============================================================================`,
-    ` * LYRAS PSEUDOCODE READER - COMPLETE DECOMPILED C/C++ PROJECT EXPORT`,
+    ` * LPR LYRAS PSEUDOCODE READER - COMPLETE DECOMPILED C/C++ PROJECT EXPORT`,
     ` * ============================================================================`,
     ` * Source Database : ${dump.metadata.fileName}`,
     ` * Format          : ${dump.metadata.format}`,

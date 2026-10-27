@@ -1,4 +1,4 @@
 {
-  "name": "Lyras Pseudocode Reader",
+  "name": "LPR lyras Pseudocode Reader",
   "description": "Static IDA Pro (.i64) & Binary Ninja (.bndb) C/C++ Pseudocode Reader and Binary Tree Control Flow Graph Explorer with cookie state persistence and ?i64= URL auto-analysis."
 }
