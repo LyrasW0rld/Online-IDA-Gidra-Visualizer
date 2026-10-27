@@ -10,7 +10,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        taxiYellow: '#FFCC00',
+        taxiYellow: '#D4B483',
+        sandAccent: '#D4B483',
+        sandHover: '#E2C9A5',
         darkBg: '#090A0D',
         panelBg: '#0E1017'
       }

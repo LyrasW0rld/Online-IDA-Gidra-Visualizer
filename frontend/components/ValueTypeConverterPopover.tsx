@@ -168,11 +168,11 @@ export const ValueTypeConverterPopover: React.FC<ValueTypeConverterPopoverProps>
       onClick={onClose}
     >
       <div
-        className="bg-[#11141C] border-2 border-[#FFCC00] rounded-xl max-w-lg w-full shadow-2xl overflow-hidden"
+        className="bg-[#11141C] border-2 border-[#D4B483] rounded-xl max-w-lg w-full shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-[#FFCC00] text-black px-5 py-3 flex items-center justify-between">
+        <div className="bg-[#D4B483] text-[#18181B] px-5 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <Calculator className="w-5 h-5 stroke-[2.5]" />
             <div>
@@ -181,7 +181,7 @@ export const ValueTypeConverterPopover: React.FC<ValueTypeConverterPopoverProps>
                   ? 'Typ- & Wert-Konverter (Live Berechnung)'
                   : 'Type & Value Converter (Live Calculator)'}
               </h3>
-              <p className="text-[11px] font-semibold text-black/80 font-mono">
+              <p className="text-[11px] font-semibold text-[#18181B]/80 font-mono">
                 {lang === 'de' ? `Zeile ${target.lineNumber}` : `Line ${target.lineNumber}`} • Token:{' '}
                 {target.rawToken}
               </p>
@@ -216,7 +216,7 @@ export const ValueTypeConverterPopover: React.FC<ValueTypeConverterPopoverProps>
                 <select
                   value={selectedType}
                   onChange={(e) => setSelectedType(e.target.value)}
-                  className="flex-1 bg-[#090B10] border border-zinc-700 focus:border-[#FFCC00] rounded px-3 py-1.5 text-xs font-mono text-white focus:outline-none"
+                  className="flex-1 bg-[#090B10] border border-zinc-700 focus:border-[#D4B483] rounded px-3 py-1.5 text-xs font-mono text-white focus:outline-none"
                 >
                   {AVAILABLE_C_TYPES.map((t) => (
                     <option key={t} value={t} className="bg-[#11141C] text-white">
@@ -230,7 +230,7 @@ export const ValueTypeConverterPopover: React.FC<ValueTypeConverterPopoverProps>
                     onApplyVariableTypeChange(target.variableName!, selectedType);
                     onClose();
                   }}
-                  className="px-3 py-1.5 rounded bg-[#FFCC00] text-black font-mono font-bold text-xs uppercase hover:bg-[#FFD633] transition-colors"
+                  className="px-3 py-1.5 rounded bg-[#D4B483] text-[#18181B] font-mono font-bold text-xs uppercase hover:bg-[#E2C9A5] transition-colors"
                 >
                   {lang === 'de' ? 'Typ Übernehmen' : 'Apply Type'}
                 </button>
@@ -249,7 +249,7 @@ export const ValueTypeConverterPopover: React.FC<ValueTypeConverterPopoverProps>
               type="text"
               value={customInput}
               onChange={(e) => setCustomInput(e.target.value)}
-              className="w-full bg-[#090B10] border border-zinc-700 focus:border-[#FFCC00] rounded px-3 py-1.5 text-xs font-mono text-emerald-400 font-bold focus:outline-none"
+              className="w-full bg-[#090B10] border border-zinc-700 focus:border-[#D4B483] rounded px-3 py-1.5 text-xs font-mono text-emerald-400 font-bold focus:outline-none"
             />
           </div>
 
@@ -271,24 +271,24 @@ export const ValueTypeConverterPopover: React.FC<ValueTypeConverterPopoverProps>
                     onApplyLiteralConversion(target.lineNumber, target.rawToken, item.value);
                     onClose();
                   }}
-                  className="w-full text-left p-2.5 rounded-lg bg-[#0D1017] hover:bg-[#FFCC00] group border border-zinc-800 hover:border-[#FFCC00] transition-colors flex items-center justify-between gap-3"
+                  className="w-full text-left p-2.5 rounded-lg bg-[#0D1017] hover:bg-[#D4B483] group border border-zinc-800 hover:border-[#D4B483] transition-colors flex items-center justify-between gap-3"
                 >
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-sky-300 group-hover:bg-black group-hover:text-black font-bold">
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-800 text-sky-300 group-hover:bg-[#18181B] group-hover:text-[#D4B483] font-bold">
                         {item.typeBadge}
                       </span>
-                      <span className="text-xs font-semibold text-zinc-300 group-hover:text-black">
+                      <span className="text-xs font-semibold text-zinc-300 group-hover:text-[#18181B]">
                         {item.label}
                       </span>
                     </div>
                     {item.description && (
-                      <div className="text-[11px] font-mono text-zinc-400 group-hover:text-black/80 mt-0.5 truncate">
+                      <div className="text-[11px] font-mono text-zinc-400 group-hover:text-[#18181B]/80 mt-0.5 truncate">
                         {item.description}
                       </div>
                     )}
                   </div>
-                  <div className="font-mono text-xs font-bold text-emerald-400 group-hover:text-black bg-black/50 group-hover:bg-black/10 px-2.5 py-1 rounded shrink-0">
+                  <div className="font-mono text-xs font-bold text-emerald-400 group-hover:text-[#18181B] bg-black/50 group-hover:bg-black/10 px-2.5 py-1 rounded shrink-0">
                     {item.value}
                   </div>
                 </button>

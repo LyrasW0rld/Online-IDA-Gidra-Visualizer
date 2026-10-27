@@ -117,10 +117,10 @@ export const SeoDirectoryModal: React.FC<SeoDirectoryModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[#11141C] border-2 border-[#FFCC00] rounded-xl max-w-4xl w-full max-h-[88vh] flex flex-col shadow-2xl overflow-hidden"
+        className="bg-[#11141C] border-2 border-[#D4B483] rounded-xl max-w-4xl w-full max-h-[88vh] flex flex-col shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="bg-[#FFCC00] text-black px-6 py-4 flex items-center justify-between">
+        <div className="bg-[#D4B483] text-[#18181B] px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Sparkles className="w-6 h-6 stroke-[2.5]" />
             <div>
@@ -129,7 +129,7 @@ export const SeoDirectoryModal: React.FC<SeoDirectoryModalProps> = ({
                   ? 'SEO Themen-Unterseiten & Reverse Engineering Hub'
                   : 'SEO Topic Subpages & Reverse Engineering Hub'}
               </h2>
-              <p className="text-xs font-bold text-black/80">
+              <p className="text-xs font-bold text-[#18181B]/80">
                 {lang === 'de'
                   ? 'Indexierbare Keyword-Unterseiten für Google, Bing & KI-Suchmaschinen (#seo=...)'
                   : 'Indexable high-keyword subpages for Google, Bing & AI Search Engines (#seo=...)'}
@@ -160,8 +160,8 @@ export const SeoDirectoryModal: React.FC<SeoDirectoryModalProps> = ({
                   onClick={() => handleSelectSubpage(page.slug)}
                   className={`w-full text-left p-3 rounded-lg border transition-all ${
                     isSelected
-                      ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
-                      : 'bg-[#141822] text-zinc-200 border-zinc-800 hover:border-[#FFCC00]/60'
+                      ? 'bg-[#D4B483] text-[#18181B] font-bold border-[#D4B483]'
+                      : 'bg-[#141822] text-zinc-200 border-zinc-800 hover:border-[#D4B483]/60'
                   }`}
                 >
                   <div className="text-xs font-mono opacity-80 mb-1">
@@ -178,7 +178,7 @@ export const SeoDirectoryModal: React.FC<SeoDirectoryModalProps> = ({
           {/* Active Subpage Content & High-Ranking Keywords */}
           <div className="md:col-span-7 p-6 overflow-y-auto space-y-5 bg-[#11141C]">
             <div className="space-y-2">
-              <span className="inline-block bg-[#FFCC00] text-black font-mono font-bold text-xs px-2.5 py-0.5 rounded">
+              <span className="inline-block bg-[#D4B483] text-[#18181B] font-mono font-bold text-xs px-2.5 py-0.5 rounded">
                 URL: {window.location.origin + window.location.pathname}#seo={activeArticle.slug}
               </span>
               <h3 className="text-lg font-extrabold text-white leading-snug">
@@ -213,7 +213,7 @@ export const SeoDirectoryModal: React.FC<SeoDirectoryModalProps> = ({
                   onLoadPresetDatabase(activeArticle.actionMode);
                   onClose();
                 }}
-                className="px-4 py-2 rounded bg-[#FFCC00] text-black font-extrabold text-xs uppercase tracking-wider hover:bg-[#FFD633] transition-colors inline-flex items-center gap-2"
+                className="px-4 py-2 rounded bg-[#D4B483] text-[#18181B] font-extrabold text-xs uppercase tracking-wider hover:bg-[#E2C9A5] transition-colors inline-flex items-center gap-2"
               >
                 <Code2 className="w-4 h-4" />
                 {activeArticle.actionMode === 'gar'

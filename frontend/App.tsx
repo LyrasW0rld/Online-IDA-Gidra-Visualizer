@@ -701,8 +701,8 @@ export function App() {
               : `❌ Remote URL blocked by browser CORS policy`,
           details:
             lang === 'de'
-              ? `URL: ${cleanUrl} (${errMsg}). Tipp: Nutze für GitHub "raw.githubusercontent.com" oder lade die .c / .gar / .i64 Datei über den gelben Button direkt von deiner Festplatte!`
-              : `URL: ${cleanUrl} (${errMsg}). Tip: For GitHub use "raw.githubusercontent.com" or load the .c / .gar / .i64 file directly from disk via the yellow Load button!`,
+              ? `URL: ${cleanUrl} (${errMsg}). Tipp: Nutze für GitHub "raw.githubusercontent.com" oder lade die .c / .gar / .i64 Datei über den Load-Button direkt von deiner Festplatte!`
+              : `URL: ${cleanUrl} (${errMsg}). Tip: For GitHub use "raw.githubusercontent.com" or load the .c / .gar / .i64 file directly from disk via the Load button!`,
         });
       }
     },
@@ -1247,7 +1247,7 @@ export function App() {
           compactMethodView ? 'pl-6 border-l-2 border-zinc-800' : ''
         } ${
           isSelected
-            ? 'bg-[#FFCC00] text-black'
+            ? 'bg-[#D4B483] text-[#18181B]'
             : 'hover:bg-zinc-800/60 text-zinc-100'
         }`}
       >
@@ -1256,7 +1256,7 @@ export function App() {
             <span
               className={`font-mono text-[11px] px-1.5 py-0.2 rounded font-semibold shrink-0 ${
                 isSelected
-                  ? 'bg-black text-[#4ADE80]'
+                  ? 'bg-[#18181B] text-[#D4B483]'
                   : 'bg-zinc-900 text-[#38BDF8] border border-zinc-700'
               }`}
             >
@@ -1266,7 +1266,7 @@ export function App() {
               <span
                 className={`text-[10px] font-mono px-1.5 py-0.2 rounded font-bold truncate ${
                   isSelected
-                    ? 'bg-black/20 text-black'
+                    ? 'bg-[#18181B]/20 text-[#18181B]'
                     : 'bg-sky-500/20 text-sky-300 border border-sky-500/30'
                 }`}
               >
@@ -1277,7 +1277,7 @@ export function App() {
               <span
                 className={`text-[10px] font-mono px-1.5 py-0.2 rounded font-bold ${
                   isSelected
-                    ? 'bg-black/20 text-black'
+                    ? 'bg-[#18181B]/20 text-[#18181B]'
                     : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
                 }`}
               >
@@ -1287,7 +1287,7 @@ export function App() {
           </div>
           <span
             className={`text-[11px] font-mono shrink-0 ${
-              isSelected ? 'text-black/80 font-semibold' : 'text-zinc-400'
+              isSelected ? 'text-[#18181B]/80 font-semibold' : 'text-zinc-400'
             }`}
           >
             {fn.cfgNodes.length} {lang === 'de' ? 'Äste' : 'Br'} • {fn.sizeBytes}B
@@ -1297,7 +1297,7 @@ export function App() {
         <div
           className={`font-mono text-xs truncate ${
             isSelected
-              ? 'text-black font-bold'
+              ? 'text-[#18181B] font-bold'
               : fn.isRenamed
               ? 'text-[#F5E6CC] font-medium'
               : 'text-zinc-300 font-normal'
@@ -1310,7 +1310,7 @@ export function App() {
         {hasMeaningfulComment(fn) && fn.comments && (
           <div
             className={`text-[11px] font-mono whitespace-pre-wrap break-words line-clamp-2 flex items-start gap-1 leading-snug ${
-              isSelected ? 'text-black/90 font-medium' : 'text-emerald-400/90'
+              isSelected ? 'text-[#18181B]/90 font-medium' : 'text-emerald-400/90'
             }`}
             title={fn.comments}
           >
@@ -1332,7 +1332,7 @@ export function App() {
           <button
             type="button"
             onClick={() => setLeftCollapsed(false)}
-            className="p-1.5 rounded bg-[#FFCC00] text-black hover:bg-[#FFD633] transition-colors"
+            className="p-1.5 rounded bg-[#D4B483] text-[#18181B] hover:bg-[#E2C9A5] transition-colors"
           >
             <PanelLeftOpen className="w-4 h-4" />
           </button>
@@ -1362,7 +1362,7 @@ export function App() {
               <button
                 type="button"
                 onClick={() => setIsGoToModalOpen(true)}
-                className="px-2 py-0.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00]/60 hover:bg-[#FFCC00] hover:text-black text-[11px] font-mono font-bold transition-colors"
+                className="px-2 py-0.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#D4B483]/60 hover:bg-[#D4B483] hover:text-[#18181B] text-[11px] font-mono font-bold transition-colors"
               >
                 [G]
               </button>
@@ -1370,7 +1370,7 @@ export function App() {
                 type="button"
                 onClick={() => setLeftPanelWidth((w) => Math.max(180, w - 40))}
                 disabled={leftPanelWidth <= 180}
-                className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black disabled:opacity-40 transition-colors"
+                className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#D4B483] hover:text-[#18181B] disabled:opacity-40 transition-colors"
                 title={lang === 'de' ? 'Panel schmaler' : 'Narrow panel'}
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
@@ -1379,7 +1379,7 @@ export function App() {
                 type="button"
                 onClick={() => setLeftPanelWidth((w) => Math.min(800, w + 40))}
                 disabled={leftPanelWidth >= 800}
-                className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black disabled:opacity-40 transition-colors"
+                className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#D4B483] hover:text-[#18181B] disabled:opacity-40 transition-colors"
                 title={lang === 'de' ? 'Panel breiter' : 'Widen panel'}
               >
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -1387,7 +1387,7 @@ export function App() {
               <button
                 type="button"
                 onClick={() => setLeftCollapsed(true)}
-                className="p-1 rounded bg-zinc-900 text-zinc-300 border border-zinc-700 hover:bg-[#FFCC00] hover:text-black transition-colors ml-0.5"
+                className="p-1 rounded bg-zinc-900 text-zinc-300 border border-zinc-700 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors ml-0.5"
               >
                 <PanelLeftClose className="w-3.5 h-3.5" />
               </button>
@@ -1400,7 +1400,7 @@ export function App() {
               onClick={() => setSymbolTreeMode('TREE_SPLIT')}
               className={`text-[10px] font-mono py-1 px-1 rounded font-semibold transition-colors flex items-center justify-center gap-1 ${
                 symbolTreeMode === 'TREE_SPLIT'
-                  ? 'bg-[#FFCC00] text-black font-bold'
+                  ? 'bg-[#D4B483] text-[#18181B] font-bold'
                   : 'text-zinc-300 hover:text-white'
               }`}
             >
@@ -1413,7 +1413,7 @@ export function App() {
               onClick={() => setSymbolTreeMode('CLASSES_ONLY')}
               className={`text-[10px] font-mono py-1 px-1 rounded font-semibold transition-colors flex items-center justify-center gap-1 ${
                 symbolTreeMode === 'CLASSES_ONLY'
-                  ? 'bg-[#FFCC00] text-black font-bold'
+                  ? 'bg-[#D4B483] text-[#18181B] font-bold'
                   : 'text-sky-300 hover:text-white'
               }`}
             >
@@ -1426,7 +1426,7 @@ export function App() {
               onClick={() => setSymbolTreeMode('FUNCTIONS_ONLY')}
               className={`text-[10px] font-mono py-1 px-1 rounded font-semibold transition-colors flex items-center justify-center gap-1 ${
                 symbolTreeMode === 'FUNCTIONS_ONLY'
-                  ? 'bg-[#FFCC00] text-black font-bold'
+                  ? 'bg-[#D4B483] text-[#18181B] font-bold'
                   : 'text-zinc-300 hover:text-white'
               }`}
             >
@@ -1439,7 +1439,7 @@ export function App() {
               onClick={() => setSymbolTreeMode('FLAT_LIST')}
               className={`text-[10px] font-mono py-1 px-1 rounded font-semibold transition-colors flex items-center justify-center gap-1 ${
                 symbolTreeMode === 'FLAT_LIST'
-                  ? 'bg-[#FFCC00] text-black font-bold'
+                  ? 'bg-[#D4B483] text-[#18181B] font-bold'
                   : 'text-zinc-400 hover:text-white'
               }`}
             >
@@ -1454,7 +1454,7 @@ export function App() {
               onClick={() => setShowFiltersExpanded((v) => !v)}
               className={`flex-1 flex items-center justify-between px-2 py-1 rounded text-[11px] font-mono border transition-colors ${
                 filterMode !== 'ALL'
-                  ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
+                  ? 'bg-[#D4B483] text-[#18181B] font-bold border-[#D4B483]'
                   : 'bg-[#090B10] text-zinc-300 border-zinc-800 hover:border-zinc-700'
               }`}
               title={lang === 'de' ? 'Kategorie-Filter auf-/zuklappen' : 'Toggle Category Filters'}
@@ -1517,7 +1517,7 @@ export function App() {
                 }}
                 className={`text-[10px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
                   filterMode === 'ALL'
-                    ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
+                    ? 'bg-[#D4B483] text-[#18181B] font-bold border-[#D4B483]'
                     : 'bg-zinc-900 text-zinc-200 border-zinc-800 hover:border-zinc-600'
                 }`}
               >
@@ -1533,7 +1533,7 @@ export function App() {
                 }}
                 className={`text-[10px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
                   filterMode === 'COMMENTED'
-                    ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
+                    ? 'bg-[#D4B483] text-[#18181B] font-bold border-[#D4B483]'
                     : 'bg-zinc-900 text-emerald-300 border-zinc-800 hover:border-emerald-500/50'
                 }`}
               >
@@ -1550,7 +1550,7 @@ export function App() {
                 }}
                 className={`text-[10px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
                   filterMode === 'LARGEST'
-                    ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
+                    ? 'bg-[#D4B483] text-[#18181B] font-bold border-[#D4B483]'
                     : 'bg-zinc-900 text-sky-300 border-zinc-800 hover:border-sky-500/50'
                 }`}
               >
@@ -1567,7 +1567,7 @@ export function App() {
                 }}
                 className={`text-[10px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
                   filterMode === 'ASSIGNED'
-                    ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
+                    ? 'bg-[#D4B483] text-[#18181B] font-bold border-[#D4B483]'
                     : 'bg-zinc-900 text-sky-300 border-zinc-800 hover:border-sky-500/50'
                 }`}
               >
@@ -1583,7 +1583,7 @@ export function App() {
                 }}
                 className={`text-[10px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
                   filterMode === 'ENTRY_CORE'
-                    ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
+                    ? 'bg-[#D4B483] text-[#18181B] font-bold border-[#D4B483]'
                     : 'bg-zinc-900 text-purple-300 border-zinc-800 hover:border-purple-500/50'
                 }`}
               >
@@ -1599,7 +1599,7 @@ export function App() {
                 }}
                 className={`text-[10px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
                   filterMode === 'SUB'
-                    ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
+                    ? 'bg-[#D4B483] text-[#18181B] font-bold border-[#D4B483]'
                     : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:border-zinc-600'
                 }`}
               >
@@ -1630,12 +1630,12 @@ export function App() {
                   ? `Suche Funktion, Kommentar, Adresse...`
                   : `Search Function, Comment, Address...`
               }
-              className="w-full bg-[#090B10] border border-zinc-700 focus:border-[#FFCC00] rounded pl-8 pr-12 py-1 text-xs text-white placeholder-zinc-400 focus:outline-none font-mono"
+              className="w-full bg-[#090B10] border border-zinc-700 focus:border-[#D4B483] rounded pl-8 pr-12 py-1 text-xs text-white placeholder-zinc-400 focus:outline-none font-mono"
             />
             {searchQuery.trim() && (
               <button
                 type="submit"
-                className="absolute right-1 px-1.5 py-0.5 rounded bg-[#FFCC00] text-black font-mono font-bold text-[9px] uppercase hover:bg-[#FFD633]"
+                className="absolute right-1 px-1.5 py-0.5 rounded bg-[#D4B483] text-[#18181B] font-mono font-bold text-[9px] uppercase hover:bg-[#E2C9A5]"
               >
                 Go
               </button>
@@ -1791,7 +1791,7 @@ export function App() {
           <button
             type="button"
             onClick={() => setCenterCollapsed(false)}
-            className="p-1.5 rounded bg-[#FFCC00] text-black hover:bg-[#FFD633] transition-colors"
+            className="p-1.5 rounded bg-[#D4B483] text-[#18181B] hover:bg-[#E2C9A5] transition-colors"
           >
             <Code2 className="w-4 h-4" />
           </button>
@@ -1858,7 +1858,7 @@ export function App() {
           <button
             type="button"
             onClick={() => setRightCollapsed(false)}
-            className="p-1.5 rounded bg-[#FFCC00] text-black hover:bg-[#FFD633] transition-colors"
+            className="p-1.5 rounded bg-[#D4B483] text-[#18181B] hover:bg-[#E2C9A5] transition-colors"
           >
             <PanelRightOpen className="w-4 h-4" />
           </button>
@@ -1907,12 +1907,12 @@ export function App() {
   return (
     <div className="flex flex-col h-screen w-screen bg-[#090A0D] text-[#F8FAFC] overflow-hidden">
       {headerCollapsed ? (
-        <div className="bg-[#0E1017] border-b-2 border-[#FFCC00] px-4 py-1.5 flex items-center justify-between gap-3 text-xs font-mono shrink-0 z-20 shadow-md">
+        <div className="bg-[#0E1017] border-b-2 border-[#D4B483] px-4 py-1.5 flex items-center justify-between gap-3 text-xs font-mono shrink-0 z-20 shadow-md">
           <div className="flex items-center gap-2.5 min-w-0 flex-wrap">
             <button
               type="button"
               onClick={() => setHeaderCollapsed(false)}
-              className="p-1 rounded bg-zinc-900 text-zinc-300 border border-zinc-700 hover:bg-[#FFCC00] hover:text-black transition-colors"
+              className="p-1 rounded bg-zinc-900 text-zinc-300 border border-zinc-700 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
               title={lang === 'de' ? 'Oberes Menü ausklappen [M]' : 'Expand upper menu [M]'}
             >
               <PanelTopOpen className="w-3.5 h-3.5" />
@@ -1954,7 +1954,7 @@ export function App() {
               <button
                 type="button"
                 onClick={() => setIsGoToModalOpen(true)}
-                className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00] hover:bg-[#FFCC00] hover:text-black transition-colors"
+                className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#F5E6CC] border border-[#D4B483] hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
                 title={lang === 'de' ? 'Gehe zu Adresse / Funktion [G]' : 'Go to address / function [G]'}
               >
                 <Compass className="w-3.5 h-3.5" />
@@ -1965,7 +1965,7 @@ export function App() {
             <button
               type="button"
               onClick={() => setIsHotkeysModalOpen(true)}
-              className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00]/70 hover:bg-[#FFCC00] hover:text-black transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#F5E6CC] border border-[#D4B483]/70 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
               title="Keyboard Shortcuts & Hotkeys [?]"
             >
               <Keyboard className="w-3.5 h-3.5" />
@@ -1975,19 +1975,19 @@ export function App() {
             <button
               type="button"
               onClick={() => setFoxSupportModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00] hover:bg-[#FFCC00] hover:text-black transition-all group"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-zinc-900 text-[#F5E6CC] border border-[#D4B483] hover:bg-[#D4B483] hover:text-[#18181B] transition-all group"
               title="Support Wild Foxes — Fuchshilfe Berlin"
               aria-label="Support Wild Foxes — Fuchshilfe Berlin"
             >
               <WalkingFoxLogo className="w-7 h-5 shrink-0 transition-transform group-hover:scale-105" />
             </button>
 
-            <div className="inline-flex rounded border border-[#FFCC00] overflow-hidden bg-zinc-900">
+            <div className="inline-flex rounded border border-[#D4B483] overflow-hidden bg-zinc-900">
               <button
                 type="button"
                 onClick={() => setLang('en')}
                 className={`px-2 py-0.5 text-xs font-bold uppercase transition-colors ${
-                  lang === 'en' ? 'bg-[#FFCC00] text-black' : 'text-zinc-300 hover:text-white'
+                  lang === 'en' ? 'bg-[#D4B483] text-[#18181B]' : 'text-zinc-300 hover:text-white'
                 }`}
               >
                 EN
@@ -1996,7 +1996,7 @@ export function App() {
                 type="button"
                 onClick={() => setLang('de')}
                 className={`px-2 py-0.5 text-xs font-bold uppercase transition-colors ${
-                  lang === 'de' ? 'bg-[#FFCC00] text-black' : 'text-zinc-300 hover:text-white'
+                  lang === 'de' ? 'bg-[#D4B483] text-[#18181B]' : 'text-zinc-300 hover:text-white'
                 }`}
               >
                 DE
@@ -2005,7 +2005,7 @@ export function App() {
           </div>
         </div>
       ) : (
-        <header className="border-b-2 border-[#FFCC00] bg-[#0E1017] px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 shrink-0 z-20">
+        <header className="border-b-2 border-[#D4B483] bg-[#0E1017] px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 shrink-0 z-20">
           <div className="flex items-center gap-3">
             <div>
               <div className="flex items-center gap-2.5 flex-wrap">
@@ -2017,7 +2017,7 @@ export function App() {
                     Lyras Pseudocode Reader
                   </span>
                 </h1>
-                <span className="bg-[#FFCC00] text-black font-bold text-xs px-2.5 py-0.5 rounded uppercase tracking-wider">
+                <span className="bg-[#D4B483] text-[#18181B] font-bold text-xs px-2.5 py-0.5 rounded uppercase tracking-wider">
                   {database
                     ? `${categoryCounts.classCount} CLASSES • ${database.functions.length.toLocaleString()} ${
                         lang === 'de' ? 'FUNKTIONEN' : 'FUNCTIONS'
@@ -2076,7 +2076,7 @@ export function App() {
                 <button
                   type="button"
                   onClick={() => setIsGoToModalOpen(true)}
-                  className="inline-flex items-center gap-1.5 text-xs font-mono font-bold px-2.5 py-1.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00] hover:bg-[#FFCC00] hover:text-black transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-mono font-bold px-2.5 py-1.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#D4B483] hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
                 >
                   <Compass className="w-3.5 h-3.5" />
                   <span>{lang === 'de' ? 'Adresse [G]' : 'Go to [G]'}</span>
@@ -2096,7 +2096,7 @@ export function App() {
                     }}
                     className={`px-2 py-1 rounded text-[11px] font-mono font-semibold transition-colors ${
                       layoutPreset === 'STANDARD'
-                        ? 'bg-[#FFCC00] text-black font-bold'
+                        ? 'bg-[#D4B483] text-[#18181B] font-bold'
                         : 'text-zinc-300 hover:text-white'
                     }`}
                   >
@@ -2111,7 +2111,7 @@ export function App() {
                     }}
                     className={`px-2 py-1 rounded text-[11px] font-mono font-semibold transition-colors ${
                       layoutPreset === 'IDA_PRO'
-                        ? 'bg-[#FFCC00] text-black font-bold'
+                        ? 'bg-[#D4B483] text-[#18181B] font-bold'
                         : 'text-zinc-300 hover:text-white'
                     }`}
                   >
@@ -2126,7 +2126,7 @@ export function App() {
                     }}
                     className={`px-2 py-1 rounded text-[11px] font-mono font-semibold transition-colors ${
                       layoutPreset === 'GHIDRA'
-                        ? 'bg-[#FFCC00] text-black font-bold'
+                        ? 'bg-[#D4B483] text-[#18181B] font-bold'
                         : 'text-zinc-300 hover:text-white'
                     }`}
                   >
@@ -2136,12 +2136,12 @@ export function App() {
               </>
             )}
 
-            <div className="inline-flex rounded border border-[#FFCC00] overflow-hidden bg-zinc-900">
+            <div className="inline-flex rounded border border-[#D4B483] overflow-hidden bg-zinc-900">
               <button
                 type="button"
                 onClick={() => setLang('en')}
                 className={`px-2.5 py-1 text-xs font-bold uppercase transition-colors ${
-                  lang === 'en' ? 'bg-[#FFCC00] text-black' : 'text-zinc-300 hover:text-white'
+                  lang === 'en' ? 'bg-[#D4B483] text-[#18181B]' : 'text-zinc-300 hover:text-white'
                 }`}
               >
                 EN
@@ -2150,7 +2150,7 @@ export function App() {
                 type="button"
                 onClick={() => setLang('de')}
                 className={`px-2.5 py-1 text-xs font-bold uppercase transition-colors ${
-                  lang === 'de' ? 'bg-[#FFCC00] text-black' : 'text-zinc-300 hover:text-white'
+                  lang === 'de' ? 'bg-[#D4B483] text-[#18181B]' : 'text-zinc-300 hover:text-white'
                 }`}
               >
                 DE
@@ -2162,8 +2162,8 @@ export function App() {
               onClick={() => setShowUrlBar((v) => !v)}
               className={`inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded border transition-colors ${
                 showUrlBar
-                  ? 'bg-zinc-800 text-[#F5E6CC] border-[#FFCC00]'
-                  : 'bg-zinc-900 text-zinc-200 border-zinc-700 hover:border-[#FFCC00]'
+                  ? 'bg-zinc-800 text-[#F5E6CC] border-[#D4B483]'
+                  : 'bg-zinc-900 text-zinc-200 border-zinc-700 hover:border-[#D4B483]'
               }`}
             >
               <Link2 className="w-3.5 h-3.5 text-sky-400" />
@@ -2186,7 +2186,7 @@ export function App() {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded bg-[#FFCC00] text-black hover:bg-[#FFD633] transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded bg-[#D4B483] text-[#18181B] hover:bg-[#E2C9A5] transition-colors shadow-sm"
             >
               <Upload className="w-3.5 h-3.5 stroke-[2.5]" />
               {lang === 'de' ? '.i64 / .gar / .c Laden' : 'Load .i64 / .gar / .c'}
@@ -2199,7 +2199,7 @@ export function App() {
                   <button
                     type="button"
                     onClick={handleExportPatchedI64}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded bg-amber-400 text-black hover:bg-amber-300 transition-colors shadow-sm"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded bg-[#D4B483] text-[#18181B] hover:bg-[#E2C9A5] transition-colors shadow-sm"
                     title={
                       lang === 'de'
                         ? 'Exportiere aktualisierte IDA Pro (.i64) Datei inkl. aller geänderten Funktions- und Variablennamen'
@@ -2227,7 +2227,7 @@ export function App() {
                 <button
                   type="button"
                   onClick={handleExportCurrentJson}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-800 text-[#F5E6CC] border border-[#FFCC00]/60 hover:bg-[#FFCC00] hover:text-black transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-800 text-[#F5E6CC] border border-[#D4B483]/60 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
                 >
                   <Download className="w-3.5 h-3.5" />
                   JSON
@@ -2246,7 +2246,7 @@ export function App() {
             <button
               type="button"
               onClick={() => setIsPythonModalOpen(true)}
-              className="hidden md:inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-900 text-white border border-zinc-700 hover:border-[#FFCC00] hover:text-[#F5E6CC] transition-colors"
+              className="hidden md:inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-900 text-white border border-zinc-700 hover:border-[#D4B483] hover:text-[#F5E6CC] transition-colors"
             >
               <Terminal className="w-3.5 h-3.5 text-sky-400" />
               .bat / GitHub Info
@@ -2255,7 +2255,7 @@ export function App() {
             <button
               type="button"
               onClick={() => setIsHotkeysModalOpen(true)}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00]/70 hover:bg-[#FFCC00] hover:text-black transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#D4B483]/70 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors shadow-sm"
               title="Keyboard Shortcuts & Hotkeys Reference [?]"
             >
               <Keyboard className="w-3.5 h-3.5 text-sky-400" />
@@ -2265,7 +2265,7 @@ export function App() {
             <button
               type="button"
               onClick={() => setFoxSupportModalOpen(true)}
-              className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00] hover:bg-[#FFD633] hover:text-black transition-all shadow-sm group"
+              className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#D4B483] hover:bg-[#E2C9A5] hover:text-[#18181B] transition-all shadow-sm group"
               title="Support Wild Foxes — Fuchshilfe Berlin"
               aria-label="Support Wild Foxes — Fuchshilfe Berlin"
             >
@@ -2280,7 +2280,7 @@ export function App() {
               type="button"
               onClick={() => setHeaderCollapsed(true)}
               title={lang === 'de' ? 'Oberes Menü einklappen [M]' : 'Collapse upper menu [M]'}
-              className="p-1 rounded bg-zinc-900 text-zinc-300 border border-zinc-700 hover:bg-[#FFCC00] hover:text-black transition-colors ml-0.5"
+              className="p-1 rounded bg-zinc-900 text-zinc-300 border border-zinc-700 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors ml-0.5"
             >
               <PanelTopClose className="w-3.5 h-3.5" />
             </button>
@@ -2297,7 +2297,7 @@ export function App() {
               onClick={() => handleSwitchUrlParamMode('i64')}
               className={`px-2 py-1 rounded font-mono text-xs font-bold transition-colors ${
                 urlParamMode === 'i64'
-                  ? 'bg-[#FFCC00] text-black'
+                  ? 'bg-[#D4B483] text-[#18181B]'
                   : 'text-zinc-400 hover:text-white'
               }`}
             >
@@ -2308,7 +2308,7 @@ export function App() {
               onClick={() => handleSwitchUrlParamMode('gar')}
               className={`px-2 py-1 rounded font-mono text-xs font-bold transition-colors ${
                 urlParamMode === 'gar'
-                  ? 'bg-[#FFCC00] text-black'
+                  ? 'bg-[#D4B483] text-[#18181B]'
                   : 'text-zinc-400 hover:text-white'
               }`}
             >
@@ -2319,7 +2319,7 @@ export function App() {
               onClick={() => handleSwitchUrlParamMode('c')}
               className={`px-2 py-1 rounded font-mono text-xs font-bold transition-colors ${
                 urlParamMode === 'c'
-                  ? 'bg-[#FFCC00] text-black'
+                  ? 'bg-[#D4B483] text-[#18181B]'
                   : 'text-zinc-400 hover:text-white'
               }`}
             >
@@ -2347,12 +2347,12 @@ export function App() {
                 ? 'Füge hier deine Google Drive oder GitHub IDA .i64 / .json URL ein (?i64=)...'
                 : 'Paste your Google Drive or GitHub IDA .i64 / .json URL here (?i64=)...'
             }
-            className="flex-1 min-w-[200px] bg-[#090B10] border border-zinc-700 focus:border-[#FFCC00] rounded px-3 py-1.5 text-xs font-mono text-white focus:outline-none"
+            className="flex-1 min-w-[200px] bg-[#090B10] border border-zinc-700 focus:border-[#D4B483] rounded px-3 py-1.5 text-xs font-mono text-white focus:outline-none"
           />
           <button
             type="button"
             onClick={() => analyzeRemoteUrl(i64UrlParam, urlParamMode)}
-            className="inline-flex items-center gap-1.5 font-bold uppercase tracking-wider px-3 py-1.5 rounded bg-[#FFCC00] text-black hover:bg-[#FFD633] transition-colors"
+            className="inline-flex items-center gap-1.5 font-bold uppercase tracking-wider px-3 py-1.5 rounded bg-[#D4B483] text-[#18181B] hover:bg-[#E2C9A5] transition-colors"
           >
             <Play className="w-3 h-3 fill-current" />
             {lang === 'de'
@@ -2367,7 +2367,7 @@ export function App() {
               setI64UrlParam(GOOGLE_DRIVE_VIEW_URL);
               analyzeRemoteUrl(GOOGLE_DRIVE_VIEW_URL, 'i64');
             }}
-            className="inline-flex items-center gap-1 font-medium px-2 py-1.5 rounded bg-zinc-800 text-sky-300 border border-zinc-700 hover:border-[#FFCC00] transition-colors"
+            className="inline-flex items-center gap-1 font-medium px-2 py-1.5 rounded bg-zinc-800 text-sky-300 border border-zinc-700 hover:border-[#D4B483] transition-colors"
           >
             <FileArchive className="w-3.5 h-3.5 text-sky-400" />
             Drive .i64
@@ -2404,7 +2404,7 @@ export function App() {
             <button
               type="button"
               onClick={handleCopyShareableUrl}
-              className="inline-flex items-center gap-1 font-medium px-2.5 py-1.5 rounded bg-zinc-900 text-zinc-200 border border-zinc-700 hover:border-[#FFCC00] transition-colors"
+              className="inline-flex items-center gap-1 font-medium px-2.5 py-1.5 rounded bg-zinc-900 text-zinc-200 border border-zinc-700 hover:border-[#D4B483] transition-colors"
             >
               {copiedShareUrl ? (
                 <Check className="w-3.5 h-3.5 text-emerald-400" />
@@ -2454,7 +2454,7 @@ export function App() {
           {feedback.type === 'loading' && typeof feedback.progressPercent === 'number' && (
             <div className="w-full h-1.5 bg-black/60 rounded overflow-hidden">
               <div
-                className="h-full bg-[#FFCC00] transition-all duration-200"
+                className="h-full bg-[#D4B483] transition-all duration-200"
                 style={{ width: `${feedback.progressPercent}%` }}
               />
             </div>
@@ -2464,7 +2464,7 @@ export function App() {
 
       {!database || !activeFunction ? (
         <div className="flex-1 flex flex-col items-center justify-center p-6 bg-[#090A0D] overflow-y-auto">
-          <div className="max-w-3xl w-full bg-[#11141C] border-2 border-[#FFCC00] rounded-xl p-7 shadow-2xl space-y-6">
+          <div className="max-w-3xl w-full bg-[#11141C] border-2 border-[#D4B483] rounded-xl p-7 shadow-2xl space-y-6">
             <div className="flex items-center justify-between gap-3.5 flex-wrap">
               <div className="flex items-center gap-3.5">
                 <WalkingFoxLogo className="w-12 h-8.5 shrink-0" />
@@ -2487,7 +2487,7 @@ export function App() {
               <button
                 type="button"
                 onClick={() => setIsSeoModalOpen(true)}
-                className="px-3 py-1.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#FFCC00]/60 hover:bg-[#FFCC00] hover:text-black text-xs font-mono font-bold inline-flex items-center gap-1.5 transition-colors"
+                className="px-3 py-1.5 rounded bg-zinc-900 text-[#F5E6CC] border border-[#D4B483]/60 hover:bg-[#D4B483] hover:text-[#18181B] text-xs font-mono font-bold inline-flex items-center gap-1.5 transition-colors"
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 {lang === 'de' ? 'SEO Unterseiten' : 'SEO Subpages'}
@@ -2504,7 +2504,7 @@ export function App() {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-[#FFCC00] text-black hover:bg-[#FFD633] transition-colors font-bold text-xs shadow-md text-center"
+                className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-[#D4B483] text-[#18181B] hover:bg-[#E2C9A5] transition-colors font-bold text-xs shadow-md text-center"
               >
                 <Upload className="w-5 h-5 stroke-[2.2]" />
                 <span>
@@ -2521,7 +2521,7 @@ export function App() {
                   setI64UrlParam(GOOGLE_DRIVE_VIEW_URL);
                   analyzeRemoteUrl(GOOGLE_DRIVE_VIEW_URL, 'i64');
                 }}
-                className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-zinc-900 text-white border border-zinc-700 hover:border-[#FFCC00] transition-colors font-semibold text-xs text-center"
+                className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg bg-zinc-900 text-white border border-zinc-700 hover:border-[#D4B483] transition-colors font-semibold text-xs text-center"
               >
                 <Globe className="w-5 h-5 text-sky-400" />
                 <span>IDA .i64 (?i64=)</span>
@@ -2569,7 +2569,7 @@ export function App() {
                       window.location.hash = `seo=${sub.slug}`;
                       setIsSeoModalOpen(true);
                     }}
-                    className="text-left p-2.5 rounded bg-[#0D1017] border border-zinc-800 hover:border-[#FFCC00]/60 transition-colors"
+                    className="text-left p-2.5 rounded bg-[#0D1017] border border-zinc-800 hover:border-[#D4B483]/60 transition-colors"
                   >
                     <div className="text-xs font-bold text-[#F5E6CC] truncate">
                       {lang === 'de' ? sub.titleDe : sub.titleEn}
@@ -2591,24 +2591,24 @@ export function App() {
               {!leftCollapsed && (
                 <div
                   onMouseDown={handleMouseDownLeftSplitter}
-                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#FFCC00]/40 transition-colors ${
-                    isDraggingLeft ? 'bg-[#FFCC00]' : 'bg-transparent'
+                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#D4B483]/40 transition-colors ${
+                    isDraggingLeft ? 'bg-[#D4B483]' : 'bg-transparent'
                   }`}
                   title={lang === 'de' ? 'Seitenleiste mit Maus ziehen' : 'Drag to resize sidebar'}
                 >
-                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#FFCC00] transition-colors" />
+                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#D4B483] transition-colors" />
                 </div>
               )}
               {renderPseudocodePanel(true)}
               {!rightCollapsed && !isCfgMaximized && (
                 <div
                   onMouseDown={handleMouseDownRightSplitter}
-                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#FFCC00]/40 transition-colors ${
-                    isDraggingRight ? 'bg-[#FFCC00]' : 'bg-transparent'
+                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#D4B483]/40 transition-colors ${
+                    isDraggingRight ? 'bg-[#D4B483]' : 'bg-transparent'
                   }`}
                   title={lang === 'de' ? 'Seitenleiste mit Maus ziehen' : 'Drag to resize sidebar'}
                 >
-                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#FFCC00] transition-colors" />
+                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#D4B483] transition-colors" />
                 </div>
               )}
               {renderCfgPanel(false)}
@@ -2621,24 +2621,24 @@ export function App() {
               {!leftCollapsed && (
                 <div
                   onMouseDown={handleMouseDownLeftSplitter}
-                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#FFCC00]/40 transition-colors ${
-                    isDraggingLeft ? 'bg-[#FFCC00]' : 'bg-transparent'
+                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#D4B483]/40 transition-colors ${
+                    isDraggingLeft ? 'bg-[#D4B483]' : 'bg-transparent'
                   }`}
                   title={lang === 'de' ? 'Seitenleiste mit Maus ziehen' : 'Drag to resize sidebar'}
                 >
-                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#FFCC00] transition-colors" />
+                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#D4B483] transition-colors" />
                 </div>
               )}
               {renderCfgPanel(true)}
               {!rightCollapsed && !isCodeMaximized && (
                 <div
                   onMouseDown={handleMouseDownRightSplitter}
-                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#FFCC00]/40 transition-colors ${
-                    isDraggingRight ? 'bg-[#FFCC00]' : 'bg-transparent'
+                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#D4B483]/40 transition-colors ${
+                    isDraggingRight ? 'bg-[#D4B483]' : 'bg-transparent'
                   }`}
                   title={lang === 'de' ? 'Seitenleiste mit Maus ziehen' : 'Drag to resize sidebar'}
                 >
-                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#FFCC00] transition-colors" />
+                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#D4B483] transition-colors" />
                 </div>
               )}
               {renderPseudocodePanel(false)}
@@ -2651,24 +2651,24 @@ export function App() {
               {!leftCollapsed && (
                 <div
                   onMouseDown={handleMouseDownLeftSplitter}
-                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#FFCC00]/40 transition-colors ${
-                    isDraggingLeft ? 'bg-[#FFCC00]' : 'bg-transparent'
+                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#D4B483]/40 transition-colors ${
+                    isDraggingLeft ? 'bg-[#D4B483]' : 'bg-transparent'
                   }`}
                   title={lang === 'de' ? 'Seitenleiste mit Maus ziehen' : 'Drag to resize sidebar'}
                 >
-                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#FFCC00] transition-colors" />
+                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#D4B483] transition-colors" />
                 </div>
               )}
               {renderCfgPanel(false)}
               {!rightCollapsed && (
                 <div
                   onMouseDown={handleMouseDownRightSplitter}
-                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#FFCC00]/40 transition-colors ${
-                    isDraggingRight ? 'bg-[#FFCC00]' : 'bg-transparent'
+                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#D4B483]/40 transition-colors ${
+                    isDraggingRight ? 'bg-[#D4B483]' : 'bg-transparent'
                   }`}
                   title={lang === 'de' ? 'Seitenleiste mit Maus ziehen' : 'Drag to resize sidebar'}
                 >
-                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#FFCC00] transition-colors" />
+                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#D4B483] transition-colors" />
                 </div>
               )}
               {renderPseudocodePanel(true)}
@@ -2684,7 +2684,7 @@ export function App() {
             {lang === 'de'
               ? 'Eindeutige Besucher (1x pro Person):'
               : 'Unique Visitors (1x per person):'}{' '}
-            <strong className="bg-[#FFCC00] text-black px-1.5 py-0.2 rounded font-bold">
+            <strong className="bg-[#D4B483] text-[#18181B] px-1.5 py-0.2 rounded font-bold">
               {visitorInfo.count.toLocaleString()}
             </strong>
           </span>
@@ -2745,7 +2745,7 @@ export function App() {
           onClick={() => setShowGarContentsModal(false)}
         >
           <div
-            className="bg-[#11141C] border-2 border-[#FFCC00] rounded-lg max-w-2xl w-full p-5 space-y-4 shadow-2xl"
+            className="bg-[#11141C] border-2 border-[#D4B483] rounded-lg max-w-2xl w-full p-5 space-y-4 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
@@ -2765,7 +2765,7 @@ export function App() {
               <button
                 type="button"
                 onClick={() => setShowGarContentsModal(false)}
-                className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black"
+                className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#D4B483] hover:text-[#18181B]"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -2784,7 +2784,7 @@ export function App() {
                           ? 'bg-emerald-400 text-black'
                           : entry.entryType === 'data.dat'
                           ? 'bg-sky-400 text-black'
-                          : 'bg-[#FFCC00] text-black'
+                          : 'bg-[#D4B483] text-[#18181B]'
                       }`}
                     >
                       {entry.entryType}
@@ -2829,7 +2829,7 @@ export function App() {
 
       {seoFileModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-[#11141C] border-2 border-[#FFCC00] rounded-lg max-w-2xl w-full p-5 space-y-4 shadow-2xl">
+          <div className="bg-[#11141C] border-2 border-[#D4B483] rounded-lg max-w-2xl w-full p-5 space-y-4 shadow-2xl">
             <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
               <div className="flex items-center gap-2">
                 <Bot className="w-5 h-5 text-sky-400" />
@@ -2842,7 +2842,7 @@ export function App() {
               <button
                 type="button"
                 onClick={() => setSeoFileModal(null)}
-                className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black"
+                className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#D4B483] hover:text-[#18181B]"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -2901,7 +2901,7 @@ Sitemap: ./sitemap.xml`
                 href={seoFileModal === 'robots' ? 'public/bots.txt' : 'public/sitemap.xml'}
                 target="_blank"
                 rel="noreferrer"
-                className="px-3 py-1.5 rounded bg-[#FFCC00] text-black font-bold text-xs inline-flex items-center gap-1.5"
+                className="px-3 py-1.5 rounded bg-[#D4B483] text-[#18181B] font-bold text-xs inline-flex items-center gap-1.5"
               >
                 {seoFileModal === 'robots' ? 'Open public/bots.txt' : 'Open public/sitemap.xml'}
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -2927,7 +2927,7 @@ Sitemap: ./sitemap.xml`
       {/* Bottom-right Collapsible Fox Support Info Window (5% larger, warm beige font, no yellow text) */}
       <div className="fixed bottom-3 right-3 z-40 max-w-[441px] w-[94vw] sm:w-[370px] shadow-2xl transition-all duration-200">
         {!foxWidgetCollapsed ? (
-          <div className="bg-[#0C0C0E]/95 backdrop-blur border-2 border-[#FFCC00] p-[17px] rounded-lg space-y-3.5 text-zinc-100 shadow-2xl">
+          <div className="bg-[#0C0C0E]/95 backdrop-blur border-2 border-[#D4B483] p-[17px] rounded-lg space-y-3.5 text-zinc-100 shadow-2xl">
             <div className="flex items-center justify-between border-b border-zinc-800 pb-2.5">
               <div
                 className="flex items-center gap-2.5 cursor-pointer hover:opacity-85"
@@ -2967,7 +2967,7 @@ Sitemap: ./sitemap.xml`
                 <button
                   type="button"
                   onClick={() => setFoxSupportModalOpen(true)}
-                  className="flex-1 py-2 px-3 bg-[#FFCC00] hover:bg-[#FFD633] text-black font-mono text-xs font-bold uppercase rounded text-center transition shadow-sm"
+                  className="flex-1 py-2 px-3 bg-[#D4B483] hover:bg-[#E2C9A5] text-[#18181B] font-mono text-xs font-bold uppercase rounded text-center transition shadow-sm"
                 >
                   QR Code & Details
                 </button>
@@ -2975,7 +2975,7 @@ Sitemap: ./sitemap.xml`
                   href="https://fuchshilfe-berlin.de/IHR-WOLLT-UNS-UNTERSTUeTZEN"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="py-2 px-3 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 hover:border-[#FFCC00] text-[#F5E6CC] hover:text-[#38BDF8] font-mono text-xs font-semibold rounded inline-flex items-center gap-1.5 transition"
+                  className="py-2 px-3 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 hover:border-[#D4B483] text-[#F5E6CC] hover:text-[#38BDF8] font-mono text-xs font-semibold rounded inline-flex items-center gap-1.5 transition"
                 >
                   <span>Wishlist</span>
                   <ExternalLink className="w-3.5 h-3.5" />
@@ -2987,7 +2987,7 @@ Sitemap: ./sitemap.xml`
           <button
             type="button"
             onClick={() => setFoxWidgetCollapsed(false)}
-            className="flex items-center gap-2.5 px-4 py-2.5 bg-[#0C0C0E] border-2 border-[#FFCC00] text-[#F5E6CC] hover:bg-[#FFCC00] hover:text-black font-mono text-[13.7px] font-bold shadow-2xl transition-all rounded-md float-right"
+            className="flex items-center gap-2.5 px-4 py-2.5 bg-[#0C0C0E] border-2 border-[#D4B483] text-[#F5E6CC] hover:bg-[#D4B483] hover:text-[#18181B] font-mono text-[13.7px] font-bold shadow-2xl transition-all rounded-md float-right"
             title="Expand Fuchshilfe Berlin Support Info"
           >
             <WalkingFoxLogo className="w-[30px] h-[22px]" />
@@ -3004,7 +3004,7 @@ Sitemap: ./sitemap.xml`
           onClick={() => setFoxSupportModalOpen(false)}
         >
           <div
-            className="bg-[#0C0C0E] border-2 border-[#FFCC00] max-w-[605px] w-full p-7.5 space-y-5 shadow-2xl"
+            className="bg-[#0C0C0E] border-2 border-[#D4B483] max-w-[605px] w-full p-7.5 space-y-5 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-zinc-800 pb-3.5">
@@ -3017,7 +3017,7 @@ Sitemap: ./sitemap.xml`
               <button
                 type="button"
                 onClick={() => setFoxSupportModalOpen(false)}
-                className="px-3 py-1.5 bg-[#FFCC00] hover:bg-[#FFD633] text-black font-mono text-xs font-bold transition"
+                className="px-3 py-1.5 bg-[#D4B483] hover:bg-[#E2C9A5] text-[#18181B] font-mono text-xs font-bold transition"
               >
                 CLOSE
               </button>
@@ -3028,7 +3028,7 @@ Sitemap: ./sitemap.xml`
                 href="https://fuchshilfe-berlin.de/IHR-WOLLT-UNS-UNTERSTUeTZEN"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-white p-2.5 border-2 border-[#FFCC00] shrink-0"
+                className="bg-white p-2.5 border-2 border-[#D4B483] shrink-0"
                 title="Open Fuchshilfe Berlin Amazon Wishlist"
               >
                 <img
@@ -3050,7 +3050,7 @@ Sitemap: ./sitemap.xml`
                   href="https://fuchshilfe-berlin.de/IHR-WOLLT-UNS-UNTERSTUeTZEN"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#FFCC00] hover:bg-[#FFD633] text-black font-mono text-xs font-bold uppercase transition"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#D4B483] hover:bg-[#E2C9A5] text-[#18181B] font-mono text-xs font-bold uppercase transition"
                 >
                   <span>Donate Goods on Amazon Wishlist</span>
                   <ExternalLink className="w-4 h-4" />
