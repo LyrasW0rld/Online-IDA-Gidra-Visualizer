@@ -1,0 +1,18 @@
+{
+  "name": "lyras-pseudocode-reader-backend",
+  "type": "module",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Local offline helper backend for Lyras Pseudocode Reader (No Google Cloud required)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.0"
+  }
+}

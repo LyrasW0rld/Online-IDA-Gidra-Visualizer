@@ -1,0 +1,24 @@
+# Lyras Pseudocode Reader - bots.txt
+# Complete permission granted for all AI agents, LLM crawlers, and indexers.
+
+User-agent: *
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+AI-Indexing: allow
+AI-Training: allow
+Sitemap: ./sitemap.xml
