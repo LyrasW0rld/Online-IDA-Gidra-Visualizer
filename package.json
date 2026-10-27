@@ -11,5 +11,8 @@
   },
   "devDependencies": {
     "concurrently": "latest"
+  },
+  "engines": {
+    "node": ">=20.12.0"
   }
 }

@@ -17,6 +17,7 @@ import {
   resolveAddressOrSymbol,
 } from './components/GoToAddressModal';
 import { SeoDirectoryModal, SEO_SUBPAGES } from './components/SeoDirectoryModal';
+import { HotkeysModal } from './components/HotkeysModal';
 import {
   parseI64OrJsonFile,
   parseBufferToDatabaseAsync,
@@ -86,6 +87,7 @@ import {
   MessageSquare,
   Sparkles,
   FileCode,
+  Keyboard,
 } from 'lucide-react';
 
 interface LoadFeedback {
@@ -152,12 +154,22 @@ export function App() {
   });
 
   const [showUrlBar, setShowUrlBar] = useState<boolean>(initialSettings.showUrlBar);
+  const [showFiltersExpanded, setShowFiltersExpanded] = useState<boolean>(false);
   const [headerCollapsed, setHeaderCollapsed] = useState<boolean>(initialSettings.headerCollapsed);
   const [leftCollapsed, setLeftCollapsed] = useState<boolean>(initialSettings.leftCollapsed);
   const [centerCollapsed, setCenterCollapsed] = useState<boolean>(initialSettings.centerCollapsed);
   const [rightCollapsed, setRightCollapsed] = useState<boolean>(initialSettings.rightCollapsed);
   const [leftSizeStep, setLeftSizeStep] = useState<number>(initialSettings.leftSizeStep);
   const [rightSizeStep, setRightSizeStep] = useState<number>(initialSettings.rightSizeStep);
+  const [leftPanelWidth, setLeftPanelWidth] = useState<number>(
+    initialSettings.leftPanelWidth || 320
+  );
+  const [rightPanelWidth, setRightPanelWidth] = useState<number>(
+    initialSettings.rightPanelWidth || 380
+  );
+  const [isDraggingLeft, setIsDraggingLeft] = useState<boolean>(false);
+  const [isDraggingRight, setIsDraggingRight] = useState<boolean>(false);
+  const [isHotkeysModalOpen, setIsHotkeysModalOpen] = useState<boolean>(false);
 
   // URL parameter bar state (?i64=..., ?gar=..., ?c=...) saved & restored from cookies
   const [urlParamMode, setUrlParamMode] = useState<UrlParamMode>(initialSettings.urlParamMode);
@@ -196,6 +208,8 @@ export function App() {
       rightCollapsed,
       leftSizeStep,
       rightSizeStep,
+      leftPanelWidth,
+      rightPanelWidth,
     });
   }, [
     lang,
@@ -214,7 +228,69 @@ export function App() {
     rightCollapsed,
     leftSizeStep,
     rightSizeStep,
+    leftPanelWidth,
+    rightPanelWidth,
   ]);
+
+  // Auto-dismiss success notification banner after 5 seconds
+  useEffect(() => {
+    if (!feedback || feedback.type !== 'success') return;
+    const timer = setTimeout(() => {
+      setFeedback(null);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [feedback]);
+
+  // Mouse drag splitter handlers for resizable sidebars (Windows-style border dragging)
+  const handleMouseDownLeftSplitter = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDraggingLeft(true);
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const newWidth = Math.max(180, Math.min(800, moveEvent.clientX));
+      setLeftPanelWidth(newWidth);
+    };
+
+    const handleMouseUp = (upEvent: MouseEvent) => {
+      setIsDraggingLeft(false);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      const finalWidth = Math.max(180, Math.min(800, upEvent.clientX));
+      savePersistedSettings({ leftPanelWidth: finalWidth });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  }, []);
+
+  const handleMouseDownRightSplitter = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDraggingRight(true);
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const newWidth = Math.max(200, Math.min(1000, window.innerWidth - moveEvent.clientX));
+      setRightPanelWidth(newWidth);
+    };
+
+    const handleMouseUp = (upEvent: MouseEvent) => {
+      setIsDraggingRight(false);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      const finalWidth = Math.max(200, Math.min(1000, window.innerWidth - upEvent.clientX));
+      savePersistedSettings({ rightPanelWidth: finalWidth });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+  }, []);
 
   useEffect(() => {
     savePersistedUserEdits(userEdits);
@@ -237,6 +313,18 @@ export function App() {
           target.isContentEditable);
 
       if (isInputFocused) return;
+
+      // Open Hotkeys modal with '?' or 'H' or 'F1' key
+      if (
+        (e.key === '?' || e.key === 'h' || e.key === 'H' || e.key === 'F1') &&
+        !e.ctrlKey &&
+        !e.metaKey &&
+        !e.altKey
+      ) {
+        e.preventDefault();
+        setIsHotkeysModalOpen(true);
+        return;
+      }
 
       // Toggle top menu collapse/expand with 'M' key
       if ((e.key === 'm' || e.key === 'M') && !e.ctrlKey && !e.metaKey && !e.altKey) {
@@ -1040,6 +1128,18 @@ export function App() {
     }
   };
 
+  const isCfgMaximized = leftCollapsed && centerCollapsed && !rightCollapsed;
+  const handleToggleCfgMaximize = () => {
+    if (isCfgMaximized) {
+      setLeftCollapsed(false);
+      setCenterCollapsed(false);
+    } else {
+      setLeftCollapsed(true);
+      setCenterCollapsed(true);
+      setRightCollapsed(false);
+    }
+  };
+
   const handleSwitchUrlParamMode = (nextMode: UrlParamMode) => {
     setUrlParamMode(nextMode);
     if (nextMode === 'c') {
@@ -1243,19 +1343,18 @@ export function App() {
     return (
       <aside
         key="panel-functions"
-        className={`${
-          LEFT_WIDTH_CLASSES[leftSizeStep] || LEFT_WIDTH_CLASSES[3]
-        } border-r border-zinc-800 bg-[#0D0F15] flex flex-col min-h-0 shrink-0 transition-all`}
+        style={{ width: `${leftPanelWidth}px` }}
+        className="border-r border-zinc-800 bg-[#0D0F15] flex flex-col min-h-0 shrink-0 select-text"
       >
         <div className="p-3 border-b border-zinc-800 space-y-2 bg-[#12151E]">
           <div className="flex items-center justify-between gap-1">
-            <span className="text-sm font-semibold tracking-wide text-[#FFCC00] flex items-center gap-1.5">
-              <Database className="w-4 h-4 text-[#FFCC00]" />
+            <span className="text-sm font-semibold tracking-wide text-[#FFCC00] flex items-center gap-1.5 truncate">
+              <Database className="w-4 h-4 text-[#FFCC00] shrink-0" />
               {lang === 'de' ? 'Klassen & Funktionen' : 'Classes & Functions'} (
               {filteredFunctions.length.toLocaleString()})
             </span>
 
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 shrink-0">
               <button
                 type="button"
                 onClick={() => setIsGoToModalOpen(true)}
@@ -1265,17 +1364,19 @@ export function App() {
               </button>
               <button
                 type="button"
-                onClick={() => setLeftSizeStep((s) => Math.max(1, s - 1))}
-                disabled={leftSizeStep <= 1}
+                onClick={() => setLeftPanelWidth((w) => Math.max(180, w - 40))}
+                disabled={leftPanelWidth <= 180}
                 className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black disabled:opacity-40 transition-colors"
+                title={lang === 'de' ? 'Panel schmaler' : 'Narrow panel'}
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
               </button>
               <button
                 type="button"
-                onClick={() => setLeftSizeStep((s) => Math.min(5, s + 1))}
-                disabled={leftSizeStep >= 5}
+                onClick={() => setLeftPanelWidth((w) => Math.min(800, w + 40))}
+                disabled={leftPanelWidth >= 800}
                 className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black disabled:opacity-40 transition-colors"
+                title={lang === 'de' ? 'Panel breiter' : 'Widen panel'}
               >
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
@@ -1289,11 +1390,11 @@ export function App() {
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-1 bg-[#090B10] p-1 rounded border border-zinc-800">
+          <div className="grid grid-cols-4 gap-1 bg-[#090B10] p-0.5 rounded border border-zinc-800">
             <button
               type="button"
               onClick={() => setSymbolTreeMode('TREE_SPLIT')}
-              className={`text-[11px] font-mono py-1 px-1.5 rounded font-semibold transition-colors flex items-center justify-center gap-1 ${
+              className={`text-[10px] font-mono py-1 px-1 rounded font-semibold transition-colors flex items-center justify-center gap-1 ${
                 symbolTreeMode === 'TREE_SPLIT'
                   ? 'bg-[#FFCC00] text-black font-bold'
                   : 'text-zinc-300 hover:text-white'
@@ -1306,171 +1407,202 @@ export function App() {
             <button
               type="button"
               onClick={() => setSymbolTreeMode('CLASSES_ONLY')}
-              className={`text-[11px] font-mono py-1 px-1.5 rounded font-semibold transition-colors flex items-center justify-center gap-1 ${
+              className={`text-[10px] font-mono py-1 px-1 rounded font-semibold transition-colors flex items-center justify-center gap-1 ${
                 symbolTreeMode === 'CLASSES_ONLY'
                   ? 'bg-[#FFCC00] text-black font-bold'
                   : 'text-sky-300 hover:text-white'
               }`}
             >
               <Box className="w-3 h-3 shrink-0" />
-              <span>Classes ({categoryCounts.classCount})</span>
+              <span>Classes</span>
             </button>
 
             <button
               type="button"
               onClick={() => setSymbolTreeMode('FUNCTIONS_ONLY')}
-              className={`text-[11px] font-mono py-1 px-1.5 rounded font-semibold transition-colors flex items-center justify-center gap-1 ${
+              className={`text-[10px] font-mono py-1 px-1 rounded font-semibold transition-colors flex items-center justify-center gap-1 ${
                 symbolTreeMode === 'FUNCTIONS_ONLY'
                   ? 'bg-[#FFCC00] text-black font-bold'
                   : 'text-amber-200 hover:text-white'
               }`}
             >
               <FunctionSquare className="w-3 h-3 shrink-0" />
-              <span>Funcs ({categoryCounts.globalFuncsCount})</span>
+              <span>Funcs</span>
             </button>
 
             <button
               type="button"
               onClick={() => setSymbolTreeMode('FLAT_LIST')}
-              className={`text-[11px] font-mono py-1 px-1.5 rounded font-semibold transition-colors flex items-center justify-center gap-1 ${
+              className={`text-[10px] font-mono py-1 px-1 rounded font-semibold transition-colors flex items-center justify-center gap-1 ${
                 symbolTreeMode === 'FLAT_LIST'
                   ? 'bg-[#FFCC00] text-black font-bold'
                   : 'text-zinc-400 hover:text-white'
               }`}
             >
-              <span>Flat ({categoryCounts.all})</span>
+              <span>Flat</span>
             </button>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-1">
+          {/* Compact Filter Toolbar with Expandable Category Drawer */}
+          <div className="flex items-center justify-between gap-1.5">
             <button
               type="button"
-              onClick={() => {
-                setFilterMode('ALL');
-                setVisibleLimit(400);
-              }}
-              className={`text-[11px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
-                filterMode === 'ALL'
+              onClick={() => setShowFiltersExpanded((v) => !v)}
+              className={`flex-1 flex items-center justify-between px-2 py-1 rounded text-[11px] font-mono border transition-colors ${
+                filterMode !== 'ALL'
                   ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
-                  : 'bg-zinc-900 text-zinc-200 border-zinc-800 hover:border-zinc-600'
+                  : 'bg-[#090B10] text-zinc-300 border-zinc-800 hover:border-zinc-700'
               }`}
+              title={lang === 'de' ? 'Kategorie-Filter auf-/zuklappen' : 'Toggle Category Filters'}
             >
-              {lang === 'de' ? 'Alle' : 'All'} ({categoryCounts.all})
+              <span className="flex items-center gap-1.5 truncate">
+                <span className="text-zinc-500 text-[10px]">Filter:</span>
+                <span className="font-semibold truncate">
+                  {filterMode === 'ALL' && `${lang === 'de' ? 'Alle' : 'All'} (${categoryCounts.all})`}
+                  {filterMode === 'COMMENTED' && `💬 ${lang === 'de' ? 'Kommentare' : 'Comments'} (${categoryCounts.commented})`}
+                  {filterMode === 'LARGEST' && `⚡ ${lang === 'de' ? 'Größte' : 'Largest'} (${categoryCounts.largest})`}
+                  {filterMode === 'ASSIGNED' && `★ ${lang === 'de' ? 'Zugeordnet' : 'Assigned'} (${categoryCounts.assigned})`}
+                  {filterMode === 'ENTRY_CORE' && `🎯 Core (${categoryCounts.entryCore})`}
+                  {filterMode === 'SUB' && `${isGhidraLoaded ? 'FUN_' : 'sub_'} (${categoryCounts.sub})`}
+                </span>
+              </span>
+              <span className="flex items-center gap-1 shrink-0 ml-1">
+                {showFiltersExpanded ? (
+                  <ChevronUp className="w-3.5 h-3.5" />
+                ) : (
+                  <ChevronDown className="w-3.5 h-3.5 text-zinc-400" />
+                )}
+              </span>
             </button>
 
-            <button
-              type="button"
-              onClick={() => {
-                setFilterMode('COMMENTED');
-                setVisibleLimit(400);
-              }}
-              className={`text-[11px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
-                filterMode === 'COMMENTED'
-                  ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
-                  : 'bg-zinc-900 text-emerald-300 border-zinc-800 hover:border-emerald-500/50'
-              }`}
-            >
-              💬 {lang === 'de' ? 'Kommentare' : 'Comments'} ({categoryCounts.commented})
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setFilterMode('LARGEST');
-                setSortMode('SIZE_DESC');
-                setVisibleLimit(400);
-              }}
-              className={`text-[11px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
-                filterMode === 'LARGEST'
-                  ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
-                  : 'bg-zinc-900 text-amber-300 border-zinc-800 hover:border-amber-500/50'
-              }`}
-            >
-              ⚡ {lang === 'de' ? 'Größte' : 'Largest'} ({categoryCounts.largest})
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setFilterMode('ASSIGNED');
-                setSortMode('CLEARLY_ASSIGNED');
-                setVisibleLimit(400);
-              }}
-              className={`text-[11px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
-                filterMode === 'ASSIGNED'
-                  ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
-                  : 'bg-zinc-900 text-sky-300 border-zinc-800 hover:border-sky-500/50'
-              }`}
-            >
-              ★ {lang === 'de' ? 'Zugeordnet' : 'Assigned'} ({categoryCounts.assigned})
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setFilterMode('ENTRY_CORE');
-                setVisibleLimit(400);
-              }}
-              className={`text-[11px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
-                filterMode === 'ENTRY_CORE'
-                  ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
-                  : 'bg-zinc-900 text-purple-300 border-zinc-800 hover:border-purple-500/50'
-              }`}
-            >
-              🎯 Core ({categoryCounts.entryCore})
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setFilterMode('SUB');
-                setVisibleLimit(400);
-              }}
-              className={`text-[11px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
-                filterMode === 'SUB'
-                  ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
-                  : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:border-zinc-600'
-              }`}
-            >
-              {isGhidraLoaded ? 'FUN_' : 'sub_'} ({categoryCounts.sub})
-            </button>
+            <div className="flex items-center bg-[#090B10] border border-zinc-800 rounded px-1.5 py-1 shrink-0 max-w-[130px]">
+              <ArrowUpDown className="w-3 h-3 text-[#FFCC00] shrink-0 mr-1" />
+              <select
+                value={sortMode}
+                onChange={(e) => setSortMode(e.target.value as SortMode)}
+                className="bg-transparent text-[11px] font-mono text-zinc-300 focus:outline-none cursor-pointer truncate w-full"
+              >
+                <option value="CLEARLY_ASSIGNED" className="bg-[#12151E] text-white">
+                  {lang === 'de' ? '★ Zugeordnet' : '★ Assigned'}
+                </option>
+                <option value="SIZE_DESC" className="bg-[#12151E] text-white">
+                  {lang === 'de' ? '⚡ Bytes ↓' : '⚡ Size ↓'}
+                </option>
+                <option value="BRANCHES_DESC" className="bg-[#12151E] text-white">
+                  {lang === 'de' ? '🌿 Äste ↓' : '🌿 Branches ↓'}
+                </option>
+                <option value="ADDR_ASC" className="bg-[#12151E] text-white">
+                  {lang === 'de' ? '🔢 Addr ↑' : '🔢 Addr ↑'}
+                </option>
+                <option value="NAME_ASC" className="bg-[#12151E] text-white">
+                  {lang === 'de' ? '🔤 Name (A–Z)' : '🔤 Name (A–Z)'}
+                </option>
+              </select>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2 bg-[#090B10] border border-zinc-800 rounded px-2.5 py-1">
-            <ArrowUpDown className="w-3.5 h-3.5 text-[#FFCC00] shrink-0" />
-            <span className="text-[11px] font-mono text-zinc-400 shrink-0">
-              {lang === 'de' ? 'Sortierung:' : 'Sort by:'}
-            </span>
-            <select
-              value={sortMode}
-              onChange={(e) => setSortMode(e.target.value as SortMode)}
-              className="bg-transparent text-xs font-mono text-white focus:outline-none w-full cursor-pointer"
-            >
-              <option value="CLEARLY_ASSIGNED" className="bg-[#12151E] text-white">
-                {lang === 'de'
-                  ? '★ Eindeutig zugeordnet zuerst'
-                  : '★ Clearly Assigned First'}
-              </option>
-              <option value="SIZE_DESC" className="bg-[#12151E] text-white">
-                {lang === 'de'
-                  ? '⚡ Größte Funktion (Bytes ↓)'
-                  : '⚡ Largest Function (Bytes ↓)'}
-              </option>
-              <option value="BRANCHES_DESC" className="bg-[#12151E] text-white">
-                {lang === 'de'
-                  ? '🌿 Meiste CFG-Äste (Logik ↓)'
-                  : '🌿 Most CFG Branches (Logic ↓)'}
-              </option>
-              <option value="ADDR_ASC" className="bg-[#12151E] text-white">
-                {lang === 'de'
-                  ? '🔢 Adresse / Zeile aufsteigend'
-                  : '🔢 Address / Line Ascending'}
-              </option>
-              <option value="NAME_ASC" className="bg-[#12151E] text-white">
-                {lang === 'de' ? '🔤 Name (A–Z)' : '🔤 Function Name (A–Z)'}
-              </option>
-            </select>
-          </div>
+          {/* Collapsible Category Grid Drawer */}
+          {showFiltersExpanded && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1 p-1 bg-[#090B10] rounded border border-zinc-800/80">
+              <button
+                type="button"
+                onClick={() => {
+                  setFilterMode('ALL');
+                  setVisibleLimit(400);
+                  setShowFiltersExpanded(false);
+                }}
+                className={`text-[10px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
+                  filterMode === 'ALL'
+                    ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
+                    : 'bg-zinc-900 text-zinc-200 border-zinc-800 hover:border-zinc-600'
+                }`}
+              >
+                {lang === 'de' ? 'Alle' : 'All'} ({categoryCounts.all})
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setFilterMode('COMMENTED');
+                  setVisibleLimit(400);
+                  setShowFiltersExpanded(false);
+                }}
+                className={`text-[10px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
+                  filterMode === 'COMMENTED'
+                    ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
+                    : 'bg-zinc-900 text-emerald-300 border-zinc-800 hover:border-emerald-500/50'
+                }`}
+              >
+                💬 {lang === 'de' ? 'Kommentare' : 'Comments'} ({categoryCounts.commented})
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setFilterMode('LARGEST');
+                  setSortMode('SIZE_DESC');
+                  setVisibleLimit(400);
+                  setShowFiltersExpanded(false);
+                }}
+                className={`text-[10px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
+                  filterMode === 'LARGEST'
+                    ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
+                    : 'bg-zinc-900 text-amber-300 border-zinc-800 hover:border-amber-500/50'
+                }`}
+              >
+                ⚡ {lang === 'de' ? 'Größte' : 'Largest'} ({categoryCounts.largest})
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setFilterMode('ASSIGNED');
+                  setSortMode('CLEARLY_ASSIGNED');
+                  setVisibleLimit(400);
+                  setShowFiltersExpanded(false);
+                }}
+                className={`text-[10px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
+                  filterMode === 'ASSIGNED'
+                    ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
+                    : 'bg-zinc-900 text-sky-300 border-zinc-800 hover:border-sky-500/50'
+                }`}
+              >
+                ★ {lang === 'de' ? 'Zugeordnet' : 'Assigned'} ({categoryCounts.assigned})
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setFilterMode('ENTRY_CORE');
+                  setVisibleLimit(400);
+                  setShowFiltersExpanded(false);
+                }}
+                className={`text-[10px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
+                  filterMode === 'ENTRY_CORE'
+                    ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
+                    : 'bg-zinc-900 text-purple-300 border-zinc-800 hover:border-purple-500/50'
+                }`}
+              >
+                🎯 Core ({categoryCounts.entryCore})
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setFilterMode('SUB');
+                  setVisibleLimit(400);
+                  setShowFiltersExpanded(false);
+                }}
+                className={`text-[10px] font-mono px-2 py-1 rounded border text-left truncate transition-colors ${
+                  filterMode === 'SUB'
+                    ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
+                    : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:border-zinc-600'
+                }`}
+              >
+                {isGhidraLoaded ? 'FUN_' : 'sub_'} ({categoryCounts.sub})
+              </button>
+            </div>
+          )}
 
           <form
             onSubmit={(e) => {
@@ -1481,7 +1613,7 @@ export function App() {
             }}
             className="relative flex items-center gap-1"
           >
-            <Search className="w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <Search className="w-3.5 h-3.5 text-zinc-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
@@ -1494,12 +1626,12 @@ export function App() {
                   ? `Suche Funktion, Kommentar, Adresse...`
                   : `Search Function, Comment, Address...`
               }
-              className="w-full bg-[#090B10] border border-zinc-700 focus:border-[#FFCC00] rounded pl-9 pr-14 py-1.5 text-xs text-white placeholder-zinc-400 focus:outline-none font-mono"
+              className="w-full bg-[#090B10] border border-zinc-700 focus:border-[#FFCC00] rounded pl-8 pr-12 py-1 text-xs text-white placeholder-zinc-400 focus:outline-none font-mono"
             />
             {searchQuery.trim() && (
               <button
                 type="submit"
-                className="absolute right-1.5 px-2 py-0.5 rounded bg-[#FFCC00] text-black font-mono font-bold text-[10px] uppercase hover:bg-[#FFD633]"
+                className="absolute right-1 px-1.5 py-0.5 rounded bg-[#FFCC00] text-black font-mono font-bold text-[9px] uppercase hover:bg-[#FFD633]"
               >
                 Go
               </button>
@@ -1631,33 +1763,14 @@ export function App() {
           )}
         </div>
 
-        <div className="p-3 border-t border-zinc-800 bg-[#12151E] space-y-2">
-          <div className="flex items-center justify-between text-xs">
-            <span className="font-medium text-zinc-200 flex items-center gap-1.5">
-              <GitFork className="w-3.5 h-3.5 text-[#FFCC00]" />
-              {lang === 'de' ? 'Max. Graph-Tiefe:' : 'Max Graph Depth:'}
-            </span>
-            <span className="font-mono font-bold bg-[#FFCC00] text-black px-2 py-0.5 rounded text-xs">
-              {maxBranches} {lang === 'de' ? 'Ebenen' : 'Levels'}
-            </span>
-          </div>
-          <input
-            type="range"
-            min={1}
-            max={30}
-            value={maxBranches}
-            onChange={(e) => setMaxBranches(parseInt(e.target.value, 10))}
-            className="w-full accent-[#FFCC00] cursor-pointer h-1.5 bg-zinc-800 rounded-lg"
-          />
-          <div className="flex items-center justify-between text-[11px] text-zinc-400 font-mono">
-            <span>
-              {groupedClasses.length} {lang === 'de' ? 'Klassen' : 'Classes'} •{' '}
-              {standaloneFunctions.length} Funcs
-            </span>
-            <span className="text-[#FFCC00] font-medium">
-              [G] = Jump | [E] = Edit Var
-            </span>
-          </div>
+        <div className="px-3 py-1.5 border-t border-zinc-800 bg-[#0B0D13] flex items-center justify-between text-[11px] font-mono text-zinc-400 shrink-0">
+          <span className="truncate">
+            {groupedClasses.length} {lang === 'de' ? 'Klassen' : 'Classes'} •{' '}
+            {standaloneFunctions.length} Funcs
+          </span>
+          <span className="text-[#FFCC00] font-medium shrink-0 ml-1">
+            [G] Jump
+          </span>
         </div>
       </aside>
     );
@@ -1691,11 +1804,16 @@ export function App() {
     return (
       <main
         key="panel-code"
+        style={
+          isFlexibleCenter || isCodeMaximized || (leftCollapsed && rightCollapsed)
+            ? undefined
+            : { width: `${rightPanelWidth}px` }
+        }
         className={`${
-          isFlexibleCenter
+          isFlexibleCenter || isCodeMaximized || (leftCollapsed && rightCollapsed)
             ? 'flex-1 min-w-0'
-            : RIGHT_WIDTH_CLASSES[rightSizeStep] || RIGHT_WIDTH_CLASSES[4]
-        } min-h-0 overflow-hidden shrink-0 transition-all`}
+            : ''
+        } min-h-0 overflow-hidden shrink-0 select-text`}
       >
         <PseudocodeViewer
           func={activeFunction}
@@ -1751,11 +1869,16 @@ export function App() {
     return (
       <aside
         key="panel-cfg"
+        style={
+          isFlexibleCenter || isCfgMaximized || (centerCollapsed && leftCollapsed)
+            ? undefined
+            : { width: `${rightPanelWidth}px` }
+        }
         className={`${
-          isFlexibleCenter || (centerCollapsed && leftCollapsed)
+          isFlexibleCenter || isCfgMaximized || (centerCollapsed && leftCollapsed)
             ? 'flex-1 min-w-0 border-r border-zinc-800'
-            : RIGHT_WIDTH_CLASSES[rightSizeStep] || RIGHT_WIDTH_CLASSES[3]
-        } min-h-0 overflow-hidden shrink-0 transition-all`}
+            : ''
+        } min-h-0 overflow-hidden shrink-0 select-text`}
       >
         <ControlFlowGraph
           func={activeFunction}
@@ -1764,11 +1887,14 @@ export function App() {
           onJumpToFunction={handleJumpToFunctionOrAddress}
           lang={lang}
           maxBranches={maxBranches}
+          onChangeMaxBranches={setMaxBranches}
+          isMaximized={isCfgMaximized}
+          onToggleMaximize={handleToggleCfgMaximize}
           onCollapse={() => setRightCollapsed(true)}
-          onWiden={() => setRightSizeStep((s) => Math.min(5, s + 1))}
-          onNarrow={() => setRightSizeStep((s) => Math.max(1, s - 1))}
-          canWiden={rightSizeStep < 5}
-          canNarrow={rightSizeStep > 1}
+          onWiden={() => setRightPanelWidth((w) => Math.min(1000, w + 40))}
+          onNarrow={() => setRightPanelWidth((w) => Math.max(200, w - 40))}
+          canWiden={rightPanelWidth < 1000}
+          canNarrow={rightPanelWidth > 200}
         />
       </aside>
     );
@@ -1827,6 +1953,16 @@ export function App() {
                 <span>{lang === 'de' ? 'Adresse [G]' : 'Go to [G]'}</span>
               </button>
             )}
+
+            <button
+              type="button"
+              onClick={() => setIsHotkeysModalOpen(true)}
+              className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00]/70 hover:bg-[#FFCC00] hover:text-black transition-colors"
+              title="Keyboard Shortcuts & Hotkeys [?]"
+            >
+              <Keyboard className="w-3.5 h-3.5" />
+              <span>Hotkeys</span>
+            </button>
 
             <div className="inline-flex rounded border border-[#FFCC00] overflow-hidden bg-zinc-900">
               <button
@@ -2092,6 +2228,16 @@ export function App() {
             >
               <Terminal className="w-3.5 h-3.5 text-[#FFCC00]" />
               .bat / GitHub Info
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsHotkeysModalOpen(true)}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider px-2.5 py-1.5 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00]/70 hover:bg-[#FFCC00] hover:text-black transition-colors shadow-sm"
+              title="Keyboard Shortcuts & Hotkeys Reference [?]"
+            >
+              <Keyboard className="w-3.5 h-3.5 text-[#FFCC00]" />
+              <span>Hotkeys</span>
             </button>
 
             {/* Collapse top menu button matching other panels */}
@@ -2398,11 +2544,33 @@ export function App() {
           </div>
         </div>
       ) : (
-        <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden">
+        <div className="flex-1 flex flex-col md:flex-row min-h-0 overflow-hidden relative">
           {layoutPreset === 'STANDARD' && (
             <>
               {renderFunctionsPanel()}
+              {!leftCollapsed && (
+                <div
+                  onMouseDown={handleMouseDownLeftSplitter}
+                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#FFCC00]/40 transition-colors ${
+                    isDraggingLeft ? 'bg-[#FFCC00]' : 'bg-transparent'
+                  }`}
+                  title={lang === 'de' ? 'Seitenleiste mit Maus ziehen' : 'Drag to resize sidebar'}
+                >
+                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#FFCC00] transition-colors" />
+                </div>
+              )}
               {renderPseudocodePanel(true)}
+              {!rightCollapsed && !isCfgMaximized && (
+                <div
+                  onMouseDown={handleMouseDownRightSplitter}
+                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#FFCC00]/40 transition-colors ${
+                    isDraggingRight ? 'bg-[#FFCC00]' : 'bg-transparent'
+                  }`}
+                  title={lang === 'de' ? 'Seitenleiste mit Maus ziehen' : 'Drag to resize sidebar'}
+                >
+                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#FFCC00] transition-colors" />
+                </div>
+              )}
               {renderCfgPanel(false)}
             </>
           )}
@@ -2410,7 +2578,29 @@ export function App() {
           {layoutPreset === 'IDA_PRO' && (
             <>
               {renderFunctionsPanel()}
+              {!leftCollapsed && (
+                <div
+                  onMouseDown={handleMouseDownLeftSplitter}
+                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#FFCC00]/40 transition-colors ${
+                    isDraggingLeft ? 'bg-[#FFCC00]' : 'bg-transparent'
+                  }`}
+                  title={lang === 'de' ? 'Seitenleiste mit Maus ziehen' : 'Drag to resize sidebar'}
+                >
+                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#FFCC00] transition-colors" />
+                </div>
+              )}
               {renderCfgPanel(true)}
+              {!rightCollapsed && !isCodeMaximized && (
+                <div
+                  onMouseDown={handleMouseDownRightSplitter}
+                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#FFCC00]/40 transition-colors ${
+                    isDraggingRight ? 'bg-[#FFCC00]' : 'bg-transparent'
+                  }`}
+                  title={lang === 'de' ? 'Seitenleiste mit Maus ziehen' : 'Drag to resize sidebar'}
+                >
+                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#FFCC00] transition-colors" />
+                </div>
+              )}
               {renderPseudocodePanel(false)}
             </>
           )}
@@ -2418,7 +2608,29 @@ export function App() {
           {layoutPreset === 'GHIDRA' && (
             <>
               {renderFunctionsPanel()}
+              {!leftCollapsed && (
+                <div
+                  onMouseDown={handleMouseDownLeftSplitter}
+                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#FFCC00]/40 transition-colors ${
+                    isDraggingLeft ? 'bg-[#FFCC00]' : 'bg-transparent'
+                  }`}
+                  title={lang === 'de' ? 'Seitenleiste mit Maus ziehen' : 'Drag to resize sidebar'}
+                >
+                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#FFCC00] transition-colors" />
+                </div>
+              )}
               {renderCfgPanel(false)}
+              {!rightCollapsed && (
+                <div
+                  onMouseDown={handleMouseDownRightSplitter}
+                  className={`hidden md:flex items-center justify-center w-2 -mx-1 z-30 cursor-col-resize group shrink-0 select-none hover:bg-[#FFCC00]/40 transition-colors ${
+                    isDraggingRight ? 'bg-[#FFCC00]' : 'bg-transparent'
+                  }`}
+                  title={lang === 'de' ? 'Seitenleiste mit Maus ziehen' : 'Drag to resize sidebar'}
+                >
+                  <div className="w-0.5 h-8 rounded bg-zinc-600 group-hover:bg-[#FFCC00] transition-colors" />
+                </div>
+              )}
               {renderPseudocodePanel(true)}
             </>
           )}
@@ -2664,6 +2876,12 @@ Sitemap: ./sitemap.xml`
         onClose={() => setIsPythonModalOpen(false)}
         lang={lang}
         onExportPatchedI64={database ? handleExportPatchedI64 : undefined}
+      />
+
+      <HotkeysModal
+        isOpen={isHotkeysModalOpen}
+        onClose={() => setIsHotkeysModalOpen(false)}
+        lang={lang}
       />
     </div>
   );

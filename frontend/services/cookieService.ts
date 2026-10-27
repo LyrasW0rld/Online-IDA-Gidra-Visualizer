@@ -42,6 +42,8 @@ export interface ReaderSettings {
   rightCollapsed: boolean;
   leftSizeStep: number;
   rightSizeStep: number;
+  leftPanelWidth: number;
+  rightPanelWidth: number;
 }
 
 const COOKIE_PREFIX = 'lyra_pcr_';
@@ -63,6 +65,8 @@ const DEFAULT_SETTINGS: ReaderSettings = {
   rightCollapsed: false,
   leftSizeStep: 3,
   rightSizeStep: 3,
+  leftPanelWidth: 320,
+  rightPanelWidth: 380,
 };
 
 export function setCookie(name: string, value: string, days = 365): void {
@@ -175,6 +179,18 @@ export function loadPersistedSettings(): ReaderSettings {
       ? rawRightStep
       : DEFAULT_SETTINGS.rightSizeStep;
 
+  const rawLeftWidth = parseInt(getCookie('left_panel_width') || '', 10);
+  const leftPanelWidth =
+    !isNaN(rawLeftWidth) && rawLeftWidth >= 160 && rawLeftWidth <= 850
+      ? rawLeftWidth
+      : DEFAULT_SETTINGS.leftPanelWidth;
+
+  const rawRightWidth = parseInt(getCookie('right_panel_width') || '', 10);
+  const rightPanelWidth =
+    !isNaN(rawRightWidth) && rawRightWidth >= 180 && rawRightWidth <= 1000
+      ? rawRightWidth
+      : DEFAULT_SETTINGS.rightPanelWidth;
+
   const safeCenterCollapsed =
     leftCollapsed && centerCollapsed && rightCollapsed ? false : centerCollapsed;
 
@@ -195,6 +211,8 @@ export function loadPersistedSettings(): ReaderSettings {
     rightCollapsed,
     leftSizeStep,
     rightSizeStep,
+    leftPanelWidth,
+    rightPanelWidth,
   };
 }
 
@@ -222,6 +240,10 @@ export function savePersistedSettings(partial: Partial<ReaderSettings>): void {
     setCookie('left_size_step', String(partial.leftSizeStep));
   if (partial.rightSizeStep !== undefined)
     setCookie('right_size_step', String(partial.rightSizeStep));
+  if (partial.leftPanelWidth !== undefined)
+    setCookie('left_panel_width', String(partial.leftPanelWidth));
+  if (partial.rightPanelWidth !== undefined)
+    setCookie('right_panel_width', String(partial.rightPanelWidth));
 }
 
 const EMPTY_EDITS: UserSymbolEdits = {
@@ -617,25 +639,33 @@ export async function registerUniqueVisitAndGetCount(): Promise<{
   isReturningVisitor: boolean;
 }> {
   const alreadyCounted = getCookie('unique_visitor_counted') === '1';
-  const cachedCount = parseInt(getCookie('unique_visitor_total') || '1', 10) || 1;
-  const namespace = 'lyras-pseudocode-reader-github';
-  const key = 'unique-visitors';
+  const BASE_OFFSET = 1284;
+  const cachedCount = parseInt(getCookie('unique_visitor_total') || String(BASE_OFFSET), 10) || BASE_OFFSET;
 
   try {
-    const endpoint = alreadyCounted
-      ? `https://api.counterapi.dev/v1/${namespace}/${key}/`
-      : `https://api.counterapi.dev/v1/${namespace}/${key}/up`;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3500);
 
-    const res = await fetch(endpoint);
+    const endpoint = alreadyCounted
+      ? 'https://abacus.jasoncameron.dev/get/lyras-pseudocode-reader/visits'
+      : 'https://abacus.jasoncameron.dev/hit/lyras-pseudocode-reader/visits';
+
+    const res = await fetch(endpoint, {
+      signal: controller.signal,
+      headers: { 'Accept': 'application/json' },
+    });
+    clearTimeout(timeoutId);
+
     if (res.ok) {
       const data = await res.json();
-      const liveCount = typeof data.count === 'number' ? data.count : cachedCount;
+      const rawCount = typeof data.value === 'number' ? data.value : 1;
+      const liveCount = BASE_OFFSET + rawCount;
       setCookie('unique_visitor_counted', '1', 365);
       setCookie('unique_visitor_total', String(liveCount), 365);
       return { count: liveCount, isReturningVisitor: alreadyCounted };
     }
   } catch {
-    // Offline fallback
+    // Offline or network error fallback - completely silent without console clutter
   }
 
   if (!alreadyCounted) {

@@ -13,6 +13,7 @@ import {
   CornerDownRight,
   Move,
   Maximize2,
+  Minimize2,
 } from 'lucide-react';
 
 interface ControlFlowGraphProps {
@@ -22,6 +23,9 @@ interface ControlFlowGraphProps {
   onJumpToFunction?: (funcOrAddress: string) => void;
   lang: 'en' | 'de';
   maxBranches: number;
+  onChangeMaxBranches?: (val: number) => void;
+  isMaximized?: boolean;
+  onToggleMaximize?: () => void;
   onCollapse?: () => void;
   onWiden?: () => void;
   onNarrow?: () => void;
@@ -36,16 +40,20 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
   onJumpToFunction,
   lang,
   maxBranches,
+  onChangeMaxBranches,
+  isMaximized = false,
+  onToggleMaximize,
   onCollapse,
   onWiden,
   onNarrow,
   canWiden = true,
   canNarrow = true,
 }) => {
-  // Interactive 2D Pan & Zoom State
   const [pan, setPan] = useState<{ x: number; y: number }>({ x: 0, y: 24 });
   const [zoom, setZoom] = useState<number>(0.95);
+  const [compactNodes, setCompactNodes] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const dragStartRef = useRef<{ x: number; y: number; panX: number; panY: number }>({
     x: 0,
     y: 0,
@@ -61,12 +69,25 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
   const [rootNodeId, setRootNodeId] = useState<string | null>(null);
   const [collapsedBranches, setCollapsedBranches] = useState<Record<string, boolean>>({});
 
-  // Reset view & custom root when switching to a different function
+  // Reset view, auto-fit zoom & custom root when switching to a different function
   useEffect(() => {
     setRootNodeId(null);
     setCollapsedBranches({});
     setHoveredNode(null);
     setPan({ x: 0, y: 24 });
+
+    // Responsive initial zoom based on available panel width
+    if (containerRef.current) {
+      const width = containerRef.current.clientWidth;
+      if (width > 0 && width < 360) {
+        setCompactNodes(true);
+        setZoom(0.75);
+      } else if (width > 0 && width < 480) {
+        setZoom(0.85);
+      } else {
+        setZoom(0.95);
+      }
+    }
   }, [func.id]);
 
   const nodeMap = useMemo(() => {
@@ -195,7 +216,11 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
         onMouseLeave={() =>
           setHoveredNode((prev) => (prev?.node.id === node.id ? null : prev))
         }
-        className={`w-[320px] min-w-[320px] max-w-[320px] shrink-0 rounded-lg border-2 transition-colors cursor-pointer shadow-xl overflow-hidden ${
+        className={`${
+          compactNodes
+            ? 'w-[260px] min-w-[260px] max-w-[260px]'
+            : 'w-[320px] min-w-[320px] max-w-[320px]'
+        } shrink-0 rounded-lg border-2 transition-colors cursor-pointer shadow-xl overflow-hidden ${
           isSelected
             ? 'border-[#FFCC00] bg-[#181C26] ring-2 ring-[#FFCC00]/50'
             : branchTag === 'TRUE'
@@ -274,7 +299,11 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
         </div>
 
         {/* Node Body: Same uniform height & spacing for clean visual alignment */}
-        <div className="p-3 font-mono text-xs space-y-2 bg-[#0B0D12] min-h-[125px] flex flex-col justify-between">
+        <div
+          className={`font-mono space-y-2 bg-[#0B0D12] flex flex-col justify-between ${
+            compactNodes ? 'p-2 min-h-[95px] text-[11px]' : 'p-3 min-h-[125px] text-xs'
+          }`}
+        >
           <div className="space-y-1.5">
             {node.conditionExpression && (
               <div className="px-2.5 py-1 rounded bg-amber-500/15 border border-amber-400/40 text-amber-200 text-[11px] font-mono break-words">
@@ -408,14 +437,16 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
           {/* Stem down from parent condition block */}
           <div className="w-0.5 h-5 bg-[#FFCC00] shrink-0" />
 
-          {/* Unconstrained Horizontal Fork Container (`flex-row gap-12 w-max`) */}
-          <div className="flex flex-row items-start justify-center gap-12 w-max shrink-0 relative pt-0.5">
-            {/* Horizontal crossbar connecting TRUE and FALSE columns */}
-            <div className="pointer-events-none absolute top-0 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-emerald-400 via-[#FFCC00] to-rose-400" />
-
+          {/* Unconstrained Horizontal Fork Container: Left (TRUE) and Right (FALSE) Subtrees */}
+          <div className="grid grid-cols-2 items-start justify-center w-max shrink-0">
             {/* LEFT SUBTREE: TRUE BRANCH */}
-            <div className="flex flex-col items-center w-max shrink-0">
-              {renderDownArrow('border-emerald-400', 'bg-emerald-400')}
+            <div className="flex flex-col items-center w-max shrink-0 px-3 sm:px-5">
+              {/* Pixel-perfect True branch connector: starts at column center and extends to the right edge */}
+              <div className="w-full relative h-4 shrink-0">
+                <div className="absolute top-0 left-1/2 right-0 h-0.5 bg-emerald-400" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-4 bg-emerald-400" />
+              </div>
+              <div className="w-2.5 h-2.5 rotate-45 border-b-2 border-r-2 border-emerald-400 -mt-1.5 shrink-0" />
 
               <div className="my-1.5 flex items-center gap-1.5">
                 <button
@@ -445,7 +476,9 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
                 <button
                   type="button"
                   onClick={(e) => toggleBranchCollapse(trueBranchKey, e)}
-                  className="mt-1 w-[320px] py-3 px-4 rounded-lg border-2 border-dashed border-emerald-500/60 bg-emerald-950/25 text-emerald-300 text-xs font-mono hover:bg-emerald-950/45 transition-colors text-center"
+                  className={`mt-1 ${
+                    compactNodes ? 'w-[260px]' : 'w-[320px]'
+                  } py-3 px-4 rounded-lg border-2 border-dashed border-emerald-500/60 bg-emerald-950/25 text-emerald-300 text-xs font-mono hover:bg-emerald-950/45 transition-colors text-center`}
                 >
                   + {lang === 'de' ? 'TRUE-Zweig ausklappen' : 'Expand TRUE Branch'} (
                   {trueNode.label})
@@ -458,8 +491,13 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
             </div>
 
             {/* RIGHT SUBTREE: FALSE BRANCH */}
-            <div className="flex flex-col items-center w-max shrink-0">
-              {renderDownArrow('border-rose-400', 'bg-rose-400')}
+            <div className="flex flex-col items-center w-max shrink-0 px-3 sm:px-5">
+              {/* Pixel-perfect False branch connector: starts at the left edge and ends at column center */}
+              <div className="w-full relative h-4 shrink-0">
+                <div className="absolute top-0 left-0 right-1/2 h-0.5 bg-rose-400" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-4 bg-rose-400" />
+              </div>
+              <div className="w-2.5 h-2.5 rotate-45 border-b-2 border-r-2 border-rose-400 -mt-1.5 shrink-0" />
 
               <div className="my-1.5 flex items-center gap-1.5">
                 <button
@@ -489,7 +527,9 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
                 <button
                   type="button"
                   onClick={(e) => toggleBranchCollapse(falseBranchKey, e)}
-                  className="mt-1 w-[320px] py-3 px-4 rounded-lg border-2 border-dashed border-rose-500/60 bg-rose-950/25 text-rose-300 text-xs font-mono hover:bg-rose-950/45 transition-colors text-center"
+                  className={`mt-1 ${
+                    compactNodes ? 'w-[260px]' : 'w-[320px]'
+                  } py-3 px-4 rounded-lg border-2 border-dashed border-rose-500/60 bg-rose-950/25 text-rose-300 text-xs font-mono hover:bg-rose-950/45 transition-colors text-center`}
                 >
                   + {lang === 'de' ? 'FALSE-Zweig ausklappen' : 'Expand FALSE Branch'} (
                   {falseNode.label})
@@ -531,27 +571,69 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#090B10] select-none relative overflow-hidden">
-      {/* Header with Resize, Reset View / Root & Collapse Controls */}
-      <div className="p-3 border-b border-zinc-800 bg-[#12151E] flex items-center justify-between gap-2 shrink-0 z-20">
+    <div ref={containerRef} className="flex flex-col h-full bg-[#090B10] select-none relative overflow-hidden">
+      {/* Header with Resize, Depth, Reset View / Root & Collapse Controls */}
+      <div className="p-2.5 border-b border-zinc-800 bg-[#12151E] flex flex-wrap items-center justify-between gap-2 shrink-0 z-20">
         <div className="flex items-center gap-2 min-w-0">
           <div className="w-1.5 h-6 bg-[#FFCC00] shrink-0" />
           <div className="min-w-0">
-            <h3 className="text-sm font-semibold tracking-wide text-[#FFCC00] flex items-center gap-1.5 truncate">
+            <h3 className="text-xs sm:text-sm font-semibold tracking-wide text-[#FFCC00] flex items-center gap-1.5 truncate">
               <GitFork className="w-4 h-4 text-[#FFCC00] shrink-0" />
-              {lang === 'de' ? 'Interaktiver 2D CFG-Graph' : 'Interactive 2D CFG Graph'}
+              {lang === 'de' ? '2D CFG-Graph' : '2D CFG Graph'}
             </h3>
-            <p className="text-[11px] text-zinc-300 font-mono truncate">
+            <p className="text-[10px] sm:text-[11px] text-zinc-300 font-mono truncate">
               {rootNodeId && effectiveRootNode
                 ? `Root: ${effectiveRootNode.address} (${effectiveRootNode.label})`
                 : lang === 'de'
-                ? 'Mit Maus ziehen (Pan) & Mausrad zoomen'
-                : 'Drag with mouse to pan & scroll wheel to zoom'}
+                ? 'Pan & Zoom'
+                : 'Pan & Zoom'}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-1 shrink-0">
+        <div className="flex items-center gap-1 shrink-0 flex-wrap">
+          {onChangeMaxBranches && (
+            <div className="flex items-center gap-1 bg-[#090B10] px-1.5 py-0.5 rounded border border-zinc-800 text-[11px] font-mono text-zinc-300">
+              <span className="text-[#FFCC00] font-semibold hidden sm:inline">
+                {lang === 'de' ? 'Tiefe:' : 'Depth:'}
+              </span>
+              <button
+                type="button"
+                onClick={() => onChangeMaxBranches(Math.max(1, maxBranches - 1))}
+                className="w-4 h-4 rounded bg-zinc-800 hover:bg-[#FFCC00] hover:text-black text-center font-bold text-xs"
+                title={lang === 'de' ? 'Graph-Tiefe verringern' : 'Decrease Graph Depth'}
+              >
+                -
+              </button>
+              <span className="w-4 text-center font-bold text-white">{maxBranches}</span>
+              <button
+                type="button"
+                onClick={() => onChangeMaxBranches(Math.min(30, maxBranches + 1))}
+                className="w-4 h-4 rounded bg-zinc-800 hover:bg-[#FFCC00] hover:text-black text-center font-bold text-xs"
+                title={lang === 'de' ? 'Graph-Tiefe erhöhen' : 'Increase Graph Depth'}
+              >
+                +
+              </button>
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setCompactNodes((v) => !v)}
+            className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold transition-colors ${
+              compactNodes
+                ? 'bg-[#FFCC00] text-black font-bold'
+                : 'bg-zinc-800 text-zinc-300 hover:text-white'
+            }`}
+            title={
+              lang === 'de'
+                ? 'Kompakte / Standard Knotenbreite umschalten'
+                : 'Toggle Compact / Normal Node Width'
+            }
+          >
+            {compactNodes ? 'Compact' : 'Normal'}
+          </button>
+
           {rootNodeId && (
             <button
               type="button"
@@ -560,7 +642,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
                 setPan({ x: 0, y: 24 });
                 if (func.cfgNodes[0]) onSelectNode(func.cfgNodes[0]);
               }}
-              className="px-2 py-1 rounded bg-[#FFCC00] text-black font-mono font-bold text-[11px] inline-flex items-center gap-1 hover:bg-[#FFD633]"
+              className="px-1.5 py-0.5 rounded bg-[#FFCC00] text-black font-mono font-bold text-[10px] inline-flex items-center gap-1 hover:bg-[#FFD633]"
               title={
                 lang === 'de'
                   ? 'Zurück zum Funktions-Anfang (Entry Root)'
@@ -575,22 +657,49 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
           <button
             type="button"
             onClick={handleResetView}
-            className="px-2 py-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black text-[11px] font-mono inline-flex items-center gap-1 transition-colors"
+            className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black text-[10px] font-mono inline-flex items-center gap-1 transition-colors"
             title={lang === 'de' ? 'Ansicht zentrieren' : 'Center / Reset View'}
           >
             <Maximize2 className="w-3 h-3" />
-            <span>{lang === 'de' ? 'Zentrieren' : 'Center'}</span>
+            <span className="hidden sm:inline">{lang === 'de' ? 'Center' : 'Center'}</span>
           </button>
+
+          {onToggleMaximize && (
+            <button
+              type="button"
+              onClick={onToggleMaximize}
+              className={`p-1 rounded transition-colors ${
+                isMaximized
+                  ? 'bg-[#FFCC00] text-black font-bold'
+                  : 'bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black'
+              }`}
+              title={
+                isMaximized
+                  ? lang === 'de'
+                    ? 'Graph verkleinern'
+                    : 'Restore Graph Size'
+                  : lang === 'de'
+                  ? 'Graph maximieren (Vollbild)'
+                  : 'Maximize Graph Panel'
+              }
+            >
+              {isMaximized ? (
+                <Minimize2 className="w-3.5 h-3.5" />
+              ) : (
+                <Maximize2 className="w-3.5 h-3.5" />
+              )}
+            </button>
+          )}
 
           {onWiden && (
             <button
               type="button"
               onClick={onWiden}
               disabled={!canWiden}
-              className="p-1.5 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black disabled:opacity-40 transition-colors"
+              className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black disabled:opacity-40 transition-colors"
               title={lang === 'de' ? 'Graph-Panel verbreitern' : 'Widen Graph Panel'}
             >
-              <ChevronLeft className="w-3.5 h-3.5" />
+              <ChevronLeft className="w-3 h-3" />
             </button>
           )}
           {onNarrow && (
@@ -598,40 +707,40 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
               type="button"
               onClick={onNarrow}
               disabled={!canNarrow}
-              className="p-1.5 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black disabled:opacity-40 transition-colors"
+              className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black disabled:opacity-40 transition-colors"
               title={lang === 'de' ? 'Graph-Panel schmaler machen' : 'Narrow Graph Panel'}
             >
-              <ChevronRight className="w-3.5 h-3.5" />
+              <ChevronRight className="w-3 h-3" />
             </button>
           )}
 
           <button
             type="button"
             onClick={() => setZoom((z) => Math.max(0.4, +(z - 0.1).toFixed(2)))}
-            className="p-1.5 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black transition-colors"
+            className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black transition-colors"
           >
-            <ZoomOut className="w-3.5 h-3.5" />
+            <ZoomOut className="w-3 h-3" />
           </button>
           <button
             type="button"
             onClick={() => setZoom(0.95)}
-            className="px-1.5 py-1 rounded bg-zinc-800 text-zinc-200 text-[11px] font-mono hover:bg-[#FFCC00] hover:text-black transition-colors"
+            className="px-1 py-0.5 rounded bg-zinc-800 text-zinc-200 text-[10px] font-mono hover:bg-[#FFCC00] hover:text-black transition-colors"
           >
             {Math.round(zoom * 100)}%
           </button>
           <button
             type="button"
             onClick={() => setZoom((z) => Math.min(1.6, +(z + 0.1).toFixed(2)))}
-            className="p-1.5 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black transition-colors"
+            className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black transition-colors"
           >
-            <ZoomIn className="w-3.5 h-3.5" />
+            <ZoomIn className="w-3 h-3" />
           </button>
 
           {onCollapse && (
             <button
               type="button"
               onClick={onCollapse}
-              className="p-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700 hover:bg-[#FFCC00] hover:text-black transition-colors ml-0.5"
+              className="p-1 rounded bg-zinc-900 text-zinc-300 border border-zinc-700 hover:bg-[#FFCC00] hover:text-black transition-colors ml-0.5"
             >
               <PanelRightClose className="w-3.5 h-3.5" />
             </button>
@@ -639,48 +748,48 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
         </div>
       </div>
 
-      {/* Legend Bar */}
-      <div className="px-3.5 py-2 border-b border-zinc-800/80 bg-[#0D0F15] flex flex-wrap items-center justify-between gap-2 text-xs shrink-0 z-20">
-        <div className="flex flex-wrap items-center gap-3">
+      {/* Sleek Compact Legend Bar */}
+      <div className="px-3 py-1 border-b border-zinc-800/80 bg-[#0D0F15] flex items-center justify-between gap-2 text-[11px] shrink-0 z-20">
+        <div className="flex items-center gap-3">
           <span className="inline-flex items-center gap-1 text-emerald-300 font-medium">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
+            <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block" />
             TRUE
           </span>
           <span className="inline-flex items-center gap-1 text-rose-300 font-medium">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-400 inline-block" />
+            <span className="w-2 h-2 rounded-full bg-rose-400 inline-block" />
             FALSE
           </span>
           <span className="inline-flex items-center gap-1 text-sky-300 font-medium">
-            <span className="w-2.5 h-2.5 rounded-full bg-sky-400 inline-block" />
+            <span className="w-2 h-2 rounded-full bg-sky-400 inline-block" />
             Calls / Loop
           </span>
         </div>
-        <span className="text-[11px] font-mono text-[#FFCC00] inline-flex items-center gap-1">
+        <span className="text-[10px] font-mono text-[#FFCC00] hidden sm:inline-flex items-center gap-1">
           <Move className="w-3 h-3" />
-          {lang === 'de' ? 'Frei ziehbar (320px feste Breite)' : 'Drag to Pan (320px Fixed Nodes)'}
+          {compactNodes ? '260px Nodes' : '320px Nodes'}
         </span>
       </div>
 
       {/* NON-GLITCHING FLOATING HOVER OVERLAY */}
       {hoveredNode && (
-        <div className="pointer-events-none absolute bottom-3 left-3 right-3 p-3 rounded-lg border-2 border-[#FFCC00] bg-[#111520]/95 backdrop-blur-md shadow-2xl z-40 space-y-1.5">
-          <div className="flex items-center justify-between gap-2 border-b border-zinc-700 pb-1">
+        <div className="pointer-events-none absolute bottom-2 right-2 max-w-[340px] w-auto p-2.5 rounded-lg border border-[#FFCC00]/80 bg-[#111520]/95 backdrop-blur-md shadow-2xl z-40 space-y-1">
+          <div className="flex items-center justify-between gap-2 border-b border-zinc-700 pb-0.5">
             <div className="flex items-center gap-1.5 min-w-0">
-              <span className="bg-[#FFCC00] text-black font-mono font-bold text-[10px] px-1.5 py-0.5 rounded uppercase shrink-0">
+              <span className="bg-[#FFCC00] text-black font-mono font-bold text-[9px] px-1 py-0.2 rounded uppercase shrink-0">
                 {hoveredNode.node.type}
               </span>
               <span className="font-mono text-xs font-bold text-white truncate">
                 {hoveredNode.node.label}
               </span>
             </div>
-            <span className="font-mono text-xs font-bold text-[#FFCC00] shrink-0">
+            <span className="font-mono text-[10px] font-bold text-[#FFCC00] shrink-0">
               {hoveredNode.node.address} (L{hoveredNode.node.LineStart}–{hoveredNode.node.LineEnd})
             </span>
           </div>
-          <pre className="p-2 rounded bg-black/90 border border-zinc-800 font-mono text-[11px] text-emerald-300 max-h-32 overflow-hidden whitespace-pre-wrap break-words leading-snug">
+          <pre className="p-1.5 rounded bg-black/90 border border-zinc-800 font-mono text-[10px] text-emerald-300 max-h-24 overflow-hidden whitespace-pre-wrap break-words leading-tight">
             {hoveredFullCodeLines.length > 0
-              ? hoveredFullCodeLines.join('\n')
-              : hoveredNode.node.codePreview.join('\n')}
+              ? hoveredFullCodeLines.slice(0, 4).join('\n')
+              : hoveredNode.node.codePreview.slice(0, 4).join('\n')}
           </pre>
         </div>
       )}

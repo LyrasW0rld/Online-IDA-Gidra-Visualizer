@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1B1F2A" />
+      <stop offset="100%" stop-color="#090A0D" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE066" />
+      <stop offset="100%" stop-color="#FFCC00" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer Rounded Square with Glow Border -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#grad)" stroke="url(#goldGrad)" stroke-width="3" />
+  
+  <!-- Stylized CFG / Pseudocode Symbol: Left brace/branch, node point, right angle -->
+  <!-- Node A (Root) -->
+  <circle cx="32" cy="18" r="4.5" fill="#FFCC00" />
+  
+  <!-- Branch lines -->
+  <path d="M32 23 L32 30 M32 30 L20 38 M32 30 L44 38" stroke="#FFCC00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Child Node Left (True branch - emerald) -->
+  <rect x="14" y="38" width="12" height="10" rx="3" fill="#10B981" />
+  
+  <!-- Child Node Right (False branch - rose) -->
+  <rect x="38" y="38" width="12" height="10" rx="3" fill="#F43F5E" />
+  
+  <!-- Code chevron accent at bottom -->
+  <path d="M26 55 L32 51 L38 55" stroke="#FFE066" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+</svg>
