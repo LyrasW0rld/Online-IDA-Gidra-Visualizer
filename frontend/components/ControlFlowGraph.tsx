@@ -437,11 +437,18 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
           {/* Stem down from parent condition block */}
           <div className="w-0.5 h-5 bg-[#FFCC00] shrink-0" />
 
-          {/* Unconstrained Horizontal Fork Container: Left (TRUE) and Right (FALSE) Subtrees */}
-          <div className="grid grid-cols-2 items-start justify-center w-max shrink-0">
+          {/* Symmetrical 2-Column Grid Container: Left (TRUE) and Right (FALSE) Subtrees */}
+          <div className="grid grid-cols-2 items-start justify-items-stretch w-max shrink-0 relative">
+            {/* Junction node dot at exact center where parent stem meets green and red lines */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#FFCC00] z-10 shadow-sm" />
+
             {/* LEFT SUBTREE: TRUE BRANCH */}
-            <div className="flex flex-col items-center w-max shrink-0 px-3 sm:px-5">
-              {/* Pixel-perfect True branch connector: starts at column center and extends to the right edge */}
+            <div
+              className={`flex flex-col items-center w-full ${
+                compactNodes ? 'min-w-[280px]' : 'min-w-[340px]'
+              } px-3 sm:px-5`}
+            >
+              {/* Pixel-perfect True branch connector: starts at column center and extends to the right edge (50% grid junction) */}
               <div className="w-full relative h-4 shrink-0">
                 <div className="absolute top-0 left-1/2 right-0 h-0.5 bg-emerald-400" />
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-4 bg-emerald-400" />
@@ -484,15 +491,19 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
                   {trueNode.label})
                 </button>
               ) : (
-                <div className="mt-1">
+                <div className="mt-1 w-full flex flex-col items-center">
                   {renderRecursiveSubtree(trueNode.id, trueBranchVisited, depth + 1, 'TRUE')}
                 </div>
               )}
             </div>
 
             {/* RIGHT SUBTREE: FALSE BRANCH */}
-            <div className="flex flex-col items-center w-max shrink-0 px-3 sm:px-5">
-              {/* Pixel-perfect False branch connector: starts at the left edge and ends at column center */}
+            <div
+              className={`flex flex-col items-center w-full ${
+                compactNodes ? 'min-w-[280px]' : 'min-w-[340px]'
+              } px-3 sm:px-5`}
+            >
+              {/* Pixel-perfect False branch connector: starts at the left edge (50% grid junction) and ends at column center */}
               <div className="w-full relative h-4 shrink-0">
                 <div className="absolute top-0 left-0 right-1/2 h-0.5 bg-rose-400" />
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-4 bg-rose-400" />
@@ -535,7 +546,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
                   {falseNode.label})
                 </button>
               ) : (
-                <div className="mt-1">
+                <div className="mt-1 w-full flex flex-col items-center">
                   {renderRecursiveSubtree(falseNode.id, falseBranchVisited, depth + 1, 'FALSE')}
                 </div>
               )}
