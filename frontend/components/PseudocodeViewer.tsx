@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { DecompiledFunction } from '../types';
+import { isGenericComment } from '../services/commentUtils';
 import {
   ValueTypeConverterPopover,
   ValueConverterTarget,
@@ -629,18 +630,40 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
               setHeaderCommentInput(func.comments || '');
               setIsEditingHeaderComment(true);
             }}
-            className="cursor-pointer group rounded-lg bg-emerald-950/35 hover:bg-emerald-950/55 border border-emerald-500/40 px-3 py-2 transition-colors flex items-start justify-between gap-3"
+            className={`cursor-pointer group rounded-lg px-3 py-2 transition-colors flex items-start justify-between gap-3 ${
+              isGenericComment(func.comments)
+                ? 'bg-zinc-900/60 hover:bg-zinc-800/80 border border-zinc-700/60'
+                : 'bg-emerald-950/35 hover:bg-emerald-950/55 border border-emerald-500/40'
+            }`}
           >
             <div className="flex items-start gap-2 min-w-0 flex-1">
-              <MessageSquare className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-              <div className="text-xs font-mono text-emerald-200 leading-relaxed whitespace-pre-wrap break-words flex-1">
-                <span className="font-bold text-emerald-400 uppercase mr-1.5">
-                  {lang === 'de' ? 'Kommentar:' : 'Comment:'}
+              <MessageSquare
+                className={`w-4 h-4 shrink-0 mt-0.5 ${
+                  isGenericComment(func.comments) ? 'text-zinc-400' : 'text-emerald-400'
+                }`}
+              />
+              <div
+                className={`text-xs font-mono leading-relaxed whitespace-pre-wrap break-words flex-1 ${
+                  isGenericComment(func.comments) ? 'text-zinc-300' : 'text-emerald-200'
+                }`}
+              >
+                <span
+                  className={`font-bold uppercase mr-1.5 ${
+                    isGenericComment(func.comments) ? 'text-zinc-400' : 'text-emerald-400'
+                  }`}
+                >
+                  {isGenericComment(func.comments)
+                    ? lang === 'de'
+                      ? 'Basis-Kommentar (Auto):'
+                      : 'Base Comment (Auto):'
+                    : lang === 'de'
+                    ? 'Kommentar:'
+                    : 'Comment:'}
                 </span>
                 {func.comments ? (
                   func.comments
                 ) : (
-                  <span className="italic text-emerald-400/70">
+                  <span className="italic text-zinc-500">
                     {lang === 'de'
                       ? 'Kein Header-Kommentar vorhanden — Klicke hier, um einen Kommentar hinzuzufügen...'
                       : 'No header comment yet — Click here to add a reverse-engineering comment...'}
@@ -648,7 +671,13 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                 )}
               </div>
             </div>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 group-hover:bg-emerald-400 group-hover:text-black font-semibold shrink-0">
+            <span
+              className={`text-[10px] font-mono px-2 py-0.5 rounded font-semibold shrink-0 ${
+                isGenericComment(func.comments)
+                  ? 'bg-zinc-800 text-zinc-300 group-hover:bg-[#FFCC00] group-hover:text-black'
+                  : 'bg-emerald-500/20 text-emerald-300 group-hover:bg-emerald-400 group-hover:text-black'
+              }`}
+            >
               {lang === 'de' ? 'Bearbeiten' : 'Edit'}
             </span>
           </div>

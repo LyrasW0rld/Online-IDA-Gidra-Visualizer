@@ -1,5 +1,6 @@
 import { I64DatabaseDump, DecompiledFunction, LocalVariable, UserSymbolEdits } from '../types';
 import { buildDynamicCfgFromPseudocode } from './cfgBuilder';
+import { isGenericComment } from './commentUtils';
 
 // Local helper to avoid circular import with i64BinaryParser.ts
 function inferClassAndMethodFromC(
@@ -245,7 +246,7 @@ export function parseGhidraCSourceFile(
         tags: [
           'Ghidra .C',
           ...(className ? [`Class:${className}`] : []),
-          ...(headerComment ? ['Commented'] : []),
+          ...(headerComment && !isGenericComment(headerComment) ? ['Commented'] : []),
           isSub ? 'FUN_Routine' : 'Renamed',
         ],
         isRenamed: !isSub,

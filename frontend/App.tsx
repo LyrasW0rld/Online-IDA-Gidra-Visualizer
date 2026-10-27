@@ -30,6 +30,7 @@ import {
   SAMPLE_GHIDRA_C_SOURCE,
 } from './services/ghidraCParser';
 import { buildFullCrazyTaxiFunctionList } from './services/fullCrazyTaxiFunctionCatalog';
+import { hasRealComment } from './services/commentUtils';
 import {
   loadPersistedSettings,
   savePersistedSettings,
@@ -743,14 +744,21 @@ export function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isClearlyAssigned = useCallback((fn: DecompiledFunction) => {
-    return (
-      fn.isRenamed &&
-      !fn.name.startsWith('sub_') &&
-      !fn.name.startsWith('FUN_') &&
-      (fn.localVariables.length >= 2 || Boolean(fn.comments))
-    );
+  const hasMeaningfulComment = useCallback((fn: DecompiledFunction) => {
+    return hasRealComment(fn);
   }, []);
+
+  const isClearlyAssigned = useCallback(
+    (fn: DecompiledFunction) => {
+      return (
+        fn.isRenamed &&
+        !fn.name.startsWith('sub_') &&
+        !fn.name.startsWith('FUN_') &&
+        (fn.localVariables.length >= 2 || hasMeaningfulComment(fn))
+      );
+    },
+    [hasMeaningfulComment]
+  );
 
   const isEntryOrCoreHook = useCallback((fn: DecompiledFunction) => {
     const lower = fn.name.toLowerCase();
@@ -767,13 +775,6 @@ export function App() {
       fn.tags.some((t) =>
         ['Entrypoint', 'CoreLoop', 'FrameworkHook', 'AudioHook'].includes(t)
       )
-    );
-  }, []);
-
-  const hasMeaningfulComment = useCallback((fn: DecompiledFunction) => {
-    return (
-      Boolean(fn.comments && fn.comments.trim().length > 0) ||
-      Boolean(fn.inlineComments && Object.keys(fn.inlineComments).length > 0)
     );
   }, []);
 
@@ -1303,7 +1304,7 @@ export function App() {
           {displayLabel}
         </div>
 
-        {fn.comments && (
+        {hasMeaningfulComment(fn) && fn.comments && (
           <div
             className={`text-[11px] font-mono whitespace-pre-wrap break-words line-clamp-2 flex items-start gap-1 leading-snug ${
               isSelected ? 'text-black/90 font-medium' : 'text-emerald-400/90'

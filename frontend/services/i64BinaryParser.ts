@@ -1,6 +1,7 @@
 import { I64DatabaseDump, DecompiledFunction, GarArchiveEntryInfo } from '../types';
 import { buildDynamicCfgFromPseudocode } from './cfgBuilder';
 import { parseGhidraCSourceFile } from './ghidraCParser';
+import { isGenericComment } from './commentUtils';
 
 export interface ParseResult {
   success: boolean;
@@ -691,12 +692,29 @@ export async function parseBufferToDatabaseAsync(
               ? buildDynamicCfgFromPseudocode(fn.address, fn.name, fn.pseudocode)
               : { cfgNodes: fn.cfgNodes, cfgEdges: fn.cfgEdges };
 
+          const isRealComment = !isGenericComment(fn.comments);
+          const cleanedTags = (fn.tags || []).filter(
+            (t) => t !== 'Commented' || isRealComment
+          );
+          if (isRealComment && !cleanedTags.includes('Commented')) {
+            cleanedTags.push('Commented');
+          }
+          const cleanedInline = { ...(fn.inlineComments || {}) };
+          if (
+            cleanedInline[11] &&
+            (fn.comments?.includes(cleanedInline[11]) || isGenericComment(cleanedInline[11]))
+          ) {
+            delete cleanedInline[11];
+          }
+
           return {
             ...fn,
             className: fn.className || className,
             methodName: fn.methodName || methodName,
             cfgNodes: built.cfgNodes,
             cfgEdges: built.cfgEdges,
+            tags: cleanedTags,
+            inlineComments: cleanedInline,
           };
         });
 
@@ -1211,17 +1229,17 @@ function buildFunctionsFromExtractedI64Symbols(
       xrefsTo: [],
       xrefsFrom: [],
       comments: extractedCommentText,
-      inlineComments: nearbyCommentObj ? { 11: nearbyCommentObj.text } : {},
+      inlineComments: {},
       tags: isGhidraMode
         ? [
             ...(className ? [`Class:${className}`] : []),
-            ...(nearbyCommentObj ? ['Commented'] : []),
+            ...(!isGenericComment(extractedCommentText) ? ['Commented'] : []),
             isAutoSub ? 'FUN_Routine' : 'Renamed',
             'Ghidra-GAR',
           ]
         : [
             ...(className ? [`Class:${className}`] : []),
-            ...(nearbyCommentObj ? ['Commented'] : []),
+            ...(!isGenericComment(extractedCommentText) ? ['Commented'] : []),
             isAutoSub ? 'sub_Routine' : 'Renamed',
           ],
       isRenamed: !isAutoSub,

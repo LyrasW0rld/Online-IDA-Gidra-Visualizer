@@ -1,4 +1,5 @@
 import { DecompiledFunction, I64DatabaseDump, UserSymbolEdits } from '../types';
+import { isGenericComment } from './commentUtils';
 
 export type SortMode =
   | 'ADDR_ASC'
@@ -416,8 +417,17 @@ export function applyUserEditsToDatabase(
       funcName: globalFuncNameMap.get(x.funcName) || x.funcName,
     }));
 
+    const cleanedExistingInline = { ...(fn.inlineComments || {}) };
+    if (
+      cleanedExistingInline[11] &&
+      (fn.comments?.includes(cleanedExistingInline[11]) ||
+        isGenericComment(cleanedExistingInline[11]))
+    ) {
+      delete cleanedExistingInline[11];
+    }
+
     const mergedInlineComments: Record<number, string> = {
-      ...(fn.inlineComments || {}),
+      ...cleanedExistingInline,
       ...customLines,
     };
 
@@ -426,7 +436,22 @@ export function applyUserEditsToDatabase(
       Boolean(edits.renamedFunctions[fn.address]) ||
       (!newFuncName.startsWith('sub_') && !newFuncName.startsWith('FUN_'));
 
-    const updatedTags = [...fn.tags];
+    const effectiveComments =
+      customHeaderComment !== undefined ? customHeaderComment : fn.comments;
+
+    const fnHasRealComment =
+      (effectiveComments && !isGenericComment(effectiveComments)) ||
+      Object.entries(mergedInlineComments).some(([lineStr, c]) => {
+        if (!c || isGenericComment(c)) return false;
+        if (lineStr === '11' && effectiveComments && effectiveComments.includes(c)) return false;
+        return true;
+      });
+
+    let updatedTags = fn.tags.filter((t) => t !== 'Commented');
+    if (fnHasRealComment) {
+      updatedTags.push('Commented');
+    }
+
     if (
       (edits.renamedFunctions[fn.address] ||
         Object.keys(varMap).length > 0 ||
