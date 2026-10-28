@@ -225,7 +225,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                     ? 'Doppelklick = Wert-Konverter öffnen'
                     : 'Double-click = Open Value Converter'
                 }
-                className="text-amber-300 font-medium cursor-pointer hover:underline"
+                className="text-emerald-400 font-medium cursor-pointer hover:underline"
               >
                 {token}
               </span>
@@ -246,7 +246,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                     ? `Springe zu Adresse / Funktion ${token}`
                     : `Jump to address / function ${token}`
                 }
-                className="text-purple-300 font-semibold underline decoration-purple-400/60 hover:bg-[#FFCC00] hover:text-black px-0.5 rounded transition-colors"
+                className="text-purple-300 font-semibold underline decoration-purple-400/60 hover:bg-[#D4B483] hover:text-[#18181B] px-0.5 rounded transition-colors"
               >
                 {token}
               </button>
@@ -270,7 +270,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                     ? 'Doppelklick = Typ- & Wert-Rechner öffnen (Float, Int, Hex, Enum, String)'
                     : 'Double-click = Open Type & Value Calculator (Float, Int, Hex, Enum, String)'
                 }
-                className="text-purple-300 font-semibold cursor-pointer px-0.5 rounded hover:bg-purple-500/25 hover:text-[#FFCC00] border-b border-dotted border-purple-400/50 transition-colors"
+                className="text-purple-300 font-semibold cursor-pointer px-0.5 rounded hover:bg-purple-500/25 hover:text-emerald-400 border-b border-dotted border-purple-400/50 transition-colors"
               >
                 {token}
               </span>
@@ -279,7 +279,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
 
           if (C_KEYWORDS.has(token)) {
             return (
-              <span key={idx} className="text-[#FFCC00] font-bold">
+              <span key={idx} className="text-[#F5E6CC] font-bold">
                 {token}
               </span>
             );
@@ -307,7 +307,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                     ? `Springe zu Funktion ${token}`
                     : `Jump to function ${token}`
                 }
-                className="text-[#FFCC00] underline decoration-[#FFCC00]/60 hover:bg-[#FFCC00] hover:text-black px-0.5 rounded transition-colors font-semibold inline-flex items-center gap-0.5"
+                className="text-[#38BDF8] underline decoration-[#38BDF8]/60 hover:bg-[#38BDF8] hover:text-black px-0.5 rounded transition-colors font-semibold inline-flex items-center gap-0.5"
               >
                 {token}
               </button>
@@ -323,7 +323,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                   setFuncNameInput(func.name);
                   setIsRenamingFunc(true);
                 }}
-                className="cursor-pointer text-black bg-[#FFCC00] hover:bg-[#FFD633] px-1.5 py-0.5 rounded font-bold"
+                className="cursor-pointer text-[#18181B] bg-[#D4B483] hover:bg-[#E2C9A5] px-1.5 py-0.5 rounded font-bold"
               >
                 {token}
               </span>
@@ -357,7 +357,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                 }
                 className={`cursor-pointer rounded px-0.5 transition-colors ${
                   isSelected
-                    ? 'bg-[#FFCC00] text-black font-bold ring-2 ring-[#FFCC00]'
+                    ? 'bg-[#D4B483] text-[#18181B] font-bold ring-2 ring-[#D4B483]'
                     : 'text-cyan-200 hover:bg-cyan-500/20 font-medium'
                 }`}
               >
@@ -381,7 +381,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                 }}
                 className={`cursor-pointer rounded px-0.5 ${
                   isSelected
-                    ? 'bg-[#FFCC00] text-black font-bold'
+                    ? 'bg-[#D4B483] text-[#18181B] font-bold'
                     : 'text-orange-300 hover:bg-orange-500/20 font-medium'
                 }`}
               >
@@ -415,7 +415,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
       <div className="border-b border-zinc-800 bg-[#12151E] p-3.5 shrink-0 space-y-2.5">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2 flex-wrap">
-            <div className="w-1.5 h-6 bg-[#FFCC00]" />
+            <div className="w-1.5 h-6 bg-[#D4B483]" />
 
             <button
               type="button"
@@ -425,7 +425,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                   ? `Aktuelle Position ${func.address} kopieren`
                   : `Copy current location ${func.address}`
               }
-              className="inline-flex items-center gap-1.5 bg-[#FFCC00] hover:bg-[#FFD633] text-black font-mono font-extrabold text-xs px-2.5 py-1 rounded tracking-wider transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 bg-[#D4B483] hover:bg-[#E2C9A5] text-[#18181B] font-mono font-extrabold text-xs px-2.5 py-1 rounded tracking-wider transition-colors shadow-sm"
             >
               <span>{func.address}</span>
               {copiedAddr ? (
@@ -463,7 +463,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                   currentVarType: func.localVariables[0]?.type,
                 })
               }
-              className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2.5 py-1 rounded bg-purple-950/90 text-purple-200 border border-purple-500/50 hover:bg-[#FFCC00] hover:text-black transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2.5 py-1 rounded bg-purple-950/90 text-purple-200 border border-purple-500/50 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
               title={
                 lang === 'de'
                   ? 'Typ- & Wert-Rechner öffnen (oder Doppelklick auf beliebigen Wert im Code)'
@@ -480,7 +480,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                 setFuncNameInput(func.name);
                 setIsRenamingFunc(true);
               }}
-              className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2.5 py-1 rounded bg-zinc-900 text-amber-300 border border-amber-400/60 hover:bg-[#FFCC00] hover:text-black transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2.5 py-1 rounded bg-zinc-900 text-[#F5E6CC] border border-zinc-700 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
             >
               <Edit3 className="w-3.5 h-3.5" />
               <span>{lang === 'de' ? 'Funktion umbenennen' : 'Rename Func'}</span>
@@ -502,7 +502,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
               <button
                 type="button"
                 onClick={onOpenGoToModal}
-                className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#FFCC00] border border-[#FFCC00]/80 hover:bg-[#FFCC00] hover:text-black transition-colors"
+                className="inline-flex items-center gap-1 text-xs font-mono font-bold px-2 py-1 rounded bg-zinc-900 text-[#F5E6CC] border border-zinc-700 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
               >
                 <Compass className="w-3.5 h-3.5" />
                 <span>[G]</span>
@@ -512,7 +512,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
             <button
               type="button"
               onClick={handleCopyCode}
-              className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded bg-[#FFCC00] text-black hover:bg-[#FFD633] transition-colors shadow-sm"
+              className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded bg-[#D4B483] text-[#18181B] hover:bg-[#E2C9A5] transition-colors shadow-sm"
             >
               {copiedCode ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
               {copiedCode
@@ -528,7 +528,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
               <button
                 type="button"
                 onClick={onToggleMaximize}
-                className="p-1.5 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black transition-colors"
+                className="p-1.5 rounded bg-zinc-800 text-zinc-200 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
               >
                 {isMaximized ? (
                   <Minimize2 className="w-3.5 h-3.5" />
@@ -542,7 +542,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
               <button
                 type="button"
                 onClick={onCollapse}
-                className="p-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700 hover:bg-[#FFCC00] hover:text-black transition-colors"
+                className="p-1.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-700 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
               >
                 <EyeOff className="w-3.5 h-3.5" />
               </button>
@@ -554,9 +554,9 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
         {isRenamingFunc ? (
           <form
             onSubmit={handleSaveFunctionRename}
-            className="flex items-center gap-2 bg-black/80 p-2 rounded border-2 border-[#FFCC00]"
+            className="flex items-center gap-2 bg-black/80 p-2 rounded border-2 border-[#D4B483]"
           >
-            <span className="text-xs font-mono text-[#FFCC00] font-bold shrink-0">
+            <span className="text-xs font-mono text-[#F5E6CC] font-bold shrink-0">
               {lang === 'de' ? 'Neuer Funktionsname:' : 'New Function Name:'}
             </span>
             <input
@@ -564,11 +564,11 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
               value={funcNameInput}
               onChange={(e) => setFuncNameInput(e.target.value)}
               autoFocus
-              className="flex-1 bg-zinc-900 border border-zinc-700 rounded px-2.5 py-1 text-xs font-mono text-white focus:border-[#FFCC00] focus:outline-none"
+              className="flex-1 bg-zinc-900 border border-zinc-700 rounded px-2.5 py-1 text-xs font-mono text-white focus:border-[#D4B483] focus:outline-none"
             />
             <button
               type="submit"
-              className="px-3 py-1 rounded bg-[#FFCC00] text-black font-bold text-xs inline-flex items-center gap-1"
+              className="px-3 py-1 rounded bg-[#D4B483] text-[#18181B] font-bold text-xs inline-flex items-center gap-1"
             >
               <Save className="w-3.5 h-3.5" />
               {lang === 'de' ? 'Übernehmen (Global)' : 'Save Globally'}
@@ -674,7 +674,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
             <span
               className={`text-[10px] font-mono px-2 py-0.5 rounded font-semibold shrink-0 ${
                 isGenericComment(func.comments)
-                  ? 'bg-zinc-800 text-zinc-300 group-hover:bg-[#FFCC00] group-hover:text-black'
+                  ? 'bg-zinc-800 text-zinc-300 group-hover:bg-[#D4B483] group-hover:text-[#18181B]'
                   : 'bg-emerald-500/20 text-emerald-300 group-hover:bg-emerald-400 group-hover:text-black'
               }`}
             >
@@ -689,7 +689,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
         <div className="border-b border-zinc-800/80 bg-[#0F1219] px-4 py-2.5 shrink-0 space-y-2">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
-              <Cpu className="w-3.5 h-3.5 text-[#FFCC00]" />
+              <Cpu className="w-3.5 h-3.5 text-sky-400" />
               {lang === 'de'
                 ? `Variablen (${func.localVariables.length}) — Klick = Auswählen | [E] = Name ändern | Doppelklick auf Zahl/Variable = Typ & Wert berechnen`
                 : `Variables (${func.localVariables.length}) — Click = Select | [E] = Rename | Double-click number/var = Type & Value Calculator`}
@@ -731,7 +731,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                 <button
                   type="button"
                   onClick={() => onSelectIdentifier(null)}
-                  className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#FFCC00] text-black"
+                  className="text-[11px] font-bold px-2 py-0.5 rounded bg-[#D4B483] text-[#18181B]"
                 >
                   {lang === 'de' ? 'Auswahl aufheben' : 'Clear'}
                 </button>
@@ -742,9 +742,9 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
           {editingVarName && (
             <form
               onSubmit={handleSaveVariableRename}
-              className="flex items-center gap-2 bg-black/90 p-2 rounded border-2 border-[#FFCC00]"
+              className="flex items-center gap-2 bg-black/90 p-2 rounded border-2 border-[#D4B483]"
             >
-              <span className="text-xs font-mono text-[#FFCC00] font-bold">
+              <span className="text-xs font-mono text-[#F5E6CC] font-bold">
                 {lang === 'de'
                   ? `Variable "${editingVarName}" umbenennen in (Taste E):`
                   : `Rename variable "${editingVarName}" to (Hotkey E):`}
@@ -754,11 +754,11 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                 value={varNameInput}
                 onChange={(e) => setVarNameInput(e.target.value)}
                 autoFocus
-                className="bg-zinc-900 border border-zinc-700 rounded px-2.5 py-1 text-xs font-mono text-white focus:border-[#FFCC00] focus:outline-none"
+                className="bg-zinc-900 border border-zinc-700 rounded px-2.5 py-1 text-xs font-mono text-white focus:border-[#D4B483] focus:outline-none"
               />
               <button
                 type="submit"
-                className="px-2.5 py-1 rounded bg-[#FFCC00] text-black font-bold text-xs font-mono inline-flex items-center gap-1"
+                className="px-2.5 py-1 rounded bg-[#D4B483] text-[#18181B] font-bold text-xs font-mono inline-flex items-center gap-1"
               >
                 <Save className="w-3 h-3" />
                 {lang === 'de' ? 'Übernehmen' : 'Apply'}
@@ -781,8 +781,8 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                   key={v.name}
                   className={`text-xs font-mono rounded border transition-all inline-flex items-center overflow-hidden ${
                     active
-                      ? 'bg-[#FFCC00] text-black font-bold border-[#FFCC00]'
-                      : 'bg-zinc-900/90 text-zinc-200 border-zinc-800 hover:border-[#FFCC00]/60'
+                      ? 'bg-[#D4B483] text-[#18181B] font-bold border-[#D4B483]'
+                      : 'bg-zinc-900/90 text-zinc-200 border-zinc-800 hover:border-[#D4B483]/60'
                   }`}
                 >
                   <button
@@ -803,15 +803,15 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                         : 'Click = Select | Double-click = Change Type (float, int, enum, char*)'
                     }
                   >
-                    <span className={active ? 'text-black/80 underline' : 'text-sky-400 underline'}>
+                    <span className={active ? 'text-[#18181B]/80 underline' : 'text-sky-400 underline'}>
                       {v.type}
                     </span>
-                    <span className={active ? 'text-black font-extrabold' : 'text-cyan-200 font-semibold'}>
+                    <span className={active ? 'text-[#18181B] font-extrabold' : 'text-cyan-200 font-semibold'}>
                       {v.name}
                     </span>
                     <span
                       className={`text-[10px] px-1 rounded ${
-                        active ? 'bg-black/20 text-black' : 'bg-zinc-800 text-zinc-400'
+                        active ? 'bg-black/20 text-[#18181B]' : 'bg-zinc-800 text-zinc-400'
                       }`}
                     >
                       {v.location}
@@ -830,8 +830,8 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                     }
                     className={`px-1.5 py-1 border-l ${
                       active
-                        ? 'border-black/20 hover:bg-black/15 text-black'
-                        : 'border-zinc-800 hover:bg-[#FFCC00] hover:text-black text-zinc-400'
+                        ? 'border-black/20 hover:bg-black/15 text-[#18181B]'
+                        : 'border-zinc-800 hover:bg-[#D4B483] hover:text-[#18181B] text-zinc-400'
                     }`}
                   >
                     <Edit3 className="w-3 h-3" />
@@ -859,7 +859,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                 onClick={() => onSelectLine(lineNum)}
                 className={`group flex items-start px-4 cursor-pointer transition-colors ${
                   isHighlightedByCfg
-                    ? 'bg-[#FFCC00]/15 border-l-4 border-[#FFCC00]'
+                    ? 'bg-[#D4B483]/15 border-l-4 border-[#D4B483]'
                     : 'hover:bg-zinc-800/40 border-l-4 border-transparent'
                 }`}
               >
@@ -877,7 +877,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                   className={`mr-2 mt-1 p-0.5 rounded shrink-0 transition-opacity ${
                     inlineComment
                       ? 'opacity-100 text-emerald-400 bg-emerald-950/80'
-                      : 'opacity-0 group-hover:opacity-100 text-zinc-400 hover:text-[#FFCC00]'
+                      : 'opacity-0 group-hover:opacity-100 text-zinc-400 hover:text-emerald-400'
                   }`}
                 >
                   <MessageSquarePlus className="w-3.5 h-3.5" />
@@ -951,7 +951,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                   key={idx}
                   type="button"
                   onClick={() => onJumpToFunction(xref.funcName)}
-                  className="inline-flex items-center gap-1 font-mono text-xs px-2 py-0.5 rounded bg-[#FFCC00] text-black font-bold hover:bg-[#FFD633] transition-colors"
+                  className="inline-flex items-center gap-1 font-mono text-xs px-2 py-0.5 rounded bg-[#D4B483] text-[#18181B] font-bold hover:bg-[#E2C9A5] transition-colors"
                 >
                   {xref.funcName} ({xref.address})
                   <ArrowUpRight className="w-3 h-3" />
@@ -970,7 +970,7 @@ export const PseudocodeViewer: React.FC<PseudocodeViewerProps> = ({
                   key={idx}
                   type="button"
                   onClick={() => onJumpToFunction(xref.funcName)}
-                  className="inline-flex items-center gap-1 font-mono text-xs px-2 py-0.5 rounded bg-zinc-800 text-zinc-100 border border-zinc-700 hover:border-[#FFCC00] hover:text-[#FFCC00] transition-colors"
+                  className="inline-flex items-center gap-1 font-mono text-xs px-2 py-0.5 rounded bg-zinc-800 text-zinc-100 border border-zinc-700 hover:border-[#D4B483] hover:text-[#38BDF8] transition-colors"
                 >
                   {xref.funcName}
                   <ArrowUpRight className="w-3 h-3" />

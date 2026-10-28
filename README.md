@@ -4,6 +4,8 @@ A 100% client-side, browser-native Reverse Engineering & Pseudocode Explorer in 
 
 Runs completely offline in any modern web browser or as a static HTML5 website on GitHub Pages. **No Google Cloud API, external servers, or Python required.**
 
+      -> https://lyrasw0rld.github.io/Online-IDA-Gidra-Visualizer/  <-
+
 ---
 
 ## ✨ Features
@@ -21,7 +23,8 @@ Runs completely offline in any modern web browser or as a static HTML5 website o
    - Double-click any number or variable in pseudocode to inspect and live-convert between `Float IEEE-754`, `Int32`, `UInt32`, `Hex`, `Binary`, `ASCII`, and `Enum`.
 5. **State Persistence**
    - Remembers loaded URL, language (`EN`/`DE`), panel collapse states, widths, selected function, and all custom renames across sessions via cookies and `localStorage`.
-
+   - 
+   -> https://lyrasw0rld.github.io/Online-IDA-Gidra-Visualizer/  <-
 ---
 
 ## 🚀 Running Locally (Windows One-Click Launcher)

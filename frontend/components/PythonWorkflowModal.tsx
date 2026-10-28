@@ -65,10 +65,10 @@ export const PythonWorkflowModal: React.FC<PythonWorkflowModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[#11141C] border-2 border-[#FFCC00] rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden"
+        className="bg-[#11141C] border-2 border-[#D4B483] rounded-lg max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="bg-[#FFCC00] text-black px-6 py-4 flex items-center justify-between">
+        <div className="bg-[#D4B483] text-[#18181B] px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Sparkles className="w-6 h-6 stroke-[2.5]" />
             <div>
@@ -77,7 +77,7 @@ export const PythonWorkflowModal: React.FC<PythonWorkflowModalProps> = ({
                   ? '100% Browser-Parser (Kein Python nötig!) + Offline .bat & GitHub Hosting'
                   : '100% Browser-Native Parser (No Python Needed!) + Offline .bat & GitHub Guide'}
               </h2>
-              <p className="text-xs font-bold text-black/80">
+              <p className="text-xs font-bold text-[#18181B]/80">
                 {lang === 'de'
                   ? '.i64, .gar und .c Dateien werden direkt im Browser ohne Python eingelesen & wieder als .i64 / .c / .cpp exportiert!'
                   : '.i64, .gar, and .c files are parsed directly in your browser without Python & exported back as .i64 / .c / .cpp!'}
@@ -87,7 +87,7 @@ export const PythonWorkflowModal: React.FC<PythonWorkflowModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded bg-black text-[#FFCC00] hover:bg-zinc-900 transition-colors"
+            className="p-1.5 rounded bg-black text-[#F5E6CC] hover:text-white hover:bg-zinc-900 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -105,8 +105,8 @@ export const PythonWorkflowModal: React.FC<PythonWorkflowModalProps> = ({
               </div>
               <p className="text-xs text-zinc-200 leading-relaxed">
                 {lang === 'de'
-                  ? 'Du musst kein Python-Skript mehr ausführen: Ziehe deine IDA Pro (.i64), Ghidra (.gar inkl. .gbf/.dat) oder Ghidra (.c) Datei einfach über den gelben Button oben rechts in die Webseite. Unser integrierter Web-Binärparser liest alle Symbole, Klassen und Kommentare direkt im Browser aus und exportiert deine Änderungen auch wieder als gepatchte .i64 Datei!'
-                  : 'You do NOT need Python: Simply load your IDA Pro (.i64), Ghidra (.gar with nested .gbf/.dat), or Ghidra (.c) file via the yellow button in the top bar. Our built-in Web Binary Parser extracts all symbols, classes, and comments directly in the browser and exports your changes back as a patched .i64 file!'}
+                  ? 'Du musst kein Python-Skript mehr ausführen: Ziehe deine IDA Pro (.i64), Ghidra (.gar inkl. .gbf/.dat) oder Ghidra (.c) Datei einfach über den oberen Load-Button in die Webseite. Unser integrierter Web-Binärparser liest alle Symbole, Klassen und Kommentare direkt im Browser aus und exportiert deine Änderungen auch wieder als gepatchte .i64 Datei!'
+                  : 'You do NOT need Python: Simply load your IDA Pro (.i64), Ghidra (.gar with nested .gbf/.dat), or Ghidra (.c) file via the Load button in the top bar. Our built-in Web Binary Parser extracts all symbols, classes, and comments directly in the browser and exports your changes back as a patched .i64 file!'}
               </p>
             </div>
           </div>
@@ -115,7 +115,7 @@ export const PythonWorkflowModal: React.FC<PythonWorkflowModalProps> = ({
             {/* Card 1: Offline .bat Launcher */}
             <div className="bg-[#181C26] border border-zinc-700 rounded-lg p-4 flex flex-col justify-between space-y-3">
               <div>
-                <div className="inline-block bg-[#FFCC00] text-black font-extrabold text-xs px-2 py-0.5 rounded mb-2">
+                <div className="inline-block bg-[#D4B483] text-[#18181B] font-extrabold text-xs px-2 py-0.5 rounded mb-2">
                   {lang === 'de' ? '1. LOKAL & OFFLINE (.BAT)' : '1. LOCAL OFFLINE (.BAT)'}
                 </div>
                 <p className="text-xs text-zinc-300 leading-relaxed">
@@ -127,7 +127,7 @@ export const PythonWorkflowModal: React.FC<PythonWorkflowModalProps> = ({
               <button
                 type="button"
                 onClick={handleDownloadBat}
-                className="w-full py-2 px-3 rounded bg-[#FFCC00] text-black font-extrabold text-xs uppercase tracking-wider hover:bg-[#FFD633] inline-flex items-center justify-center gap-1.5"
+                className="w-full py-2 px-3 rounded bg-[#D4B483] text-[#18181B] font-extrabold text-xs uppercase tracking-wider hover:bg-[#E2C9A5] inline-flex items-center justify-center gap-1.5"
               >
                 <Download className="w-3.5 h-3.5" />
                 start_local_offline.bat
@@ -181,7 +181,7 @@ export const PythonWorkflowModal: React.FC<PythonWorkflowModalProps> = ({
 
           <div className="flex items-center justify-between bg-zinc-900 px-4 py-2.5 rounded-lg border border-zinc-700">
             <div className="flex items-center gap-2 font-mono text-xs text-zinc-300">
-              <FileCode className="w-4 h-4 text-[#FFCC00]" />
+              <FileCode className="w-4 h-4 text-sky-400" />
               {lang === 'de'
                 ? 'Optional: Headless IDAPython Helper (nur falls gewünscht)'
                 : 'Optional: Headless IDAPython Helper (only if needed)'}
@@ -189,7 +189,7 @@ export const PythonWorkflowModal: React.FC<PythonWorkflowModalProps> = ({
             <button
               type="button"
               onClick={handleCopyScript}
-              className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded bg-zinc-800 text-white hover:bg-[#FFCC00] hover:text-black transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded bg-zinc-800 text-white hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
             >
               {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
               {copied ? 'Copied!' : 'Copy Optional Script'}

@@ -179,11 +179,11 @@ export const GoToAddressModal: React.FC<GoToAddressModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[#11141C] border-2 border-[#FFCC00] rounded-lg max-w-xl w-full shadow-2xl overflow-hidden"
+        className="bg-[#11141C] border-2 border-[#D4B483] rounded-lg max-w-xl w-full shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="bg-[#FFCC00] text-black px-5 py-3 flex items-center justify-between">
+        <div className="bg-[#D4B483] text-[#18181B] px-5 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <Compass className="w-5 h-5 stroke-[2.5]" />
             <div>
@@ -192,7 +192,7 @@ export const GoToAddressModal: React.FC<GoToAddressModalProps> = ({
                   ? 'Springe zu Adresse / Funktion (Hotkey: G)'
                   : 'Jump to Address / Function (Hotkey: G)'}
               </h3>
-              <p className="text-[11px] font-semibold text-black/80">
+              <p className="text-[11px] font-semibold text-[#18181B]/80">
                 {lang === 'de'
                   ? 'Unterstützt IDA (.i64) & Ghidra (.gpr) Adressen (z.B. 0x00413530, FUN_00413530)'
                   : 'Supports IDA (.i64) & Ghidra (.gpr) addresses (e.g. 0x00413530, FUN_00413530)'}
@@ -202,7 +202,7 @@ export const GoToAddressModal: React.FC<GoToAddressModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded bg-black text-[#FFCC00] hover:bg-zinc-900"
+            className="p-1 rounded bg-black text-[#F5E6CC] hover:text-white hover:bg-zinc-900"
           >
             <X className="w-4 h-4" />
           </button>
@@ -223,12 +223,12 @@ export const GoToAddressModal: React.FC<GoToAddressModalProps> = ({
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="0x00413530 / FUN_00413530"
-                className="flex-1 bg-[#090B10] border-2 border-zinc-700 focus:border-[#FFCC00] rounded px-3.5 py-2 text-sm font-mono text-white placeholder-zinc-500 focus:outline-none"
+                className="flex-1 bg-[#090B10] border-2 border-zinc-700 focus:border-[#D4B483] rounded px-3.5 py-2 text-sm font-mono text-white placeholder-zinc-500 focus:outline-none"
               />
               <button
                 type="submit"
                 disabled={!primaryResolution}
-                className="px-4 py-2 rounded bg-[#FFCC00] text-black font-extrabold text-xs uppercase tracking-wider hover:bg-[#FFD633] disabled:opacity-40 inline-flex items-center gap-1.5 transition-colors"
+                className="px-4 py-2 rounded bg-[#D4B483] text-[#18181B] font-extrabold text-xs uppercase tracking-wider hover:bg-[#E2C9A5] disabled:opacity-40 inline-flex items-center gap-1.5 transition-colors"
               >
                 <span>{lang === 'de' ? 'Springen' : 'Jump'}</span>
                 <CornerDownLeft className="w-3.5 h-3.5" />
@@ -259,7 +259,7 @@ export const GoToAddressModal: React.FC<GoToAddressModalProps> = ({
                         ? 'Symbol-Treffer'
                         : 'Symbol Match'}
                     </span>
-                    <span className="font-mono text-xs font-bold text-[#FFCC00]">
+                    <span className="font-mono text-xs font-bold text-[#38BDF8]">
                       {primaryResolution.func.address}
                     </span>
                   </div>
@@ -270,8 +270,8 @@ export const GoToAddressModal: React.FC<GoToAddressModalProps> = ({
 
                   {primaryResolution.matchedNode && (
                     <div className="flex items-center justify-between text-xs font-mono text-zinc-300 bg-black/50 px-2.5 py-1.5 rounded border border-zinc-800">
-                      <span className="inline-flex items-center gap-1.5 text-amber-300">
-                        <GitFork className="w-3.5 h-3.5 text-[#FFCC00]" />
+                      <span className="inline-flex items-center gap-1.5 text-sky-300">
+                        <GitFork className="w-3.5 h-3.5 text-[#38BDF8]" />
                         CFG Block: {primaryResolution.matchedNode.label} (
                         {primaryResolution.matchedNode.address})
                       </span>
@@ -296,7 +296,7 @@ export const GoToAddressModal: React.FC<GoToAddressModalProps> = ({
           {/* Suggestions List */}
           <div className="space-y-1.5">
             <div className="text-[11px] font-mono uppercase text-zinc-400 flex items-center gap-1.5">
-              <Database className="w-3 h-3 text-[#FFCC00]" />
+              <Database className="w-3 h-3 text-[#38BDF8]" />
               {lang === 'de' ? 'Vorschläge (Klick zum Springen):' : 'Suggestions (Click to Jump):'}
             </div>
             <div className="max-h-48 overflow-y-auto divide-y divide-zinc-800/80 border border-zinc-800 rounded bg-[#0B0D13]">
@@ -308,17 +308,17 @@ export const GoToAddressModal: React.FC<GoToAddressModalProps> = ({
                     onJumpToResolved(fn, fn.cfgNodes[0] || null);
                     onClose();
                   }}
-                  className="w-full text-left px-3 py-2 hover:bg-[#FFCC00] hover:text-black transition-colors flex items-center justify-between gap-2 group"
+                  className="w-full text-left px-3 py-2 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors flex items-center justify-between gap-2 group"
                 >
                   <div className="flex items-center gap-2 min-w-0">
-                    <span className="font-mono text-xs font-bold text-[#FFCC00] group-hover:text-black shrink-0">
+                    <span className="font-mono text-xs font-bold text-[#38BDF8] group-hover:text-[#18181B] shrink-0">
                       {fn.address}
                     </span>
-                    <span className="font-mono text-xs text-zinc-100 group-hover:text-black font-medium truncate">
+                    <span className="font-mono text-xs text-zinc-100 group-hover:text-[#18181B] font-medium truncate">
                       {fn.name}
                     </span>
                   </div>
-                  <span className="text-[11px] font-mono text-zinc-400 group-hover:text-black shrink-0 inline-flex items-center gap-1">
+                  <span className="text-[11px] font-mono text-zinc-400 group-hover:text-[#18181B] shrink-0 inline-flex items-center gap-1">
                     <Crosshair className="w-3 h-3" />
                     {fn.cfgNodes.length} Br
                   </span>

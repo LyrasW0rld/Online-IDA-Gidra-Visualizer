@@ -48,7 +48,7 @@ export const HotkeysModal: React.FC<HotkeysModalProps> = ({ isOpen, onClose, lan
   const categories: ShortcutCategory[] = [
     {
       title: 'Navigation & Workspace',
-      icon: <Compass className="w-4 h-4 text-[#FFCC00]" />,
+      icon: <Compass className="w-4 h-4 text-sky-400" />,
       items: [
         {
           keys: ['G'],
@@ -95,7 +95,7 @@ export const HotkeysModal: React.FC<HotkeysModalProps> = ({ isOpen, onClose, lan
     },
     {
       title: '2D Control Flow Graph (CFG)',
-      icon: <GitFork className="w-4 h-4 text-amber-300" />,
+      icon: <GitFork className="w-4 h-4 text-sky-400" />,
       items: [
         {
           keys: ['Mouse Drag Canvas'],
@@ -159,18 +159,18 @@ export const HotkeysModal: React.FC<HotkeysModalProps> = ({ isOpen, onClose, lan
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-4xl max-h-[90vh] bg-[#0E1118] border-2 border-[#FFCC00] rounded-xl shadow-2xl flex flex-col overflow-hidden text-white font-sans"
+        className="w-full max-w-4xl max-h-[90vh] bg-[#0E1118] border-2 border-[#D4B483] rounded-xl shadow-2xl flex flex-col overflow-hidden text-white font-sans"
       >
         {/* Header */}
         <div className="px-5 py-3.5 border-b border-zinc-800 bg-[#141824] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="p-1.5 rounded-lg bg-[#FFCC00] text-black">
+            <div className="p-1.5 rounded-lg bg-[#D4B483] text-[#18181B]">
               <Keyboard className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
                 <span>Keyboard Shortcuts &amp; Controls</span>
-                <span className="text-[11px] bg-[#FFCC00]/20 text-[#FFCC00] px-2 py-0.5 rounded border border-[#FFCC00]/40 font-mono">
+                <span className="text-[11px] bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded border border-sky-500/40 font-mono">
                   HOTKEYS
                 </span>
               </h2>
@@ -202,10 +202,10 @@ export const HotkeysModal: React.FC<HotkeysModalProps> = ({ isOpen, onClose, lan
                 {cat.items.map((item) => (
                   <div
                     key={item.action}
-                    className="p-3 rounded-lg bg-[#090B10] border border-zinc-800/80 hover:border-[#FFCC00]/50 transition-colors flex flex-col justify-between"
+                    className="p-3 rounded-lg bg-[#090B10] border border-zinc-800/80 hover:border-[#D4B483]/50 transition-colors flex flex-col justify-between"
                   >
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-semibold text-xs text-[#FFCC00] font-mono">
+                      <span className="font-semibold text-xs text-[#F5E6CC] font-mono">
                         {item.action}
                       </span>
                       <div className="flex items-center gap-1 shrink-0">
@@ -235,7 +235,7 @@ export const HotkeysModal: React.FC<HotkeysModalProps> = ({ isOpen, onClose, lan
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 rounded bg-[#FFCC00] text-black font-bold font-mono text-xs hover:bg-[#FFD633] transition-colors"
+            className="px-4 py-1.5 rounded bg-[#D4B483] text-[#18181B] font-bold font-mono text-xs hover:bg-[#E2C9A5] transition-colors"
           >
             Got it
           </button>

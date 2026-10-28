@@ -165,9 +165,9 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
   const getBadgeStyle = (type: CFGNode['type']) => {
     switch (type) {
       case 'entry':
-        return 'bg-[#FFCC00] text-black font-semibold';
+        return 'bg-[#D4B483] text-[#18181B] font-semibold';
       case 'condition':
-        return 'bg-amber-400 text-black font-semibold';
+        return 'bg-[#E2C9A5] text-[#18181B] font-semibold';
       case 'loop':
         return 'bg-sky-400 text-black font-semibold';
       case 'return':
@@ -186,7 +186,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
     );
   }, [hoveredNode, func.pseudocode]);
 
-  const renderDownArrow = (colorClass = 'border-[#FFCC00]', lineClass = 'bg-[#FFCC00]') => (
+  const renderDownArrow = (colorClass = 'border-[#D4B483]', lineClass = 'bg-[#D4B483]') => (
     <div className="flex flex-col items-center shrink-0">
       <div className={`w-0.5 h-5 ${lineClass}`} />
       <div className={`w-2.5 h-2.5 rotate-45 border-b-2 border-r-2 ${colorClass} -mt-1.5`} />
@@ -222,19 +222,19 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
             : 'w-[320px] min-w-[320px] max-w-[320px]'
         } shrink-0 rounded-lg border-2 transition-colors cursor-pointer shadow-xl overflow-hidden ${
           isSelected
-            ? 'border-[#FFCC00] bg-[#181C26] ring-2 ring-[#FFCC00]/50'
+            ? 'border-[#D4B483] bg-[#181C26] ring-2 ring-[#D4B483]/50'
             : branchTag === 'TRUE'
             ? 'border-emerald-500/70 bg-[#11171A] hover:border-emerald-400'
             : branchTag === 'FALSE'
             ? 'border-rose-500/70 bg-[#191216] hover:border-rose-400'
-            : 'border-zinc-700 bg-[#12151E] hover:border-[#FFCC00]/80'
+            : 'border-zinc-700 bg-[#12151E] hover:border-[#D4B483]/80'
         }`}
       >
         {/* Node Header */}
         <div
           className={`px-3.5 py-2 border-b space-y-1.5 ${
             isSelected
-              ? 'bg-[#FFCC00] text-black border-black/20'
+              ? 'bg-[#D4B483] text-[#18181B] border-black/20'
               : 'bg-zinc-900 text-zinc-100 border-zinc-800'
           }`}
         >
@@ -257,14 +257,14 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
             )}
             <span
               className={`text-[11px] font-mono px-1.5 py-0.5 rounded uppercase shrink-0 ${
-                isSelected ? 'bg-black text-[#FFCC00] font-semibold' : getBadgeStyle(node.type)
+                isSelected ? 'bg-black text-[#4ADE80] font-semibold' : getBadgeStyle(node.type)
               }`}
             >
               {node.type}
             </span>
             <span
               className={`font-mono text-xs font-semibold truncate ${
-                isSelected ? 'text-black' : 'text-amber-200'
+                isSelected ? 'text-black' : 'text-[#38BDF8]'
               }`}
               title={node.label}
             >
@@ -283,7 +283,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
               className={`text-[11px] font-mono px-2 py-0.5 rounded ${
                 isSelected
                   ? 'bg-black/15 text-black font-bold'
-                  : 'bg-black/60 text-[#FFCC00] border border-zinc-800 font-semibold hover:bg-[#FFCC00] hover:text-black'
+                  : 'bg-black/60 text-[#38BDF8] border border-zinc-800 font-semibold hover:bg-[#D4B483] hover:text-[#18181B]'
               }`}
             >
               {node.address}
@@ -306,8 +306,8 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
         >
           <div className="space-y-1.5">
             {node.conditionExpression && (
-              <div className="px-2.5 py-1 rounded bg-amber-500/15 border border-amber-400/40 text-amber-200 text-[11px] font-mono break-words">
-                <strong className="text-[#FFCC00] mr-1">
+              <div className="px-2.5 py-1 rounded bg-sky-950/40 border border-sky-500/40 text-sky-200 text-[11px] font-mono break-words">
+                <strong className="text-[#38BDF8] mr-1">
                   {lang === 'de' ? 'Bedingung:' : 'Condition:'}
                 </strong>
                 <code>{node.conditionExpression}</code>
@@ -332,7 +332,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
                         ? `Springe zu Funktion ${callee}()`
                         : `Jump to function ${callee}()`
                     }
-                    className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-200 border border-sky-500/40 hover:bg-[#FFCC00] hover:text-black font-semibold transition-colors"
+                    className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-200 border border-sky-500/40 hover:bg-[#D4B483] hover:text-[#18181B] font-semibold transition-colors"
                   >
                     ⚡ {callee}()
                   </button>
@@ -344,7 +344,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
               {node.codePreview.slice(0, 3).map((line, i) => (
                 <div
                   key={i}
-                  className="text-zinc-100 truncate pl-2 border-l-2 border-[#FFCC00]/60 leading-relaxed"
+                  className="text-zinc-100 truncate pl-2 border-l-2 border-[#D4B483]/60 leading-relaxed"
                   title={line}
                 >
                   {line}
@@ -361,7 +361,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
                   onSelectNode(nextTargetNode);
                 }}
                 onDoubleClick={(e) => handleDoubleClickBranchTarget(nextTargetNode, e)}
-                className="mb-1.5 pt-1.5 border-t border-zinc-800/80 flex items-center justify-between text-[11px] text-amber-300 hover:text-[#FFCC00]"
+                className="mb-1.5 pt-1.5 border-t border-zinc-800/80 flex items-center justify-between text-[11px] text-sky-300 hover:text-[#38BDF8]"
               >
                 <span>
                   {lang === 'de' ? 'Führt weiter zu:' : 'Continues to:'}{' '}
@@ -377,7 +377,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
                   ? 'Doppelklick = Root Fokus'
                   : 'Double-click = Focus Root'}
               </span>
-              <span className="inline-flex items-center gap-1 text-[#FFCC00] font-medium">
+              <span className="inline-flex items-center gap-1 text-[#4ADE80] font-medium">
                 <Crosshair className="w-3 h-3" /> Sync
               </span>
             </div>
@@ -435,12 +435,12 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
           {renderNodeCard(node, branchTag)}
 
           {/* Stem down from parent condition block */}
-          <div className="w-0.5 h-5 bg-[#FFCC00] shrink-0" />
+          <div className="w-0.5 h-5 bg-[#D4B483] shrink-0" />
 
           {/* Symmetrical 2-Column Grid Container: Left (TRUE) and Right (FALSE) Subtrees */}
           <div className="grid grid-cols-2 items-start justify-items-stretch w-max shrink-0 relative">
             {/* Junction node dot at exact center where parent stem meets green and red lines */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#FFCC00] z-10 shadow-sm" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-[#D4B483] z-10 shadow-sm" />
 
             {/* LEFT SUBTREE: TRUE BRANCH */}
             <div
@@ -573,7 +573,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
 
         {nextNode && !nextVisited.has(nextNode.id) && depth < maxBranches && (
           <>
-            <div className="my-1">{renderDownArrow('border-[#FFCC00]', 'bg-[#FFCC00]')}</div>
+            <div className="my-1">{renderDownArrow('border-[#D4B483]', 'bg-[#D4B483]')}</div>
             {renderRecursiveSubtree(nextNode.id, nextVisited, depth + 1)}
           </>
         )}
@@ -586,10 +586,10 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
       {/* Header with Resize, Depth, Reset View / Root & Collapse Controls */}
       <div className="p-2.5 border-b border-zinc-800 bg-[#12151E] flex flex-wrap items-center justify-between gap-2 shrink-0 z-20">
         <div className="flex items-center gap-2 min-w-0">
-          <div className="w-1.5 h-6 bg-[#FFCC00] shrink-0" />
+          <div className="w-1.5 h-6 bg-[#D4B483] shrink-0" />
           <div className="min-w-0">
-            <h3 className="text-xs sm:text-sm font-semibold tracking-wide text-[#FFCC00] flex items-center gap-1.5 truncate">
-              <GitFork className="w-4 h-4 text-[#FFCC00] shrink-0" />
+            <h3 className="text-xs sm:text-sm font-semibold tracking-wide text-[#F5E6CC] flex items-center gap-1.5 truncate">
+              <GitFork className="w-4 h-4 text-[#38BDF8] shrink-0" />
               {lang === 'de' ? '2D CFG-Graph' : '2D CFG Graph'}
             </h3>
             <p className="text-[10px] sm:text-[11px] text-zinc-300 font-mono truncate">
@@ -605,13 +605,13 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
         <div className="flex items-center gap-1 shrink-0 flex-wrap">
           {onChangeMaxBranches && (
             <div className="flex items-center gap-1 bg-[#090B10] px-1.5 py-0.5 rounded border border-zinc-800 text-[11px] font-mono text-zinc-300">
-              <span className="text-[#FFCC00] font-semibold hidden sm:inline">
+              <span className="text-[#F5E6CC] font-semibold hidden sm:inline">
                 {lang === 'de' ? 'Tiefe:' : 'Depth:'}
               </span>
               <button
                 type="button"
                 onClick={() => onChangeMaxBranches(Math.max(1, maxBranches - 1))}
-                className="w-4 h-4 rounded bg-zinc-800 hover:bg-[#FFCC00] hover:text-black text-center font-bold text-xs"
+                className="w-4 h-4 rounded bg-zinc-800 hover:bg-[#D4B483] hover:text-[#18181B] text-center font-bold text-xs"
                 title={lang === 'de' ? 'Graph-Tiefe verringern' : 'Decrease Graph Depth'}
               >
                 -
@@ -620,7 +620,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
               <button
                 type="button"
                 onClick={() => onChangeMaxBranches(Math.min(30, maxBranches + 1))}
-                className="w-4 h-4 rounded bg-zinc-800 hover:bg-[#FFCC00] hover:text-black text-center font-bold text-xs"
+                className="w-4 h-4 rounded bg-zinc-800 hover:bg-[#D4B483] hover:text-[#18181B] text-center font-bold text-xs"
                 title={lang === 'de' ? 'Graph-Tiefe erhöhen' : 'Increase Graph Depth'}
               >
                 +
@@ -633,7 +633,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
             onClick={() => setCompactNodes((v) => !v)}
             className={`px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold transition-colors ${
               compactNodes
-                ? 'bg-[#FFCC00] text-black font-bold'
+                ? 'bg-[#D4B483] text-[#18181B] font-bold'
                 : 'bg-zinc-800 text-zinc-300 hover:text-white'
             }`}
             title={
@@ -653,7 +653,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
                 setPan({ x: 0, y: 24 });
                 if (func.cfgNodes[0]) onSelectNode(func.cfgNodes[0]);
               }}
-              className="px-1.5 py-0.5 rounded bg-[#FFCC00] text-black font-mono font-bold text-[10px] inline-flex items-center gap-1 hover:bg-[#FFD633]"
+              className="px-1.5 py-0.5 rounded bg-[#D4B483] text-[#18181B] font-mono font-bold text-[10px] inline-flex items-center gap-1 hover:bg-[#E2C9A5]"
               title={
                 lang === 'de'
                   ? 'Zurück zum Funktions-Anfang (Entry Root)'
@@ -668,7 +668,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
           <button
             type="button"
             onClick={handleResetView}
-            className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black text-[10px] font-mono inline-flex items-center gap-1 transition-colors"
+            className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#D4B483] hover:text-[#18181B] text-[10px] font-mono inline-flex items-center gap-1 transition-colors"
             title={lang === 'de' ? 'Ansicht zentrieren' : 'Center / Reset View'}
           >
             <Maximize2 className="w-3 h-3" />
@@ -681,8 +681,8 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
               onClick={onToggleMaximize}
               className={`p-1 rounded transition-colors ${
                 isMaximized
-                  ? 'bg-[#FFCC00] text-black font-bold'
-                  : 'bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black'
+                  ? 'bg-[#D4B483] text-[#18181B] font-bold'
+                  : 'bg-zinc-800 text-zinc-200 hover:bg-[#D4B483] hover:text-[#18181B]'
               }`}
               title={
                 isMaximized
@@ -707,7 +707,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
               type="button"
               onClick={onWiden}
               disabled={!canWiden}
-              className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black disabled:opacity-40 transition-colors"
+              className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#D4B483] hover:text-[#18181B] disabled:opacity-40 transition-colors"
               title={lang === 'de' ? 'Graph-Panel verbreitern' : 'Widen Graph Panel'}
             >
               <ChevronLeft className="w-3 h-3" />
@@ -718,7 +718,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
               type="button"
               onClick={onNarrow}
               disabled={!canNarrow}
-              className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black disabled:opacity-40 transition-colors"
+              className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#D4B483] hover:text-[#18181B] disabled:opacity-40 transition-colors"
               title={lang === 'de' ? 'Graph-Panel schmaler machen' : 'Narrow Graph Panel'}
             >
               <ChevronRight className="w-3 h-3" />
@@ -728,21 +728,21 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
           <button
             type="button"
             onClick={() => setZoom((z) => Math.max(0.4, +(z - 0.1).toFixed(2)))}
-            className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black transition-colors"
+            className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
           >
             <ZoomOut className="w-3 h-3" />
           </button>
           <button
             type="button"
             onClick={() => setZoom(0.95)}
-            className="px-1 py-0.5 rounded bg-zinc-800 text-zinc-200 text-[10px] font-mono hover:bg-[#FFCC00] hover:text-black transition-colors"
+            className="px-1 py-0.5 rounded bg-zinc-800 text-zinc-200 text-[10px] font-mono hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
           >
             {Math.round(zoom * 100)}%
           </button>
           <button
             type="button"
             onClick={() => setZoom((z) => Math.min(1.6, +(z + 0.1).toFixed(2)))}
-            className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#FFCC00] hover:text-black transition-colors"
+            className="p-1 rounded bg-zinc-800 text-zinc-200 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors"
           >
             <ZoomIn className="w-3 h-3" />
           </button>
@@ -751,7 +751,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
             <button
               type="button"
               onClick={onCollapse}
-              className="p-1 rounded bg-zinc-900 text-zinc-300 border border-zinc-700 hover:bg-[#FFCC00] hover:text-black transition-colors ml-0.5"
+              className="p-1 rounded bg-zinc-900 text-zinc-300 border border-zinc-700 hover:bg-[#D4B483] hover:text-[#18181B] transition-colors ml-0.5"
             >
               <PanelRightClose className="w-3.5 h-3.5" />
             </button>
@@ -775,7 +775,7 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
             Calls / Loop
           </span>
         </div>
-        <span className="text-[10px] font-mono text-[#FFCC00] hidden sm:inline-flex items-center gap-1">
+        <span className="text-[10px] font-mono text-[#F5E6CC] hidden sm:inline-flex items-center gap-1">
           <Move className="w-3 h-3" />
           {compactNodes ? '260px Nodes' : '320px Nodes'}
         </span>
@@ -783,17 +783,17 @@ export const ControlFlowGraph: React.FC<ControlFlowGraphProps> = ({
 
       {/* NON-GLITCHING FLOATING HOVER OVERLAY */}
       {hoveredNode && (
-        <div className="pointer-events-none absolute bottom-2 right-2 max-w-[340px] w-auto p-2.5 rounded-lg border border-[#FFCC00]/80 bg-[#111520]/95 backdrop-blur-md shadow-2xl z-40 space-y-1">
+        <div className="pointer-events-none absolute bottom-2 right-2 max-w-[340px] w-auto p-2.5 rounded-lg border border-[#D4B483]/80 bg-[#111520]/95 backdrop-blur-md shadow-2xl z-40 space-y-1">
           <div className="flex items-center justify-between gap-2 border-b border-zinc-700 pb-0.5">
             <div className="flex items-center gap-1.5 min-w-0">
-              <span className="bg-[#FFCC00] text-black font-mono font-bold text-[9px] px-1 py-0.2 rounded uppercase shrink-0">
+              <span className="bg-[#D4B483] text-[#18181B] font-mono font-bold text-[9px] px-1 py-0.2 rounded uppercase shrink-0">
                 {hoveredNode.node.type}
               </span>
               <span className="font-mono text-xs font-bold text-white truncate">
                 {hoveredNode.node.label}
               </span>
             </div>
-            <span className="font-mono text-[10px] font-bold text-[#FFCC00] shrink-0">
+            <span className="font-mono text-[10px] font-bold text-[#38BDF8] shrink-0">
               {hoveredNode.node.address} (L{hoveredNode.node.LineStart}–{hoveredNode.node.LineEnd})
             </span>
           </div>
